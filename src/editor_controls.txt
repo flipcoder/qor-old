@@ -1,0 +1,7 @@
+s/S = scale
+r = rotate
+g = grab/translate
+c = connect
+G = grid (snap)
+x = delete
+a = add instance (copy)
