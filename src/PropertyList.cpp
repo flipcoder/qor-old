@@ -1,13 +1,3 @@
-/**************************************
-|| Property List Parser              ||
-||                                   ||
-|| @Author Grady O'Connell           ||
-|| @Revision 0.9                     ||
-|| @Updated 2011                     ||
-||                                   ||
-|| URL: www.prolificaxis.com         ||
-|| Copyright © 2007 Grady O'Connell  ||
-**************************************/
 
 #include "PropertyList.h"
 #include <fstream>

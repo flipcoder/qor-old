@@ -3,8 +3,8 @@ project(qor)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     message(STATUS "GCC detected - Adding compiler flags")
-    #set(CMAKE_CXX_FLAGS "-pthread -ggdb -Wextra -Wall -std=c++0x")
-    set(CMAKE_CXX_FLAGS "-pthread -O2 -Wextra -Wall -std=c++0x")
+	set(CMAKE_CXX_FLAGS "-pthread -ggdb -Wextra -Wall -std=c++0x")
+    #set(CMAKE_CXX_FLAGS "-pthread -O2 -Wextra -Wall -std=c++0x")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 file(GLOB_RECURSE SRCS ../src/*.cpp)

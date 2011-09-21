@@ -36,7 +36,7 @@ std::string pnLastError()
     return oss.str();
 }
 
-void pnOutput(const std::string str)
+void pnOutput(std::string str)
 {
     std::cout
         <<str
@@ -44,7 +44,7 @@ void pnOutput(const std::string str)
 }
 
 
-void pnRegisterError(const std::string err)
+void pnRegisterError(std::string err)
 {
     std::string o = "Error: ";
     o += err;

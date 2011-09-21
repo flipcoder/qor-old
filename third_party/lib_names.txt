@@ -3,3 +3,7 @@ libdevil-dev
 libglew1.5-dev
 libalut-dev
 libboost-all-dev
+libftgl-dev
+libogg-dev
+libvorbis-dev
+libluabind-dev

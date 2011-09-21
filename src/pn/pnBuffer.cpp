@@ -9,8 +9,6 @@ void pnBuffer :: allocate(int bytes)
     memset(buf, 0, sizeof(buf));
     allocatedSize = bytes;
     size=0;
-    
-    instance(1);
 }
 
 pnByte* pnBuffer :: getSpace(int len)

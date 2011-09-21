@@ -236,7 +236,7 @@ class pnBuffer
         void freeMemory(){
             if(buf)
             {
-                instance(-1);
+                //instance(-1);
                 delete [] buf;
                 buf = NULL;
             }

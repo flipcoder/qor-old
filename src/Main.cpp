@@ -1,11 +1,3 @@
-// Qor
-// OpenGL-based 3D Engine
-// Author: Grady O'Connell
-
-// Current Libs Used:
-// OpenGL, SDL, DevIL, OpenAL, Assimp, Winsock, glfont2, Newton
-// My libs: prolificNet, SpadeScript
-
 #include <iostream>
 #include <vector>
 #include <memory>

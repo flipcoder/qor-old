@@ -281,8 +281,8 @@ void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
 	   {
 		   if(boost::filesystem::is_regular_file(dir_itr->status()))
 		   {
-			   //string fn = dir_itr->filename();
-			   string fn = dir_itr->path().filename().string();
+			   string fn = dir_itr->filename();
+			   //string fn = dir_itr->path().filename();
 			   if(stringEndsWith(boost::to_lower_copy(fn), string(".obj")))
 				   asset_option_list.push_back(GUI::Menu::Option(fn, bind(&EditorState::xAddByFilename, this, _1, _2, folder_path+"/"+fn)));
 		   }
@@ -323,7 +323,8 @@ void EditorState :: xAddObject(GUI::Menu* menu, GUI::Menu::Option* op)
 	   {
 		   if(boost::filesystem::is_regular_file(dir_itr->status()))
 		   {
-			   string fn = dir_itr->path().filename().string();
+				string fn = dir_itr->filename();
+			   //string fn = dir_itr->path().filename(); //.string()
 			   if(stringEndsWith(boost::to_lower_copy(fn), string(".obj")))
 				   asset_option_list.push_back(GUI::Menu::Option(fn, bind(&EditorState::xAddByFilename, this, _1, _2, string(folder_path+"/"+fn))));
 		   }

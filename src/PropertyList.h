@@ -1,13 +1,3 @@
-/**************************************
-|| Property List parser              ||
-||                                   ||
-|| @Author Grady O'Connell           ||
-|| @Revision 0.8                     ||
-|| @Updated 20 August 2008           ||
-||                                   ||
-|| URL: www.prolificaxis.com         ||
-|| Copyright © 2007 Grady O'Connell  ||
-**************************************/
 
 #ifndef _PROPERTYLIST_H
 #define _PROPERTYLIST_H
