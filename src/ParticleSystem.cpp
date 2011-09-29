@@ -169,8 +169,6 @@ void ParticleSystem :: logicSelf(unsigned int advance)
 
 void ParticleSystem :: renderSelf(Partitioner* partitioner, unsigned int flags) const
 {
-	return; //TEMP
-	
 	Renderer::get().shaders(Renderer::UNBIND_SHADERS);
 	Renderer::get().lighting(Renderer::UNBIND_LIGHTING);
 	
