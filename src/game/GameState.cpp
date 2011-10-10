@@ -43,12 +43,12 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
 	m_pScene->add(m_pPlayer = new Actor(engine->input()));
 
 	// Viewmodel Weapon (UMP45)
-	//Entity* e = m_pScene->loadEntity("data/entities/ump45/ump45.obj",
-	//    glm::vec3(),
-	//    Entity::F_PASSABLE | Entity::F_ONTOP,
-	//    Node::defaultFlags(),
-	//    m_pPlayer
-	//);
+	Entity* e = m_pScene->loadEntity("data/entities/ump45/ump45.obj",
+	   glm::vec3(),
+	   Entity::F_PASSABLE | Entity::F_ONTOP,
+	   Node::defaultFlags(),
+	   m_pPlayer
+	);
 
 	//glm::vec3 gunpos = glm::vec3(0.15f,-0.2f,-0.4f);//glock
 	glm::vec3 gunpos = glm::vec3(0.15f,-0.3f,-0.5f);
