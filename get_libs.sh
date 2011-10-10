@@ -33,11 +33,14 @@ else
 fi
 
 make
-sudo cp libNewton.a /usr/local/lib/
-popd
+#sudo cp libNewton.a /usr/local/lib/
+mkdir ../../../../../third_party/lib
+mkdir ../../../../../third_party/include
+sudo cp libNewton.a ../../../../../third_party/lib
+#popd
 
-pushd coreLibrary_200/source/ >/dev/null
-cp -r * ../../../../third_party/include/
+#pushd coreLibrary_200/source/ >/dev/null
+cp -r ../../source/* ../../../../../third_party/include/
 popd
 popd
 
