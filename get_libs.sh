@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [ $# -eq 0 ]; then
-	echo Start this script with parameters to how you how normally install a package for your distro.
-	echo Example: ./get_libs.sh
-	echo Note: Do not include the sudo command.
-	exit
-fi
-
 echo This script will use \`apt-get\` and wget to obtain the packages necessary for development.
 echo Press a key...
 read
