@@ -9,6 +9,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 file(GLOB_RECURSE SRCS ../src/*.cpp)
 add_executable(../bin/qor ${SRCS})
+link_directories(../third_party/lib)
 target_link_libraries(../bin/qor GL GLU SDL SDLmain GLEW assimp IL ILU openal alut Newton ogg vorbis vorbisfile ftgl boost_system boost_filesystem lua5.1 luabind)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
