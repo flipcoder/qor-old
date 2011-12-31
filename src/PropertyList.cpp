@@ -77,7 +77,7 @@ void PropertyList :: parseLine(const std::string& s, std::string& group)
 	// ignore comment lines (example: "// comment here")
 	if(_s[0]=='/' && _s[1] == '/')
 		return;
-	if(_s[0]=='#')
+	if(_s[0]=='#' || _s[0]==';')
 		return;
 
 	// group line (example: "[MyGroup]")
