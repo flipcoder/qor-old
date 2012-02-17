@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 //#include <GL/glu.h>
 #ifdef _MSC_VER
-	#include <SDL/SDL_opengl.h>
+    #include <SDL/SDL_opengl.h>
 #endif
 
 #endif

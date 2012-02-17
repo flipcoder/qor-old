@@ -14,7 +14,7 @@ class Input
     //protected:
     public:
         Input();
-		~Input() {}
+        ~Input() {}
         
         enum Button
         {
@@ -24,11 +24,11 @@ class Input
             RIGHT,
             ACTION,
             MAX_BUTTONS
-		};
+        };
 
-		// TODO: We need string representation of all of the keys, for parsing cfgs and possibly outputing key names
-		// TODO: Add enumeration of input keys to hide SDLK and make scriptable/configurable (?)
-		
+        // TODO: We need string representation of all of the keys, for parsing cfgs and possibly outputing key names
+        // TODO: Add enumeration of input keys to hide SDLK and make scriptable/configurable (?)
+        
     private:
     
         /*enum eKeyMode
@@ -40,10 +40,10 @@ class Input
         static const int MAX_INPUT_CONTROLLERS = 1;
         struct InputController
         {
-			InputController() {
-				for(unsigned int i=0;i<MAX_BUTTONS;i++)
-					btn[i] = 0;
-			}
+            InputController() {
+                for(unsigned int i=0;i<MAX_BUTTONS;i++)
+                    btn[i] = 0;
+            }
             unsigned int btn[MAX_BUTTONS];
         };
         InputController inputController[MAX_INPUT_CONTROLLERS];
@@ -53,7 +53,7 @@ class Input
 
         std::string m_tempString;
         //std::string *m_destString;
-		std::weak_ptr<std::string> m_wpDestString;
+        std::weak_ptr<std::string> m_wpDestString;
         bool m_bGrabString;
         
         int mouse_x;
@@ -63,17 +63,17 @@ class Input
         
         bool m_bMouseHidden;
         bool m_bMouseLeft;
-		bool m_bMouseLeftFrame;
-		bool m_bMouseRightFrame;
-		bool m_bMouseMiddleFrame;
-		bool m_bMouseLeftRelease;
-		bool m_bMouseRightRelease;
-		bool m_bMouseMiddleRelease;
+        bool m_bMouseLeftFrame;
+        bool m_bMouseRightFrame;
+        bool m_bMouseMiddleFrame;
+        bool m_bMouseLeftRelease;
+        bool m_bMouseRightRelease;
+        bool m_bMouseMiddleRelease;
         bool m_bMouseRight;
         bool m_bMouseMiddle;
         bool m_bMouseWheelUp;
         bool m_bMouseWheelDown;
-		float m_fMouseSens;
+        float m_fMouseSens;
         
         // Add joystick flags here
         void backspaceString();
@@ -92,9 +92,9 @@ class Input
         float getMouseRelX() const { return mouse_rel_x * m_fMouseSens; }
         float getMouseRelY() const { return mouse_rel_y * m_fMouseSens; }
         bool isMouseHidden() const { return m_bMouseHidden; }
-		void toggleHideMouse() {
-			hideMouse(!m_bMouseHidden);
-		}
+        void toggleHideMouse() {
+            hideMouse(!m_bMouseHidden);
+        }
         void hideMouse(bool b);
         //VideoRect getMouseHotSpot();
     
@@ -105,7 +105,7 @@ class Input
         void clearKeys();
         
         //void getString(std::string* str, std::string app = "");
-		void getString(std::shared_ptr<std::string>& str, std::string app = "");
+        void getString(std::shared_ptr<std::string>& str, std::string app = "");
         bool isEnteringString() const;
         
         void endStringGrab();
@@ -115,42 +115,42 @@ class Input
         bool mouseRightClick() { return m_bMouseRight; }
         bool mouseMiddleClick() { return m_bMouseMiddle; }
 
-		bool mouseAnyf() const {
-			return m_bMouseLeftFrame || m_bMouseRightFrame || m_bMouseMiddleFrame;
-		}
+        bool mouseAnyf() const {
+            return m_bMouseLeftFrame || m_bMouseRightFrame || m_bMouseMiddleFrame;
+        }
         bool mouseLeftClickd() {
             bool b = m_bMouseLeft;
             m_bMouseLeft = false;
             return b;
         }
-		bool mouseLeftClickf() const {
-			return m_bMouseLeftFrame;
-		}
-		bool mouesLeftRelease() const{
-			return m_bMouseLeftRelease;
-		}
+        bool mouseLeftClickf() const {
+            return m_bMouseLeftFrame;
+        }
+        bool mouesLeftRelease() const{
+            return m_bMouseLeftRelease;
+        }
         bool mouseRightClickd() {
             bool b = m_bMouseRight;
             m_bMouseRight = false;
             return b;
         }
-		bool mouseRightClickf() const {
-			return m_bMouseRightFrame;
-		}
-		bool mouseRightRelease() const {
-			return m_bMouseRightRelease;
-		}
+        bool mouseRightClickf() const {
+            return m_bMouseRightFrame;
+        }
+        bool mouseRightRelease() const {
+            return m_bMouseRightRelease;
+        }
         bool mouseMiddleClickd() {
             bool b = m_bMouseMiddle;
             m_bMouseMiddle = false;
             return b;
         }
-		bool mouseMiddleRelease() const{
-			return m_bMouseMiddleRelease;
-		}
+        bool mouseMiddleRelease() const{
+            return m_bMouseMiddleRelease;
+        }
         bool mouseMiddleClickf() const {
-			return m_bMouseMiddleFrame;
-		}
+            return m_bMouseMiddleFrame;
+        }
         bool mouseWheelUpd() {
             bool b = m_bMouseWheelUp;
             m_bMouseWheelUp=false;

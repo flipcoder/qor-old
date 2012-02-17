@@ -8,11 +8,11 @@
 class SelectorNode : public Node
 {
 public:
-	SelectorNode() {}
-	virtual ~SelectorNode() {}
+    SelectorNode() {}
+    virtual ~SelectorNode() {}
 
-	virtual void logicSelf(unsigned int advance);
-	virtual void renderSelf(Frustum* view = NULL, unsigned int flags = 0) const;
+    virtual void logicSelf(unsigned int advance);
+    virtual void renderSelf(Frustum* view = NULL, unsigned int flags = 0) const;
 };
 
 #endif

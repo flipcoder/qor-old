@@ -10,13 +10,13 @@ class Light;
 class Partitioner
 {
 public:
-	Partitioner() {}
-	virtual ~Partitioner() {}
+    Partitioner() {}
+    virtual ~Partitioner() {}
 
-	virtual std::list<Light*> getViewableLights(Node* root) = 0;
-	virtual std::list<Node*> getViewableNodes(Node* root) = 0;
-	virtual std::list<Node*> getLitObjects(Light* light, Node* root) = 0;
-	virtual std::list<Node*> getLitObjects(Light* light, std::list<Node*>& node_list) = 0;
+    virtual std::list<Light*> getViewableLights(Node* root) = 0;
+    virtual std::list<Node*> getViewableNodes(Node* root) = 0;
+    virtual std::list<Node*> getLitObjects(Light* light, Node* root) = 0;
+    virtual std::list<Node*> getLitObjects(Light* light, std::list<Node*>& node_list) = 0;
 private:
 };
 

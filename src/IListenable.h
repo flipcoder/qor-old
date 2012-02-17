@@ -3,9 +3,9 @@
 
 class IListenable
 {
-	public:
-		IListenable();
-		virtual ~IListenable();
+    public:
+        IListenable();
+        virtual ~IListenable();
 };
 
 #endif

@@ -6,17 +6,17 @@
 class ISuperParent
 {
 public:
-	const Node* superParent() const {
-		return m_wpSuperParent.lock().get();
-	}
-	Node* superParent() {
-		return m_wpSuperParent.lock().get();
-	}
-	void superParent(std::shared_ptr<Node>& n) {
-		m_wpSuperParent = n;
-	}
+    const Node* superParent() const {
+        return m_wpSuperParent.lock().get();
+    }
+    Node* superParent() {
+        return m_wpSuperParent.lock().get();
+    }
+    void superParent(std::shared_ptr<Node>& n) {
+        m_wpSuperParent = n;
+    }
 private:
-	std::weak_ptr<Node> m_wpSuperParent;
+    std::weak_ptr<Node> m_wpSuperParent;
 };
 
 #endif

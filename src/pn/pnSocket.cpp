@@ -137,9 +137,9 @@ void pnUDPSocket :: sendPacketTo(pnBuffer* data, pnAddr& addr)
         n = sendto(m_sSocket, (char*)data->buf, bytesLeft, 0,
             (sockaddr*)&caddr, sizeof(caddr));
         if(n==SOCKET_ERROR) {
-			pnRegisterError("send Socket Error");
+            pnRegisterError("send Socket Error");
             return;
-		}
+        }
         //bytesSent+=n;
         bytesLeft-=n;
     }
@@ -155,9 +155,9 @@ int pnUDPSocket :: recvPacketFrom(pnBuffer* data, pnAddr& addr)
         (sockaddr*)&caddr, &caddr_size);
 
     if(n==SOCKET_ERROR) {
-		pnRegisterError(pnLastError());
+        pnRegisterError(pnLastError());
         return -1;
-	}
+    }
 
     data->size = n;
     return n;

@@ -4,7 +4,7 @@
 template <class T>
 class Octree
 {
-	
+    
 };
 
 #endif

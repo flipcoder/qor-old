@@ -154,7 +154,7 @@ std::string pnBuffer :: readString(int& pos, int length)
     }
     pos += len;
 
-	std::string s = (char*)&buf[pos-len];
+    std::string s = (char*)&buf[pos-len];
     return s;
 }
 

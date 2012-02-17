@@ -2,9 +2,9 @@
 #define PN_H_INCLUDED
 
 #ifdef _MSC_VER
-	#ifndef __WIN32__
-		#define __WIN32__
-	#endif
+    #ifndef __WIN32__
+        #define __WIN32__
+    #endif
 #endif
 
 #ifdef __WIN32__
@@ -130,7 +130,7 @@ class pnSocket
         void sendPacket(pnBuffer* data);
         int recvPacket(pnBuffer* data);
 
-		bool select() { return pnSelect(&m_sSocket); }
+        bool select() { return pnSelect(&m_sSocket); }
         //std::string ip();
         //pnUInt port();
 
@@ -144,9 +144,9 @@ class pnUDPSocket : public pnSocket
 
         pnUDPSocket(){}
         virtual ~pnUDPSocket(){
-			//if(m_bOpen)
+            //if(m_bOpen)
             //    closesocket(m_sSocket);
-		}
+        }
 
         virtual bool openSocket();
 
@@ -165,9 +165,9 @@ class pnTCPSocket : public pnSocket
 
         pnTCPSocket(){}
         virtual ~pnTCPSocket(){
-			//if(m_bOpen)
+            //if(m_bOpen)
             //    closesocket(m_sSocket);
-		}
+        }
 
         virtual bool openSocket();
 
@@ -196,14 +196,14 @@ class pnBuffer
         //}
 
         pnBuffer(){
-			buf = NULL;
+            buf = NULL;
             allocatedSize = 0;
             size = 0;
             overflow = false;
         }
 
         pnBuffer(int alloc){
-			buf = NULL;
+            buf = NULL;
             allocatedSize = 0;
             size=0;
             overflow = false;
@@ -263,16 +263,16 @@ class pnBuffer
         short   readShort(int& pos);
         int     readInt(int& pos);
         //float   readFloat(int& pos);
-		std::string readString(int& pos, int length = -1);
+        std::string readString(int& pos, int length = -1);
 };
 
 class pnAddr
 {
-	public:
+    public:
     
         pnAddrInfo m_sockAddr;
         //std::string m_ip;
-	
+    
     
         pnAddr(){
             clear();
@@ -307,7 +307,7 @@ class pnAddr
             if(!info)
                 return;
             m_sockAddr.sin_family = info->sin_family;
-			m_sockAddr.sin_addr.s_addr = info->sin_addr.s_addr;
+            m_sockAddr.sin_addr.s_addr = info->sin_addr.s_addr;
             m_sockAddr.sin_port = info->sin_port;
             memset(m_sockAddr.sin_zero, '\0', sizeof(m_sockAddr.sin_zero));
         }

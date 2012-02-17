@@ -5,23 +5,23 @@
 
 class IFallible
 {
-	protected:
+    protected:
 
-		virtual void setError(const std::string& err){
-			m_sError = err;
-		}
+        virtual void setError(const std::string& err){
+            m_sError = err;
+        }
 
-	public:
+    public:
 
-		IFallible() {}
-		virtual ~IFallible() {}
+        IFallible() {}
+        virtual ~IFallible() {}
 
-		virtual bool hasError() const { return !m_sError.empty(); }
-		virtual std::string getError() const { return m_sError; }
+        virtual bool hasError() const { return !m_sError.empty(); }
+        virtual std::string getError() const { return m_sError; }
 
-	private:
+    private:
 
-		std::string m_sError;
+        std::string m_sError;
 };
 
 #endif

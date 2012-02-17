@@ -8,8 +8,8 @@ class Scene;
 
 namespace NodeFactory
 {
-	//Node* create(std::string nodeTypeName, std::string fn = "");
-	Node* create(Scene* scene, Node* parent, std::string nodeTypeName, std::string fn = "");
+    //Node* create(std::string nodeTypeName, std::string fn = "");
+    Node* create(Scene* scene, Node* parent, std::string nodeTypeName, std::string fn = "");
 };
 
 #endif

@@ -6,35 +6,35 @@
 
 class Frustum
 {
-	private:
-		enum eSide
-		{
-			S_RIGHT,
-			S_LEFT,
-			S_TOP,
-			S_BOTTOM,
-			S_FAR,
-			S_NEAR,
-			MAX_SIDES
-		};
+    private:
+        enum eSide
+        {
+            S_RIGHT,
+            S_LEFT,
+            S_TOP,
+            S_BOTTOM,
+            S_FAR,
+            S_NEAR,
+            MAX_SIDES
+        };
 
-		glm::vec3 m_vFrustum[MAX_SIDES];
-		float m_fFrustumDist[MAX_SIDES];
+        glm::vec3 m_vFrustum[MAX_SIDES];
+        float m_fFrustumDist[MAX_SIDES];
 
-		void normalize(eSide side);
+        void normalize(eSide side);
 
-	public:
+    public:
 
-		Frustum(){
-			for(int i=0;i<MAX_SIDES;i++)
-				m_fFrustumDist[i]=0.0f;
-		}
+        Frustum(){
+            for(int i=0;i<MAX_SIDES;i++)
+                m_fFrustumDist[i]=0.0f;
+        }
 
-		void refresh();
+        void refresh();
 
-		bool containsPoint(float x, float y, float z);
-		bool containsSphere(float x, float y, float z, float r);
-		bool containsBox(float x, float y, float z, float r);
+        bool containsPoint(float x, float y, float z);
+        bool containsSphere(float x, float y, float z, float r);
+        bool containsBox(float x, float y, float z, float r);
 };
 
 #endif

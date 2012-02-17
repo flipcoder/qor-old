@@ -69,27 +69,27 @@ bool Frustum :: containsSphere(float x, float y, float z, float r)
 
 bool Frustum :: containsBox(float x, float y, float z, float r)
 {
-	for(int i=0; i<MAX_SIDES; i++)
-	{
-		if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
-			continue;
-		if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
-			continue;
+    for(int i=0; i<MAX_SIDES; i++)
+    {
+        if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z-r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y-r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x-r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
+            continue;
+        if(m_vFrustum[i].x * (x+r) + m_vFrustum[i].y * (y+r) + m_vFrustum[i].z * (z+r) + m_fFrustumDist[i] > 0)
+            continue;
 
-		return false;
-	}
-	return true;
+        return false;
+    }
+    return true;
 }
 

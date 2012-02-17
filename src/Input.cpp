@@ -14,36 +14,36 @@ Input :: Input()
     m_bGrabString = false;
     m_bMouseHidden = false;
     m_bMouseLeft = false;
-	m_bMouseLeftFrame = false; // reset every frame
-	m_bMouseRightFrame = false; // reset every frame
-	m_bMouseMiddleFrame = false; // reset every frame
-	m_bMouseLeftRelease = false; // reset every frame
-	m_bMouseRightRelease = false; // reset every frame
-	m_bMouseMiddleRelease = false; // reset every frame
+    m_bMouseLeftFrame = false; // reset every frame
+    m_bMouseRightFrame = false; // reset every frame
+    m_bMouseMiddleFrame = false; // reset every frame
+    m_bMouseLeftRelease = false; // reset every frame
+    m_bMouseRightRelease = false; // reset every frame
+    m_bMouseMiddleRelease = false; // reset every frame
     m_bMouseRight = false;
     m_bMouseMiddle = false;
     m_bMouseWheelUp = false;
     m_bMouseWheelDown = false;
     
-	//SDL_WarpMouse(0,0);
-	//SDL_WM_GrabInput( SDL_GRAB_ON );
+    //SDL_WarpMouse(0,0);
+    //SDL_WM_GrabInput( SDL_GRAB_ON );
     mouse_x = 0;
     mouse_y = 0;
     mouse_rel_x=0;
     mouse_rel_y=0;
-	m_fMouseSens = 1.0f;
+    m_fMouseSens = 1.0f;
     
-	// setup some default binds
+    // setup some default binds
     inputController[0].btn[LEFT] = SDLK_w;
     inputController[0].btn[RIGHT] = SDLK_d;
     inputController[0].btn[DOWN] = SDLK_s;
     inputController[0].btn[UP] = SDLK_w;
     inputController[0].btn[ACTION] = SDLK_SPACE;
 
-	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-	SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
 
-	keyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+    keyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
 /*VideoRect Input :: getMouseHotSpot()
@@ -53,14 +53,14 @@ Input :: Input()
 
 void Input :: hideMouse(bool b)
 {
-	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
     m_bMouseHidden = b;
     SDL_ShowCursor(!b);
-	if(b)
-		SDL_WM_GrabInput(SDL_GRAB_ON);
-	else
-	    SDL_WM_GrabInput(SDL_GRAB_OFF);
-	SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+    if(b)
+        SDL_WM_GrabInput(SDL_GRAB_ON);
+    else
+        SDL_WM_GrabInput(SDL_GRAB_OFF);
+    SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
 }
 
 int Input :: keyRepeat(int delay, int interval)
@@ -76,8 +76,8 @@ void Input :: clearKeys()
 
 bool Input :: key(int key) const
 {
-	// TODO: add gamepad and other buttons
-	return m_key[key];
+    // TODO: add gamepad and other buttons
+    return m_key[key];
 }
 
 int Input :: logic()
@@ -86,12 +86,12 @@ int Input :: logic()
     
     mouse_rel_x = 0;
     mouse_rel_y = 0;
-	m_bMouseLeftFrame = false;
-	m_bMouseRightFrame = false;
-	m_bMouseMiddleFrame = false;
-	m_bMouseLeftRelease = false;
-	m_bMouseMiddleRelease = false;
-	m_bMouseRightRelease = false;
+    m_bMouseLeftFrame = false;
+    m_bMouseRightFrame = false;
+    m_bMouseMiddleFrame = false;
+    m_bMouseLeftRelease = false;
+    m_bMouseMiddleRelease = false;
+    m_bMouseRightRelease = false;
 
     while (SDL_PollEvent(&ev))
     {
@@ -138,14 +138,14 @@ int Input :: logic()
             case SDL_MOUSEMOTION:
                 mouse_x = ev.motion.x;
                 mouse_y = ev.motion.y;
-				
-				if(m_bMouseHidden)
-				{
-					// incrementing here (zeroing outside while() loop) because:
-					// PollEvent might send multiple events, resulting in lost movement
-					mouse_rel_x += ev.motion.xrel;
-					mouse_rel_y += ev.motion.yrel;
-				}
+                
+                if(m_bMouseHidden)
+                {
+                    // incrementing here (zeroing outside while() loop) because:
+                    // PollEvent might send multiple events, resulting in lost movement
+                    mouse_rel_x += ev.motion.xrel;
+                    mouse_rel_y += ev.motion.yrel;
+                }
                 break;
                 
             case SDL_MOUSEBUTTONDOWN:
@@ -164,16 +164,16 @@ int Input :: logic()
             case SDL_MOUSEBUTTONUP:
                 if(ev.button.button==SDL_BUTTON_LEFT) {
                     m_bMouseLeft = false;
-					m_bMouseLeftRelease = true;
-				}
+                    m_bMouseLeftRelease = true;
+                }
                 if(ev.button.button==SDL_BUTTON_RIGHT) {
                     m_bMouseRight = false;
-					m_bMouseRightRelease = true;
-				}
+                    m_bMouseRightRelease = true;
+                }
                 if(ev.button.button==SDL_BUTTON_MIDDLE) {
                     m_bMouseMiddle = false;
-					m_bMouseMiddleRelease = true;
-				}
+                    m_bMouseMiddleRelease = true;
+                }
                 
                 /*if(ev.button.button==SDL_BUTTON_WHEELUP)
                     m_bMouseWheelUp = false;
@@ -203,39 +203,39 @@ int Input :: logic()
 
 void Input :: getString(shared_ptr<string>& str, string app)
 {
-	if(!str) return;
-	
-	//m_destString = str.get();
-	m_wpDestString = str;
+    if(!str) return;
+    
+    //m_destString = str.get();
+    m_wpDestString = str;
     m_tempString += app;
     m_bGrabString = true;
 }
 
 bool Input :: isEnteringString() const
 {
-	return !m_wpDestString.expired();
+    return !m_wpDestString.expired();
 }
 
 void Input :: endStringGrab()
 {
     //*m_destString = m_tempString;
-	shared_ptr<string> dest_string(m_wpDestString);
-	if(dest_string)
-		*dest_string = m_tempString;
-		
-	m_wpDestString.reset();
+    shared_ptr<string> dest_string(m_wpDestString);
+    if(dest_string)
+        *dest_string = m_tempString;
+        
+    m_wpDestString.reset();
     m_tempString="";
 }
 
 void Input :: clearStringGrab()
 {
-	m_tempString = "";
-	
-	shared_ptr<string> dest_string(m_wpDestString);
-	if(dest_string)
-		*dest_string = "";
-	
-	m_wpDestString.reset();
+    m_tempString = "";
+    
+    shared_ptr<string> dest_string(m_wpDestString);
+    if(dest_string)
+        *dest_string = "";
+    
+    m_wpDestString.reset();
 }
 
 

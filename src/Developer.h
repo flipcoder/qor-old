@@ -9,17 +9,17 @@ class Engine;
 
 class Developer
 {
-	private:
+    private:
 
-		Engine* m_pEngine; //weak
-		Input* m_pInput; //weak
+        Engine* m_pEngine; //weak
+        Input* m_pInput; //weak
 
-	public:
-		Developer(Engine* core, Input* input);
-		virtual ~Developer();
+    public:
+        Developer(Engine* core, Input* input);
+        virtual ~Developer();
 
-		virtual int logic(unsigned int a);
-		virtual void render() const;
+        virtual int logic(unsigned int a);
+        virtual void render() const;
 };
 
 #endif

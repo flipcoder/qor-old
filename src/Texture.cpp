@@ -11,7 +11,7 @@ unsigned int Texture :: loadTex(std::string fn,
     WrapOptions wrap,
     FlipOptions flip)
 {
-	//return 1; // bypass textures
+    //return 1; // bypass textures
 
 
     ILuint tempImage;
@@ -22,22 +22,22 @@ unsigned int Texture :: loadTex(std::string fn,
 
     ilBindImage(tempImage);
     if(!ilLoadImage((char*)fn.c_str())){
-		id = 0;
-		return 0;
-	}
+        id = 0;
+        return 0;
+    }
 
     //if(!flip)
     //    iluFlipImage();
-	//if(!trans)
-	ILinfo ImageInfo;
-	iluGetImageInfo(&ImageInfo);
-	if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
-		iluFlipImage();
-		
-	//ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
+    //if(!trans)
+    ILinfo ImageInfo;
+    iluGetImageInfo(&ImageInfo);
+    if (ImageInfo.Origin == IL_ORIGIN_UPPER_LEFT)
+        iluFlipImage();
+        
+    //ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
 
-	//wglPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glPushAttrib(GL_ENABLE_BIT);
+    //wglPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPushAttrib(GL_ENABLE_BIT);
     glBindTexture(GL_TEXTURE_2D,solutionTexture);
 
     //if(mip)
@@ -50,11 +50,11 @@ unsigned int Texture :: loadTex(std::string fn,
     //    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
     //    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     //}
-	
-	float filter;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &filter);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, filter);
-	
+    
+    float filter;
+    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &filter);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, filter);
+    
 
     if(wrap==REPEAT)
     {
@@ -69,22 +69,22 @@ unsigned int Texture :: loadTex(std::string fn,
 
     if(mip){
 
-		// GLU version:
+        // GLU version:
         // gluBuild2DMipmaps(GL_TEXTURE_2D,ilGetInteger(IL_IMAGE_BPP),ilGetInteger(IL_IMAGE_WIDTH),
             //ilGetInteger(IL_IMAGE_HEIGHT),ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,ilGetData());
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
 
-		glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_BPP),ilGetInteger(IL_IMAGE_WIDTH),
+        glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_BPP),ilGetInteger(IL_IMAGE_WIDTH),
            ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,ilGetData());
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
 
         glTexImage2D(GL_TEXTURE_2D,0,ilGetInteger(IL_IMAGE_BPP),ilGetInteger(IL_IMAGE_WIDTH),
             ilGetInteger(IL_IMAGE_HEIGHT),0,ilGetInteger(IL_IMAGE_FORMAT),GL_UNSIGNED_BYTE,ilGetData());
-	}
+    }
 
     ilDeleteImages(1,&tempImage);
 
@@ -104,19 +104,19 @@ void Texture :: unload()
 }
 void Texture :: bind(unsigned int layer)
 {
-	//glActiveTexture(GL_TEXTURE0 + layer);
-	//glEnable(GL_TEXTURE_2D);
-	//glBindTexture(GL_TEXTURE_2D,id);
-	Renderer::get().bindTexture(this, layer);
+    //glActiveTexture(GL_TEXTURE0 + layer);
+    //glEnable(GL_TEXTURE_2D);
+    //glBindTexture(GL_TEXTURE_2D,id);
+    Renderer::get().bindTexture(this, layer);
 }
 void Texture :: unbind()
 {
-	Renderer::get().unbindTextures();
-	//for(unsigned int i=0; i < nlayers; ++i) {
-	//    glActiveTexture(GL_TEXTURE0 + i);
-	//    glBindTexture(GL_TEXTURE_2D, 0);
-	//    glDisable(GL_TEXTURE_2D);
-	//}
-	//glActiveTexture(GL_TEXTURE0);
+    Renderer::get().unbindTextures();
+    //for(unsigned int i=0; i < nlayers; ++i) {
+    //    glActiveTexture(GL_TEXTURE0 + i);
+    //    glBindTexture(GL_TEXTURE_2D, 0);
+    //    glDisable(GL_TEXTURE_2D);
+    //}
+    //glActiveTexture(GL_TEXTURE0);
 }
 
