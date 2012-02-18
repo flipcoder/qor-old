@@ -141,12 +141,12 @@ bool Renderer :: startGL()
 
     // Load Shader Pair
     std::shared_ptr<Shader> vertShader(new Shader());
-    if(!vertShader->load("data/shaders/bump.vp", Shader::VERTEX)){
+    if(!vertShader->load("data/base/shaders/bump.vp", Shader::VERTEX)){
         Log::get().error("Failed to load vertex shader.");
         return false;
     }
     std::shared_ptr<Shader> fragShader(new Shader());
-    if(!fragShader->load("data/shaders/bump.fp", Shader::FRAGMENT)){
+    if(!fragShader->load("data/base/shaders/bump.fp", Shader::FRAGMENT)){
         Log::get().error("Failed to load fragment shader.");
         return false;
     }

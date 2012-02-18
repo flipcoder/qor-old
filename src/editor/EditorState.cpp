@@ -20,7 +20,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
 
     try{
         
-        m_spFont.reset(new FTGLPixmapFont("data/fonts/liberation/LiberationSans-Regular.ttf"));
+        m_spFont.reset(new FTGLPixmapFont("data/base/fonts/liberation/LiberationSans-Regular.ttf"));
         if( !m_spFont || 
              m_spFont->Error()||
             !m_spFont->FaceSize(12))
@@ -28,7 +28,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
             setError("Failed to load font.");
             throw(0);
         }
-        m_spBoldFont.reset(new FTGLPixmapFont("data/fonts/liberation/LiberationSans-Bold.ttf"));
+        m_spBoldFont.reset(new FTGLPixmapFont("data/base/fonts/liberation/LiberationSans-Bold.ttf"));
         if( !m_spBoldFont || 
              m_spBoldFont->Error()||
             !m_spBoldFont->FaceSize(12))
@@ -49,7 +49,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
 
         // temp
         if(filename.empty())
-           filename = "data/maps/Apartment/apartment_scene.obj";
+           filename = "data/custom/maps/Apartment/apartment_scene.obj";
 
         if(filename.empty())
             m_spScene.reset(new Scene());
@@ -267,7 +267,7 @@ void EditorState::xQuit(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    string folder_path = "data/environment";
+    string folder_path = "data/custom/environment";
     
     list<GUI::Menu::Option> asset_option_list;
     size_t asset_option_list_sz = 0;
@@ -309,7 +309,7 @@ void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState :: xAddObject(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    string folder_path = "data/assets";
+    string folder_path = "data/custom/assets";
     
     list<GUI::Menu::Option> asset_option_list;
     size_t asset_option_list_sz = 0;

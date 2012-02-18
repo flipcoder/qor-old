@@ -1,0 +1,5 @@
+bin/qor*
+bin/log.txt
+bin/*.exe
+bin/*.dll
+bin/*.so

@@ -11,7 +11,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     nullify();
     m_pEngine = engine;
 
-    m_pScene = new Scene("data/environment/Apartment/apartment_scene.obj", Scene::F_PHYSICS);
+    m_pScene = new Scene("data/custom/environment/Apartment/apartment_scene.obj", Scene::F_PHYSICS);
     //m_pScene = new Scene("testmap.fml", Scene::F_PHYSICS);
     //m_pScene = new Scene("data/maps/office/ctf_office.obj");
     
@@ -43,7 +43,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     m_pScene->add(m_pPlayer = new Actor(engine->input()));
 
     // Viewmodel Weapon (UMP45)
-    Entity* e = m_pScene->loadEntity("data/entities/ump45/ump45.obj",
+    Entity* e = m_pScene->loadEntity("data/custom/entities/ump45/ump45.obj",
        glm::vec3(),
        Entity::F_PASSABLE | Entity::F_ONTOP,
        Node::defaultFlags(),
@@ -66,7 +66,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     particle.life = 1.0f;
     particle.color.set(1.0f, 0.6f, 0.3f); // fire
     particle.vel = glm::vec3(0.0f,1.0f,0.0f);
-    ParticleSystem* ps = new ParticleSystem(new Texture("data/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_ADDITIVE, 0.5f, 500.0f); //.25, 200
+    ParticleSystem* ps = new ParticleSystem(new Texture("data/base/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_ADDITIVE, 0.5f, 500.0f); //.25, 200
     ps->position(glm::vec3(0.0f, -0.5f, 0.0f));
     m_pScene->root()->add(ps);
     
@@ -74,7 +74,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     particle.life = 10.0f;
     particle.vel = glm::vec3(0.0f,-1.0f,0.0f);
     particle.color.set(1.0f, 1.0f, 1.0f); // snow
-    ps = new ParticleSystem(new Texture("data/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_COLOR, 1.0f, 1000.0f);
+    ps = new ParticleSystem(new Texture("data/base/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_COLOR, 1.0f, 1000.0f);
     ps->position(glm::vec3(0.0f, 3.0f, -3.0f));
     m_pScene->root()->add(ps);
     
@@ -134,13 +134,13 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     
     // Sound Demo
     //Sound* fire_sound = new Sound(
-    //    new Audio::Buffer("data/sounds/fire.wav"),
+    //    new Audio::Buffer("data/custom/sounds/fire.wav"),
     //    Audio::Source::F_LOOP | Audio::Source::F_AUTOPLAY);
     //fire_sound->source()->gain = 0.2f;
     //m_pScene->add(fire_sound);
 
     // Music Demo
-    //m_spMusic.reset(new Audio::Stream("data/music/atmos1.ogg"));
+    //m_spMusic.reset(new Audio::Stream("data/custom/music/atmos1.ogg"));
     //m_spMusic->play();
 
     // "Compile" Physics

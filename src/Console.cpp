@@ -9,7 +9,7 @@ Console :: Console()
 {
     nullify();
 
-    m_spFont.reset(new FTGLPixmapFont("data/fonts/liberation/LiberationMono-Regular.ttf"));
+    m_spFont.reset(new FTGLPixmapFont("data/base/fonts/liberation/LiberationMono-Regular.ttf"));
     if( !m_spFont.get() ||
          m_spFont->Error() ||
         !m_spFont->FaceSize(FONT_HEIGHT))
