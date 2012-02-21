@@ -678,7 +678,7 @@ bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiSc
                 else if(aimesh->mFaces[j].mNumIndices < 3)
                 {
                     Log::get().warning("Face has only " + str(aimesh->mFaces[j].mNumIndices) + " vertices.  Lines and points are ignored.");
-                    return false; // not triangulated
+                    //return false; // not triangulated
                 }
 
                 //mesh->faces[j].indices.resize(aimesh->mFaces[j].mNumIndices);

@@ -11,7 +11,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     nullify();
     m_pEngine = engine;
 
-    m_pScene = new Scene("data/custom/environment/Apartment/apartment_scene.obj", Scene::F_PHYSICS);
+    m_pScene = new Scene("data/ne/maps/Apartment/apartment_scene.obj", Scene::F_PHYSICS);
     //m_pScene = new Scene("testmap.fml", Scene::F_PHYSICS);
     //m_pScene = new Scene("data/maps/office/ctf_office.obj");
     
@@ -43,7 +43,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     m_pScene->add(m_pPlayer = new Actor(engine->input()));
 
     // Viewmodel Weapon (UMP45)
-    Entity* e = m_pScene->loadEntity("data/custom/entities/ump45/ump45.obj",
+    Entity* e = m_pScene->loadEntity("data/ne/entities/ump45/ump45.obj",
        glm::vec3(),
        Entity::F_PASSABLE | Entity::F_ONTOP,
        Node::defaultFlags(),
@@ -134,13 +134,13 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     
     // Sound Demo
     //Sound* fire_sound = new Sound(
-    //    new Audio::Buffer("data/custom/sounds/fire.wav"),
+    //    new Audio::Buffer("data/ne/sounds/fire.wav"),
     //    Audio::Source::F_LOOP | Audio::Source::F_AUTOPLAY);
     //fire_sound->source()->gain = 0.2f;
     //m_pScene->add(fire_sound);
 
     // Music Demo
-    //m_spMusic.reset(new Audio::Stream("data/custom/music/atmos1.ogg"));
+    //m_spMusic.reset(new Audio::Stream("data/ne/music/atmos1.ogg"));
     //m_spMusic->play();
 
     // "Compile" Physics

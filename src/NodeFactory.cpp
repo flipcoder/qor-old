@@ -32,9 +32,9 @@ namespace NodeFactory{
             // TODO: add path testing to loadAI() code instead of the messy stuff here:
             node = scene->loadAI(fn, glm::vec3(), 0, parent);//new EnvironmentNode(Node::defaultFlags(), fn);
             if(!node)
-                node = scene->loadAI("data/custom/environment/" + fn, glm::vec3(), 0, parent);
+                node = scene->loadAI("data/ne/environment/" + fn, glm::vec3(), 0, parent);
             if(!node)
-                node = scene->loadAI("data/custom/assets/" + fn, glm::vec3(), 0, parent);
+                node = scene->loadAI("data/ne/assets/" + fn, glm::vec3(), 0, parent);
             if(!node)
                 Log::get().write("Node failed to load.");
             return node;

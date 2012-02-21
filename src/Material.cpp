@@ -31,7 +31,7 @@ shared_ptr<Texture> Material :: allocateTex(string filename, string ext, Resourc
             // this block below for testing purposes only, allows texs to be stored
             // in data/materials when diffuse texture is not
             // Otherwise, diffuse and tex need to be together
-            fn = string("data/custom/materials/") + FS::getFileName(fn);
+            fn = string("data/ne/materials/") + FS::getFileName(fn);
             
             //Log::get().write("(2) Attempting to load " + fn);
             
@@ -60,7 +60,7 @@ shared_ptr<Material> Material :: allocate(string fn, ResourceMap<Texture>& rmap)
             tex.reset();
             
             // change to default texture path
-            fn = string("data/custom/materials/") + FS::getFileName(fn);
+            fn = string("data/ne/materials/") + FS::getFileName(fn);
             tex = rmap.ensure_shared(fn);
             if(!tex->good())
             {

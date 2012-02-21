@@ -26,7 +26,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
             !m_spFont->FaceSize(12))
         {
             setError("Failed to load font.");
-            throw(0);
+            throw 1;
         }
         m_spBoldFont.reset(new FTGLPixmapFont("data/base/fonts/liberation/LiberationSans-Bold.ttf"));
         if( !m_spBoldFont || 
@@ -34,12 +34,12 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
             !m_spBoldFont->FaceSize(12))
         {
             setError("Failed to load font (Bold).");
-            throw(0);
+            throw 1;
         }
 
         m_spGUI.reset(new GUI(new GUI::DefaultStyle(m_spFont, m_spBoldFont)));
         if(!m_spGUI || m_spGUI->hasError())
-            throw(0);
+            throw 1;
 
         loadScene();
 
@@ -49,7 +49,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
 
         // temp
         if(filename.empty())
-           filename = "data/custom/maps/Apartment/apartment_scene.obj";
+           filename = "data/ne/maps/Apartment/apartment_scene.obj";
 
         if(filename.empty())
             m_spScene.reset(new Scene());
@@ -59,7 +59,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
         {
             Log::get().error(m_spScene->getError());
             setError("Failed to initiate editor state.");
-            throw(0);
+            throw 1;
         }
         
         m_spScene->add(m_pPlayer = new Spectator(/*engine->input()*/));
@@ -267,7 +267,7 @@ void EditorState::xQuit(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    string folder_path = "data/custom/environment";
+    string folder_path = "data/ne/environment";
     
     list<GUI::Menu::Option> asset_option_list;
     size_t asset_option_list_sz = 0;
@@ -309,7 +309,7 @@ void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState :: xAddObject(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    string folder_path = "data/custom/assets";
+    string folder_path = "data/ne/assets";
     
     list<GUI::Menu::Option> asset_option_list;
     size_t asset_option_list_sz = 0;
