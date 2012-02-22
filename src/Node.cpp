@@ -183,9 +183,11 @@ void Node :: render(Partitioner* partitioner, unsigned int flags) const
     //}
     //glMultMatrixf(glm::value_ptr(*matrix_c()));
 
+    // render self
     if(visible() && (!hasAttribute(NodeAttributes::SIZE) || inView(partitioner)))
         renderSelf(partitioner, flags);
 
+    // render children
     if(!(flags & RENDER_SELF_ONLY))
     {
         for(list<shared_ptr<Node>>::const_iterator itr = m_Children.cbegin();

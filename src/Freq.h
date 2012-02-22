@@ -194,6 +194,10 @@ public:
             static_cast<Alarm*>(this)->set(Time(m_Length));
         }
         void shift(T val){
+            //m_Start = m_End = (m_End + val);
+            //m_Length = Time(0);
+            //static_cast<Alarm*>(this)->set(Time(m_Length));
+
             m_Start += val;
             m_End += val;
         }

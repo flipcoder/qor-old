@@ -379,11 +379,11 @@ int EditorState::logic(unsigned int advance)
     Input* input = m_pEngine->input();
 
     // is GUI "blocking" Input? if so do GUI logic and nothing else
-    if(m_spGUI->blocking())
-    {
-        m_spGUI->logic(advance, input);
-        return 0;
-    }
+    //if(m_spGUI->blocking())
+    //{
+    //    m_spGUI->logic(advance, input);
+    //    return 0;
+    //}
 
     // perform logic for all objects in scene graph
     m_spScene->logic(advance);
@@ -404,6 +404,7 @@ int EditorState::logic(unsigned int advance)
                mouse_world.x,
                2.0f,
                mouse_world.y));
+            //m_pPlayer->pendWorldMatrix();
             m_OverviewScale.finish();
             m_vView.clear(Matrix::translation(*m_pPlayer->matrix()));
         }
@@ -414,6 +415,7 @@ int EditorState::logic(unsigned int advance)
                 -1.0f * Renderer::get().width() / 2.0f,
                 0.0f,
                 1.0f * Renderer::get().height() / 2.0f));
+            //m_pPlayer->pendWorldMatrix();
             //m_OverviewScale.finish();
             m_vView.clear(Matrix::translation(*m_pPlayer->matrix()));
         }
@@ -439,10 +441,10 @@ int EditorState::logic(unsigned int advance)
         }
         return 0; // no other logic
     }
-
      // did a GUI object claim focus (or respond to event) of the mouse?
     if(!m_spGUI->logic(advance, input))
     {
+            
         if(input->mouseLeftClick())
         {
             // View Panning
@@ -451,8 +453,10 @@ int EditorState::logic(unsigned int advance)
                 0.0f,
                 -input->getMouseRelY() 
             ));
+            //m_vView.finish();
         }
-        else if(input->mouseRightRelease())
+
+        if(input->mouseRightRelease())
         {
             
             glm::vec3 clickpoint = mouseWorldSpaceXnZ(); //XnZ
@@ -595,10 +599,12 @@ int EditorState::logic(unsigned int advance)
     }
     //m_pPlayer->matrix()->setTranslation(m_OverviewScale.hasElapsed()?m_OverviewScalem_OverviewScale.get());
 
-    if(input->keyd(SDLK_RETURN)){
+    if(input->keyd(SDLK_RETURN))
+    {
         m_pPlayer->resetOrientation();
-        m_vView.set(Freq::Time(0), glm::vec3(0.0f), glm::vec3(0.0f));
+        m_vView.clear(glm::vec3(0.0f));
     }
+
     if(input->keyd(SDLK_w))
     {
         Renderer::get().toggleWireframe();
@@ -606,6 +612,7 @@ int EditorState::logic(unsigned int advance)
     }
 
     Matrix::translation(*m_pPlayer->matrix(), m_vView.get());
+    //m_pPlayer->pendWorldMatrix();
     //m_spMusic->refresh();
 
     // set player as audio listener

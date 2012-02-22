@@ -139,13 +139,13 @@ int Input :: logic()
                 mouse_x = ev.motion.x;
                 mouse_y = ev.motion.y;
                 
-                if(m_bMouseHidden)
-                {
+                //if(m_bMouseHidden)
+                //{
                     // incrementing here (zeroing outside while() loop) because:
                     // PollEvent might send multiple events, resulting in lost movement
                     mouse_rel_x += ev.motion.xrel;
                     mouse_rel_y += ev.motion.yrel;
-                }
+                //}
                 break;
                 
             case SDL_MOUSEBUTTONDOWN:
