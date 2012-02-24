@@ -56,7 +56,8 @@ SCOPED_ENUM(NodeType)
     ACTOR,
     LIGHT,
     PARTICLE_SYSTEM,
-    SOUND
+    SOUND,
+    SELECTION // editor-specific
 }
 END_SCOPED_ENUM()
 
@@ -67,7 +68,8 @@ const std::vector<std::string> NodeTypeStrings = {
     "actor",
     "light",
     "particle_system",
-    "sound"
+    "sound",
+    "selection"
 };
 
 #endif

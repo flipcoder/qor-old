@@ -42,14 +42,6 @@ public:
     void xAddObject(GUI::Menu* menu, GUI::Menu::Option* op);
     void xAddByFilename(GUI::Menu* menu, GUI::Menu::Option* op, std::string filename);
 
-    //float m_fOverviewScale;
-    Freq::Timed<float> m_OverviewScale;
-    Freq::Timed<glm::vec3> m_vView;
-    float m_fEdgeScrollSpeed;
-    unsigned int m_ZoomTime;
-    float m_fZoomRatio;
-    Freq::Time m_FadeTime;
-        
 private:
 
     bool m_bError;
@@ -74,6 +66,15 @@ private:
     glm::vec3 mouseLocalSpaceXZ() const;
     
     Selection m_Selection;
+
+    //float m_fOverviewScale;
+    Freq::Timed<float> m_OverviewScale;
+    Freq::Timed<glm::vec3> m_vView;
+    float m_fEdgeScrollSpeed;
+    unsigned int m_ZoomTime;
+    float m_fZoomRatio;
+    Freq::Time m_FadeTime;
+        
 
     void nullify();
     //void setError(std::string err) {

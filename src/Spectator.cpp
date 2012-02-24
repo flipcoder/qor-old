@@ -78,7 +78,8 @@ void Spectator::logicSelf(unsigned int a)
         delta = glm::normalize(delta) * m_fSpeed;
     
     //m_vMove = delta;
-    Matrix::translate(*matrix(), delta * timestep);
+    this->move(delta * timestep);
+    //Matrix::translate(*matrix(), delta * timestep);
 
     //listen();
 }

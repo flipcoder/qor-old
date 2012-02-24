@@ -613,8 +613,8 @@ int EditorState::logic(unsigned int advance)
         Renderer::get().toggleTextures();
     }
 
-    m_pPlayer->move(m_vView.get());
-    //m_pPlayer->pendWorldMatrix();
+    m_pPlayer->position(m_vView.get());
+    m_pPlayer->pendWorldMatrix();
     //m_spMusic->refresh();
 
     // set player as audio listener
@@ -625,7 +625,7 @@ int EditorState::logic(unsigned int advance)
 
 void EditorState::syncView() const
 {
-    Matrix::translation(*const_cast<Spectator*>(m_pPlayer)->matrix(), m_vView.get());
+    m_pPlayer->position(m_vView.get());
 }
 
 void EditorState::render() const

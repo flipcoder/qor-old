@@ -10,7 +10,7 @@ class Sound : public Node
     protected:
 
         std::unique_ptr<Audio::Source> m_spSource;
-        std::shared_ptr<Audio::Buffer> m_spBuffer;
+        std::unique_ptr<Audio::Buffer> m_spBuffer;
 
     public:
 
