@@ -379,11 +379,11 @@ int EditorState::logic(unsigned int advance)
     Input* input = m_pEngine->input();
 
     // is GUI "blocking" Input? if so do GUI logic and nothing else
-    //if(m_spGUI->blocking())
-    //{
-    //    m_spGUI->logic(advance, input);
-    //    return 0;
-    //}
+    if(m_spGUI->blocking())
+    {
+        m_spGUI->logic(advance, input);
+        return 0;
+    }
 
     // perform logic for all objects in scene graph
     m_spScene->logic(advance);
@@ -459,8 +459,8 @@ int EditorState::logic(unsigned int advance)
         if(input->mouseRightRelease())
         {
             
-            glm::vec3 clickpoint = mouseWorldSpaceXnZ(); //XnZ
-            
+            glm::vec3 clickpoint = mouseWorldSpaceXnZ();
+
             //Node* selection_node = NULL;
             //m_spScene->add(selection_node = new SelectorNode());
             //*selection_node->matrix() *= Matrix(Matrix::IDENTITY, clickpoint);
@@ -470,6 +470,7 @@ int EditorState::logic(unsigned int advance)
             std::list<Node*> nodes;
             if(m_spScene->root()->vLineTest(nodes, clickpoint, Node::TEST_ONLY_VISIBLE | Node::USE_SUPERPARENT))
             {
+                Log::get().write(str("Nodes clicked: ") + str(nodes.size()));
                 nodes.sort(
                     [] (Node* a, Node* b) -> bool {
                         return a->box()->area() < b->box()->area();
@@ -479,14 +480,15 @@ int EditorState::logic(unsigned int advance)
                 Node* selected = nodes.back();
                 //ASSERT(selected->superParent() == selected);
                 
-                Log::get().write("Clicked!");
                 if(!input->key(SDLK_LSHIFT) && !input->key(SDLK_RSHIFT))
                 {
+                    Log::get().write("New selection");
                     m_Selection.clear();
                     m_Selection.add(selected);
                 }
                 else
                 {
+                    Log::get().write("Toggled selection");
                     m_Selection.toggle(selected);
                 }
                 //selected->add(new SelectorNode());
@@ -611,7 +613,7 @@ int EditorState::logic(unsigned int advance)
         Renderer::get().toggleTextures();
     }
 
-    Matrix::translation(*m_pPlayer->matrix(), m_vView.get());
+    m_pPlayer->move(m_vView.get());
     //m_pPlayer->pendWorldMatrix();
     //m_spMusic->refresh();
 

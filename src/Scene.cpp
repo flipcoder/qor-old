@@ -512,7 +512,7 @@ void Scene::render(Node* from) const
 void Scene::renderOverview(const glm::vec3& pos, float scale) const
 {
     if(floatcmp(scale, 0.0f))
-        scale = 1.0f;
+        return;
 
     glm::mat4 inv = glm::scale(glm::mat4(), glm::vec3(scale));
     inv = glm::rotate(inv, 90.0f, Axis::X);

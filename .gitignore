@@ -1,3 +1,4 @@
+.vimrc
 bin/qor*
 bin/log.txt
 bin/*.exe

@@ -12,8 +12,6 @@ class Selection
             if(!target || selected(target))
                 return false;
             
-            // TODO: if target type is SUBENVIRONMENT, redirect action to superparent
-            // TODO: change of idea, add superParent() method to Node class
             std::shared_ptr<Node> sp(new SelectorNode());
             target->add(sp);
             m_SelectedNodes.push_back(std::weak_ptr<Node>(sp));
@@ -30,7 +28,7 @@ class Selection
                 shared_ptr<Node> sp;
                 if((sp = itr->lock()))
                 {
-                    if(sp.get() == target)
+                    if(sp->getParent()->superParent() == target)
                         return true;
                 }
                 else
@@ -58,7 +56,7 @@ class Selection
                 shared_ptr<Node> sp;
                 if((sp = itr->lock()))
                 {
-                    if(sp.get() == target)
+                    if(sp->getParent()->superParent() == target)
                     {
                         itr = m_SelectedNodes.erase(itr);
                         return true;
@@ -123,7 +121,8 @@ class Selection
                 {
                     glm::vec3 trans;
                     
-                    glm::mat4* m = sp->getParent()->matrix();
+                    glm::mat4* m = sp->getParent()->superParent()->matrix();
+                    //glm::mat4* m = sp->matrix();
 
                     if(!flags & MOD_WORLD)
                     {
@@ -138,6 +137,8 @@ class Selection
                     
                     if(!flags & MOD_WORLD)
                         Matrix::translation(*m, trans);
+
+                    sp->getParent()->superParent()->pendWorldMatrix();
                 }
                 else
                 {
@@ -157,8 +158,9 @@ class Selection
                 shared_ptr<Node> sp;
                 if(sp = itr->lock())
                 {
-                    glm::mat4* m = sp->getParent()->matrix();
+                    glm::mat4* m = sp->superParent()->matrix(); // getParent()
                     *m = glm::translate(*m, trans);
+                    sp->getParent()->superParent()->pendWorldMatrix();
                 }
                 else
                 {
@@ -178,7 +180,7 @@ class Selection
                 if(sp = itr->lock())
                 {
                     sp->remove();
-                    sp->getParent()->remove();
+                    sp->getParent()->superParent()->remove();
                 }
             }
             m_SelectedNodes.clear();

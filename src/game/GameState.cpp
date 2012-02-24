@@ -23,11 +23,13 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
         setError("Failed to initiate game state.");
     }
 
-    //Node* n = m_pScene->loadAI("data/assets/tree1.obj");
+    Node* n;
+
+    //n = m_pScene->loadAI("data/assets/tree1.obj");
     //n->move(glm::vec3(-20.0, 0.0, 0.0));
     
-    //n = m_pScene->loadAI("data/environment/officebuilding.obj");
-    //n->move(glm::vec3(20.0, 0.0, 0.0));
+    n = m_pScene->loadAI("data/ne/environment/officebuilding.obj");
+    n->move(glm::vec3(20.0, 0.0, 0.0));
     
     //for(int i=0; i<10; i++)
     //    for(int j=0; j<10; j++)
@@ -96,41 +98,41 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     //light->diffuse(Color(0.2f, 0.1f, 0.6f));
     
     // Colored Lights Demo
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(-5.0f, 0.0, 0.0f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
-    light->diffuse(Color(0.3f, 0.5f, 0.4f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(-5.0f, 0.0, 0.0f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
+    //light->diffuse(Color(0.3f, 0.5f, 0.4f));
     
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(0.0f, 0.0, 0.0f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
-    light->diffuse(Color(0.3f, 0.4f, 0.5f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(0.0f, 0.0, 0.0f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
+    //light->diffuse(Color(0.3f, 0.4f, 0.5f));
     
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(5.0f, 0.0f, 0.0f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
-    light->diffuse(Color(0.5f, 0.4f, 0.3f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(5.0f, 0.0f, 0.0f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
+    //light->diffuse(Color(0.5f, 0.4f, 0.3f));
 
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(-2.5f, 0.0, -5.0f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //light->diffuse(Color(0.8f, 0.4f, 0.6f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(-2.5f, 0.0, -5.0f));
-    //light->diffuse(Color(0.5f, 0.5f, 0.0f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(2.5f, 0.0, -5.0f));
-    //light->diffuse(Color(0.0f, 0.5f, 0.5f));
-    //light->atten(glm::vec3(0.0f, 5.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(-5.0f, 0.0, -5.0f));
-    //light->diffuse(Color(0.0f, 1.0f, 0.0f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(5.0f, 0.0, -5.0f));
-    //light->diffuse(Color(0.0f, 0.0f, 0.5f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(-2.5f, 0.0, -5.0f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    light->diffuse(Color(0.8f, 0.4f, 0.6f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(-2.5f, 0.0, -5.0f));
+    light->diffuse(Color(0.5f, 0.5f, 0.0f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(2.5f, 0.0, -5.0f));
+    light->diffuse(Color(0.0f, 0.5f, 0.5f));
+    light->atten(glm::vec3(0.0f, 5.0f, 0.5f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(-5.0f, 0.0, -5.0f));
+    light->diffuse(Color(0.0f, 1.0f, 0.0f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(5.0f, 0.0, -5.0f));
+    light->diffuse(Color(0.0f, 0.0f, 0.5f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
     
     // Sound Demo
     //Sound* fire_sound = new Sound(
