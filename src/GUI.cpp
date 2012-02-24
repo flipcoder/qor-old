@@ -368,6 +368,11 @@ int GUI :: logic(unsigned int advance, Input* input)
 
 void GUI :: render() const
 {
+    // push wireframe state
+    bool w;
+    if(w = Renderer::get().wireframe())
+        Renderer::get().wireframe(false);
+
     for(vector<shared_ptr<Object>>::const_iterator itr = m_Objects.cbegin();
         itr != m_Objects.cend();
         ++itr)
@@ -383,6 +388,10 @@ void GUI :: render() const
         style()->drawText(string("This is a status message."), glm::vec2(0.0f), glm::vec2(0.0f),
            Style::FONT_REGULAR, Style::ALIGN_CENTER);
     }
+
+    //restore wireframe state
+    if(w)
+        Renderer::get().wireframe(true);
 }
 
 bool GUI :: collision(
