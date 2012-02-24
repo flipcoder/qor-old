@@ -158,7 +158,7 @@ class Selection
                 shared_ptr<Node> sp;
                 if(sp = itr->lock())
                 {
-                    glm::mat4* m = sp->superParent()->matrix(); // getParent()
+                    glm::mat4* m = sp->getParent()->superParent()->matrix(); // getParent()
                     *m = glm::translate(*m, trans);
                     sp->getParent()->superParent()->pendWorldMatrix();
                 }
