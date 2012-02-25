@@ -53,8 +53,8 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     );
 
     //glm::vec3 gunpos = glm::vec3(0.15f,-0.2f,-0.4f);//glock
-    glm::vec3 gunpos = glm::vec3(0.15f,-0.3f,-0.5f);
-    //glm::vec3 gunpos = glm::vec3(0.0f,-0.25f,-0.2f); // ADS
+    //glm::vec3 gunpos = glm::vec3(0.15f,-0.3f,-0.5f);
+    glm::vec3 gunpos = glm::vec3(0.0f,-0.25f,-0.2f); // ADS
     *e->matrix() = glm::gtx::transform2::lookAt(glm::vec3(0.0f), glm::vec3(0.0, 0.0f, -1000.0f) - gunpos, Axis::Y);
     //Matrix::translation(*e->matrix(), glm::vec3(0.2f,-0.25f,-0.4f));
     Matrix::translation(*e->matrix(), gunpos);
@@ -63,14 +63,14 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     //m_pScene->root()->add(e);
     
     // Particle System Demo (Fire)
-    ParticleSystem::Particle particle;
-    particle.size = 20.0f;
-    particle.life = 1.0f;
-    particle.color.set(1.0f, 0.6f, 0.3f); // fire
-    particle.vel = glm::vec3(0.0f,1.0f,0.0f);
-    ParticleSystem* ps = new ParticleSystem(new Texture("data/base/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_ADDITIVE, 0.5f, 500.0f); //.25, 200
-    ps->position(glm::vec3(0.0f, -0.5f, 0.0f));
-    m_pScene->root()->add(ps);
+    //ParticleSystem::Particle particle;
+    //particle.size = 20.0f;
+    //particle.life = 1.0f;
+    //particle.color.set(1.0f, 0.6f, 0.3f); // fire
+    //particle.vel = glm::vec3(0.0f,1.0f,0.0f);
+    //ParticleSystem* ps = new ParticleSystem(new Texture("data/base/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_ADDITIVE, 0.5f, 500.0f); //.25, 200
+    //ps->position(glm::vec3(0.0f, -0.5f, 0.0f));
+    //m_pScene->root()->add(ps);
     
     // Particle System Demo (Snow)
     //particle.size = 5.0f;
@@ -93,10 +93,10 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     
     Light* light;
     // add three lights
-    //m_pScene->add(light = new Light());
-    //light->lightType(Light::DIRECTIONAL);
-    //light->atten(glm::vec3(1.0f, 0.0f, 0.0f));
-    //light->diffuse(Color(0.2f, 0.1f, 0.6f));
+    m_pScene->add(light = new Light());
+    light->lightType(Light::DIRECTIONAL);
+    light->atten(glm::vec3(1.0f, 0.0f, 0.0f));
+    light->diffuse(Color(0.2f, 0.1f, 0.6f));
     
     // Colored Lights Demo
     //m_pScene->add(light = new Light());
@@ -114,22 +114,23 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     //light->atten(glm::vec3(0.0f, 0.0f, 0.01f));
     //light->diffuse(Color(0.5f, 0.4f, 0.3f));
 
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(-2.5f, 0.0, -5.0f));
-    light->diffuse(Color(0.8f, 0.4f, 0.6f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(2.5f, 0.0, -5.0f));
-    light->diffuse(Color(0.0f, 0.5f, 0.5f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(-5.0f, 0.0, -5.0f));
-    light->diffuse(Color(0.1f, 0.1f, 0.3f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    m_pScene->add(light = new Light());
-    light->move(glm::vec3(5.0f, 0.0, -5.0f));
-    light->diffuse(Color(0.3f, 0.0f, 0.1f));
-    light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    // Other colors demo
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(-2.5f, 0.0, -5.0f));
+    //light->diffuse(Color(0.8f, 0.4f, 0.6f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(2.5f, 0.0, -5.0f));
+    //light->diffuse(Color(0.0f, 0.5f, 0.5f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(-5.0f, 0.0, -5.0f));
+    //light->diffuse(Color(0.1f, 0.1f, 0.3f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    //m_pScene->add(light = new Light());
+    //light->move(glm::vec3(5.0f, 0.0, -5.0f));
+    //light->diffuse(Color(0.3f, 0.0f, 0.1f));
+    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
     
     // Sound Demo
     //Sound* fire_sound = new Sound(

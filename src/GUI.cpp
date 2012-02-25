@@ -27,12 +27,12 @@ void GUI :: DefaultStyle :: drawBox(const glm::vec2& pos, const glm::vec2& size,
         switch(fx)
         {
             case FX_NONE:
-                c = Color(0.5f, 0.5f, 0.5f, 0.2f);
-                c2 = Color(0.5f, 0.5f, 0.5f, 0.9f);
+                c = Color(0.3f, 0.3f, 0.3f, 1.0f);
+                c2 = Color(0.7f, 0.7f, 0.7f, 1.0f);
                 break;
             case FX_HIGHLIGHT: 
-                c = Color(0.0f, 0.0f, 0.5f, 0.2f);
-                c2 = Color(0.0f, 0.0f, 0.5f, 0.9f);
+                c = Color(0.0f, 0.0f, 0.3f, 1.0f);
+                c2 = Color(0.0f, 0.0f, 0.9f, 1.0f);
                 break;
             case FX_ACTIVE:
                 break;
@@ -373,6 +373,11 @@ void GUI :: render() const
     if(w = Renderer::get().wireframe())
         Renderer::get().wireframe(false);
 
+    bool shaders_paused = Renderer::get().pauseShaders();
+    bool lighting_paused = Renderer::get().pauseLighting();
+    
+    Renderer::get().shaders(Renderer::UNBIND_SHADERS);
+
     for(vector<shared_ptr<Object>>::const_iterator itr = m_Objects.cbegin();
         itr != m_Objects.cend();
         ++itr)
@@ -392,6 +397,9 @@ void GUI :: render() const
     //restore wireframe state
     if(w)
         Renderer::get().wireframe(true);
+
+    Renderer::get().resumeLighting(lighting_paused);
+    Renderer::get().resumeShaders(shaders_paused);
 }
 
 bool GUI :: collision(

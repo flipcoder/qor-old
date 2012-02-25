@@ -71,7 +71,12 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
         loadGUI();
         
         Renderer::get().lighting(Renderer::DISABLE_LIGHTING);
-        //Renderer::get().lighting(false);
+        Renderer::get().shaders(Renderer::DISABLE_SHADERS);
+                
+        Light* light;
+        m_spScene->add(light = new Light());
+        light->atten(glm::vec3(0.0f, 0.0f, 0.0f));
+        light->diffuse(Color(1.0f, 1.0f, 1.0f));
         
         //Log::get().write("Starting Test...");
         //glm::vec3 point(1.0f, 2.0f, 3.0f);
@@ -83,7 +88,6 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
         //    + str(point.y) + ", "
         //    + str(point.z) + ")");
         //Log::get().write("End Test.");
-        Renderer::get().shaders(Renderer::DISABLE_SHADERS);
     }
     catch(int)
     {
@@ -254,7 +258,7 @@ void EditorState::xOpen(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState::xSave(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    m_spScene->info("Untitled Level", "0.0", "Unknown Author", "No Descrption");
+    m_spScene->info("Untitled Level", "0.0", "Unknown Author", "No Description");
     m_spScene->saveFML("testmap.fml");
 }
 
@@ -352,7 +356,9 @@ void EditorState :: xAddByFilename(GUI::Menu* menu, GUI::Menu::Option* op, std::
 {
     Log::get().write(op->caption() + " clicked: " + filename);
     //m_spGUI->remove(menu);
-    m_spScene->loadAI(filename);
+    Node* n = m_spScene->loadAI(filename);
+    m_Selection.clear();
+    m_Selection.add(n);
     menu->flags(menu->flags() | GUI::F_REMOVE);
 }
 
@@ -395,8 +401,11 @@ int EditorState::logic(unsigned int advance)
         
         bool input_enabled = m_pPlayer->input();
         
-        if(input_enabled)
+        if(input_enabled) // in 3d mode
         {
+            Renderer::get().lighting(Renderer::ENABLE_LIGHTING | Renderer::BIND_LIGHTING);
+            Renderer::get().shaders(Renderer::ENABLE_SHADERS | Renderer::BIND_SHADERS);
+
             glm::vec3 mouse_world = mouseWorldSpace();
             Log::get().write("Mouse World: " + str(mouse_world.x) + ", " + str(mouse_world.y));
             m_pPlayer->resetOrientation();
@@ -408,8 +417,11 @@ int EditorState::logic(unsigned int advance)
             m_OverviewScale.finish();
             m_vView.clear(Matrix::translation(*m_pPlayer->matrix()));
         }
-        else
+        else // in overview mode
         {
+            Renderer::get().lighting(Renderer::DISABLE_LIGHTING);
+            Renderer::get().shaders(Renderer::DISABLE_SHADERS);
+
             //m_pPlayer->resetOrientation();
             Matrix::translate(*m_pPlayer->matrix(), glm::vec3(
                 -1.0f * Renderer::get().width() / 2.0f,
@@ -537,17 +549,26 @@ int EditorState::logic(unsigned int advance)
     
     if(input->key(SDLK_r))
     {
-        //if(input->key(SDLK_LSHIFT) || input->key(SDLK_RSHIFT))
-        float factor = 1.0f * fartherAbs(-input->getMouseRelX(), input->getMouseRelY());
-        m_Selection.modify(glm::rotate(glm::mat4(), factor, Axis::Y));
-        //else
-            //m_Selection.modify(glm::rotate(glm::mat4(), -11.25f* m_pInput->getMouseRelX(), Axis::Y));
+        if(input->key(SDLK_LSHIFT) || input->key(SDLK_RSHIFT)) {
+            m_Selection.identity();
+        }
+        else{
+            float factor = 1.0f * fartherAbs(-input->getMouseRelX(), input->getMouseRelY());
+            m_Selection.modify(glm::rotate(glm::mat4(), factor, Axis::Y));
+            //else
+                //m_Selection.modify(glm::rotate(glm::mat4(), -11.25f* m_pInput->getMouseRelX(), Axis::Y));
+        }
     }
     if(input->key(SDLK_s))
     {
         float factor = 1.0f * fartherAbs(input->getMouseRelX(), input->getMouseRelY());
-        if(!floatcmp(factor,0.0f))
-            m_Selection.modify(glm::scale(glm::mat4(), (factor<0.0f)?glm::vec3(1.0f/1.01f):glm::vec3(1.01f)) * fabs(factor));
+        if(!floatcmp(factor,0.0f)) {
+            glm::mat4 m = glm::scale(glm::mat4(), (factor<0.0f)?glm::vec3(0.9f):glm::vec3(1.1f) * fabs(factor));
+            //m = glm::scale(m, glm::vec3(fabs(factor)));
+            //Log::get().write("matrix: " + Matrix::toString(m));
+            Matrix::wScale(m,1.0f);
+            m_Selection.modify(m);
+        }
     }
     if(input->key(SDLK_g))
     {

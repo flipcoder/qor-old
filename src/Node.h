@@ -31,7 +31,6 @@
 #include <memory>
 #include <boost/optional.hpp>
 #include <rapidxml.hpp>
-//#include <boost/enable_shared_from_this.hpp>
 
 #include "Util.h"
 #include "NodeAttributes.h"
@@ -42,7 +41,7 @@
 
 class Scene;
 
-class Node /*: public enable_shared_from_this<Node>*/
+class Node : public std::enable_shared_from_this<Node>
 {
 
 protected:
@@ -212,8 +211,8 @@ public:
     enum eRenderFlags
     {
         RENDER_USE_STACK=BIT(0),
-        RENDER_SELF_ONLY=BIT(1),
-        RENDER_AMBIENT_PASS=BIT(2)
+        RENDER_SELF_ONLY=BIT(1)
+        //RENDER_AMBIENT_PASS=BIT(2)
     };
     virtual void renderSelf(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
     virtual void render(Partitioner* partitioner = NULL, unsigned int flags = 0) const;

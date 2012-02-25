@@ -48,6 +48,8 @@ private:
 
     std::string m_sFilename;
 
+    Color m_SkyColor;
+
     struct TempData {
         std::vector<std::shared_ptr<Material>> materials;
         std::vector<std::shared_ptr<Mesh>> meshes;

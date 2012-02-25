@@ -90,6 +90,7 @@ class Renderer : public IStaticInstance<Renderer>
         bool m_bLighting;
         bool m_bLightingState;
         bool m_bShaders;
+        bool m_bShaderState;
 
         float m_fFOV;
         
@@ -182,17 +183,35 @@ class Renderer : public IStaticInstance<Renderer>
             DISABLE_LIGHTING = BIT(2),
             ENABLE_LIGHTING = BIT(3)
         };
+        bool pauseLighting() {
+            if(!lighting() || !lightingBound())
+                return false;
+            lighting(UNBIND_LIGHTING);
+            return true;
+        }
+        void resumeLighting(bool pause_result = true) {
+            if(!pause_result)
+                return;
+            lighting(BIND_LIGHTING);
+        }
+
+        bool lightingBound() const {return m_bLightingState;}
+        bool lighting() const { return m_bLighting; }
         void lighting(unsigned int flags) {
             
             if(flags & ENABLE_LIGHTING)
             {
-                glDisable(GL_LIGHTING); //yes I typed DISABLE on purpose
                 m_bLighting = true;
+
+                glDisable(GL_LIGHTING); //yes I typed DISABLE on purpose
+                m_bLightingState = false;
             }
             else if(flags & DISABLE_LIGHTING)
             {
-                glDisable(GL_LIGHTING);
                 m_bLighting = false;
+
+                glDisable(GL_LIGHTING);
+                m_bLightingState = false;
             }
             
             if(m_bLighting)
@@ -215,6 +234,22 @@ class Renderer : public IStaticInstance<Renderer>
             DISABLE_SHADERS = BIT(2),
             ENABLE_SHADERS = BIT(3)
         };
+
+        bool pauseShaders() {
+            if(!shaders() || !shadersBound())
+                return false;
+            shaders(UNBIND_SHADERS);
+            return true;
+        }
+        void resumeShaders(bool pause_result = true) {
+            if(!pause_result)
+                return;
+            shaders(BIND_SHADERS);
+        }
+
+
+        bool shaders() const { return m_bShaders; }
+        bool shadersBound() const { return m_bShaderState; }
         void shaders(unsigned int flags) {
             
             if(flags & ENABLE_SHADERS)
@@ -236,17 +271,16 @@ class Renderer : public IStaticInstance<Renderer>
                 if(flags & BIND_SHADERS)
                 {
                     m_spProgram->use();
+                    m_bShaderState = true;
                 }
                 else if(flags & UNBIND_SHADERS)
                 {
                     Program::unuseAll();
+                    m_bShaderState = false;
                 }
             }
         }
-        bool shaders() const {
-            return m_bShaders && m_spProgram;
-        }
-        
+                
         void setViewUniform() {
             if(m_spProgram)
             {

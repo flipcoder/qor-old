@@ -695,7 +695,7 @@ Node* Node ::pointTest(glm::vec3 point, MatrixStack& matrixstack)
 Node* Node :: vLineTest(glm::vec3 point, MatrixStack& matrixstack, unsigned int flags)
 {
     AABB* bbox = box();
-    matrixstack.pushInverse(*matrix_c());
+    matrixstack.push(*matrix_c());
     MatrixStack::ScopedPop scopedpop(matrixstack);
 
     Node* c = NULL;
@@ -736,7 +736,7 @@ Node* Node :: vLineTest(glm::vec3 point, MatrixStack& matrixstack, unsigned int 
 bool Node :: vLineTest(std::list<Node*>& nodes, glm::vec3 point, MatrixStack& matrixstack, unsigned int flags)
 {
     AABB* bbox = box();
-    matrixstack.pushInverse(*matrix_c());
+    matrixstack.push(*matrix_c());
     MatrixStack::ScopedPop scopedpop(matrixstack);
 
     Node* c = NULL;
@@ -759,7 +759,7 @@ bool Node :: vLineTest(std::list<Node*>& nodes, glm::vec3 point, MatrixStack& ma
                 if(flags & USE_SUPERPARENT)
                 {
                     Node* superparent = this->superParent();
-                    ASSERT(superparent == this->superParent());
+                    //ASSERT(superparent == this->superParent());
                     push_back_unique(nodes, superparent);
                     //push_back_unique(nodes, this->superParent());
                 }

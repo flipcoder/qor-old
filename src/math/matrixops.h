@@ -2,6 +2,8 @@
 #define _MATRIXOPS_H
 
 #include "common.h"
+#include <string>
+#include <sstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/swizzle.hpp>
 
@@ -16,6 +18,21 @@ namespace Matrix{
     inline glm::vec3 translation(const glm::mat4& m){
         const float* f = glm::value_ptr(m);
         return glm::vec3(f[12], f[13], f[14]);
+    }
+    inline void wScale(glm::mat4& m, float v = 1.0f) {
+        float* f = glm::value_ptr(m);
+        f[15] = v;
+    }
+    inline std::string toString(const glm::mat4& m) {
+        const float* f = glm::value_ptr(m);
+        std::ostringstream ss;
+        std::string s;
+        for(int i=0; i<16; i++) {
+            ss.str("");
+            ss << f[i];
+            s += (s.empty()?"":" ") + ss.str();
+        }
+        return s;
     }
     //inline glm::vec3 check(const glm::mat4& m) {
     //    const float* f = glm::value_ptr(m);

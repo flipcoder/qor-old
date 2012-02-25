@@ -48,7 +48,10 @@ void Renderer :: nullify()
     m_bWireframe = false;
     m_bTextures = true;
     m_bShaders = false;
-    m_bLighting = true;
+    m_bLighting = false;
+    m_bLightingState = false;
+    m_bShaders = false;
+    m_bShaderState = false;
     m_ViewMatrixUniform = 0;
 }
 
@@ -100,7 +103,7 @@ void Renderer :: draw()
 {
     glFlush();
     SDL_GL_SwapBuffers();
-    clear();
+    //clear(m_clearColor);
 }
 
 
@@ -248,7 +251,7 @@ void Renderer :: clear()
     glClear(GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT |
             GL_STENCIL_BUFFER_BIT);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f,0.0f,0.0f,1.0f);
     glLoadIdentity(); // important for logic calls invoking GL
 }
 
@@ -260,11 +263,17 @@ bool Renderer :: screenshot() const
 
 void Renderer :: wireframe(bool t)
 {
+    //static bool light_state = false;
+    //static bool shader_state = false;
     if(t) {
+        //light_state = pauseLighting();
+        //shader_state = pauseShaders();
         m_bWireframe = true;
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
     else{
+        //resumeLighting(light_state);
+        //resumeShaders(shader_state);
         m_bWireframe = false;
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }

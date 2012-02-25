@@ -404,7 +404,7 @@ void Scene::printDetails(const aiScene* ais)
 
 void Scene::nullify()
 {
-
+    m_SkyColor = Color(0.0f, 0.0f, 0.0f);
     //m_pImporter = NULL;
     // = NULL;
     //m_pRoot.reset();
@@ -472,39 +472,46 @@ void Scene::render(Node* from) const
     
     //m_pProgram->use();
     
+    glClearColor(m_SkyColor.r, m_SkyColor.g, m_SkyColor.b, 1.0f);
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     //glEnable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     
-    // multi-pass light rendering utilizing partitioner
-    std::list<Light*> light_list(std::move(m_spPartitioner->getViewableLights(m_spRoot.get())));
-    std::list<Node*> node_list; // TODO: reserve some space here?
-    
-    unsigned int pass = 0;
-    std::list<Node*> visible_nodes = std::move(m_spPartitioner->getViewableNodes(m_spRoot.get()));
-    foreach(Light* light, light_list)
-    {
-        // TODO: Render initial ambient pass (no blend for pass 0 is fine for now,
-        //  since we aren't doing light-object clipping yet)
-        if(pass == 0)
-        {
-            glDisable(GL_BLEND);
-        }
-        else
-        {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_ONE, GL_ONE);
-        }
-        node_list = std::move(m_spPartitioner->getLitObjects(light, visible_nodes));
-        if(!node_list.empty())
-        {
-            light->bind(0);
-            foreach(Node* n, node_list)
-                n->render(m_spPartitioner.get(), Node::RENDER_SELF_ONLY);
-        }
-        pass++;
-    }
+    // initial pass
+    // TODO: bind an ambient shader here!
     glDisable(GL_BLEND);
+    m_spRoot->render(m_spPartitioner.get());
+
+    if(Renderer::get().lighting()) { // do multi-pass only if lighting is enabled
+        // multi-pass light rendering utilizing partitioner
+        std::list<Light*> light_list(std::move(m_spPartitioner->getViewableLights(m_spRoot.get())));
+        std::list<Node*> node_list; // TODO: reserve some space here?
+        unsigned int pass = 0;
+        std::list<Node*> visible_nodes = std::move(m_spPartitioner->getViewableNodes(m_spRoot.get()));
+        foreach(Light* light, light_list)
+        {
+            // TODO: Render initial ambient pass (no blend for pass 0 is fine for now,
+            //  since we aren't doing light-object clipping yet)
+            //if(pass == 0)
+            //{
+            //    glDisable(GL_BLEND);
+            //}
+            //else
+            //{
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_ONE, GL_ONE);
+            //}
+            node_list = std::move(m_spPartitioner->getLitObjects(light, visible_nodes));
+            if(!node_list.empty())
+            {
+                light->bind(0);
+                foreach(Node* n, node_list)
+                    n->render(m_spPartitioner.get(), Node::RENDER_SELF_ONLY);
+            }
+            //pass++;
+        }
+        glDisable(GL_BLEND);
+    }
     //if(m_spRoot)
     //   m_spRoot->render(m_spPartitioner.get());
 }

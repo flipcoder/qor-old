@@ -25,7 +25,7 @@ class Selection
                 itr != m_SelectedNodes.end();
                 )
             {
-                shared_ptr<Node> sp;
+                std::shared_ptr<Node> sp;
                 if((sp = itr->lock()))
                 {
                     if(sp->getParent()->superParent() == target)
@@ -53,7 +53,7 @@ class Selection
                 //    continue;
                 //}
                     
-                shared_ptr<Node> sp;
+                std::shared_ptr<Node> sp;
                 if((sp = itr->lock()))
                 {
                     if(sp->getParent()->superParent() == target)
@@ -110,13 +110,49 @@ class Selection
             MOD_WORLD = BIT(0),
             MOD_POST_MULTIPLY = BIT(1)
         };
+        void identity(unsigned int flags = 0) {
+            for(auto itr = m_SelectedNodes.begin();
+                itr != m_SelectedNodes.end();
+                )
+            {
+                std::shared_ptr<Node> sp;
+                if(sp = itr->lock())
+                {
+                    glm::vec3 trans;
+                    glm::mat4* m = sp->getParent()->superParent()->matrix();
+
+                    if(!flags & MOD_WORLD)
+                    {
+                        trans = Matrix::translation(*m);
+                        Matrix::resetTranslation(*m);
+                    }
+                    
+                    //if(flags & MOD_POST_MULTIPLY)
+                    //    *m *= mod;
+                    //else
+                    //    *m = mod * *m;
+                    *m = glm::mat4(1.0f);
+                    
+                    if(!flags & MOD_WORLD)
+                        Matrix::translation(*m, trans);
+
+                    sp->getParent()->superParent()->pendWorldMatrix();
+                }
+                else
+                {
+                    itr = m_SelectedNodes.erase(itr);
+                    continue;
+                }
+                ++itr;
+            }
+        }
         void modify(const glm::mat4& mod, unsigned int flags = 0)
         {
             for(auto itr = m_SelectedNodes.begin();
                 itr != m_SelectedNodes.end();
                 )
             {
-                shared_ptr<Node> sp;
+                std::shared_ptr<Node> sp;
                 if(sp = itr->lock())
                 {
                     glm::vec3 trans;

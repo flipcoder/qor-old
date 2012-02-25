@@ -12,8 +12,8 @@ void SelectorNode :: logicSelf(unsigned int advance)
 
 void SelectorNode :: renderSelf(Frustum* view, unsigned int flags) const
 {
-    if(!(flags & RENDER_AMBIENT_PASS))
-        return;
+    //if(!(flags & RENDER_AMBIENT_PASS))
+    //    return;
 
     glDisable(GL_DEPTH_TEST);
     
