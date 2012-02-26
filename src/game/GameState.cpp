@@ -11,7 +11,7 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     nullify();
     m_pEngine = engine;
 
-    m_pScene = new Scene("data/ne/maps/Apartment/apartment_scene.obj", Scene::F_PHYSICS);
+    m_pScene = new Scene("data/ne/maps/gothicTower/gothicTower.obj", Scene::F_PHYSICS);
     //m_pScene = new Scene("testmap.fml", Scene::F_PHYSICS);
     //m_pScene = new Scene("data/maps/office/ctf_office.obj");
     
@@ -28,8 +28,8 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     //n = m_pScene->loadAI("data/assets/tree1.obj");
     //n->move(glm::vec3(-20.0, 0.0, 0.0));
     
-    n = m_pScene->loadAI("data/ne/environment/officebuilding.obj");
-    n->move(glm::vec3(20.0, 0.0, 0.0));
+    //n = m_pScene->loadAI("data/ne/environment/officebuilding.obj");
+    //n->move(glm::vec3(20.0, 0.0, 0.0));
     
     //for(int i=0; i<10; i++)
     //    for(int j=0; j<10; j++)
@@ -53,8 +53,8 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     );
 
     //glm::vec3 gunpos = glm::vec3(0.15f,-0.2f,-0.4f);//glock
-    //glm::vec3 gunpos = glm::vec3(0.15f,-0.3f,-0.5f);
-    glm::vec3 gunpos = glm::vec3(0.0f,-0.25f,-0.2f); // ADS
+    glm::vec3 gunpos = glm::vec3(0.15f,-0.3f,-0.5f);//ump45
+    //glm::vec3 gunpos = glm::vec3(0.0f,-0.25f,-0.2f); //ump45 ADS
     *e->matrix() = glm::gtx::transform2::lookAt(glm::vec3(0.0f), glm::vec3(0.0, 0.0f, -1000.0f) - gunpos, Axis::Y);
     //Matrix::translation(*e->matrix(), glm::vec3(0.2f,-0.25f,-0.4f));
     Matrix::translation(*e->matrix(), gunpos);
@@ -92,11 +92,12 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     // end particle system demo
     
     Light* light;
-    // add three lights
+    //// add three lights
     m_pScene->add(light = new Light());
     light->lightType(Light::DIRECTIONAL);
     light->atten(glm::vec3(1.0f, 0.0f, 0.0f));
-    light->diffuse(Color(0.2f, 0.1f, 0.6f));
+    light->diffuse(Color((ubyte)0xDC, (ubyte)0xCD, (ubyte)0xFF));
+    light->specular(Color(0.0f,0.0f,0.0f));
     
     // Colored Lights Demo
     //m_pScene->add(light = new Light());
@@ -115,22 +116,22 @@ GameState::GameState(Engine* engine, TransitionInfo* trans)
     //light->diffuse(Color(0.5f, 0.4f, 0.3f));
 
     // Other colors demo
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(-2.5f, 0.0, -5.0f));
-    //light->diffuse(Color(0.8f, 0.4f, 0.6f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(2.5f, 0.0, -5.0f));
-    //light->diffuse(Color(0.0f, 0.5f, 0.5f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(-5.0f, 0.0, -5.0f));
-    //light->diffuse(Color(0.1f, 0.1f, 0.3f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
-    //m_pScene->add(light = new Light());
-    //light->move(glm::vec3(5.0f, 0.0, -5.0f));
-    //light->diffuse(Color(0.3f, 0.0f, 0.1f));
-    //light->atten(glm::vec3(0.0f, 0.0f, 0.5f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(-2.5f, 0.0, -5.0f));
+    light->diffuse(Color(0.8f, 0.4f, 0.6f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.1f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(2.5f, 0.0, -5.0f));
+    light->diffuse(Color(0.0f, 0.5f, 0.5f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.1f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(-5.0f, 0.0, -5.0f));
+    light->diffuse(Color(0.1f, 0.1f, 0.3f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.1f));
+    m_pScene->add(light = new Light());
+    light->move(glm::vec3(5.0f, 0.0, -5.0f));
+    light->diffuse(Color(0.3f, 0.0f, 0.1f));
+    light->atten(glm::vec3(0.0f, 0.0f, 0.1f));
     
     // Sound Demo
     //Sound* fire_sound = new Sound(

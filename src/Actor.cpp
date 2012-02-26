@@ -13,7 +13,7 @@ Actor::Actor(Input* input)
     m_fAccel = 80.0f;
     m_fDecel = 20.0f;
     m_fRadius = 0.3f;
-    m_fHeight = 2.0f, // 1.6
+    m_fHeight = 1.6f, // 2.0
     m_fJumpAccel = 100.0f;
     m_fJumpLength = 1.0f/16.0f;
     m_fJumpForce = m_fJumpLength;

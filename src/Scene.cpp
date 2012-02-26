@@ -480,7 +480,7 @@ void Scene::render(Node* from) const
     // initial pass
     // TODO: bind an ambient shader here!
     glDisable(GL_BLEND);
-    m_spRoot->render(m_spPartitioner.get());
+    m_spRoot->render(m_spPartitioner.get(), Node::RENDER_AMBIENT_PASS);
 
     if(Renderer::get().lighting()) { // do multi-pass only if lighting is enabled
         // multi-pass light rendering utilizing partitioner

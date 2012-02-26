@@ -10,7 +10,7 @@
 
 class Console : public IFallible
 {
-    static const int FONT_HEIGHT = 18;
+    static const int FONT_HEIGHT = 10;
 
     //Font* m_pFont;
     std::shared_ptr<FTGLPixmapFont> m_spFont;

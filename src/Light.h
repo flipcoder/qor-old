@@ -21,7 +21,12 @@ class Light : public Node
         Light():
             m_Type(POINT),
             m_Atten(glm::vec3(1.0f, 0.0f, 0.0f))
-        {}
+        {
+            // TODO: Use light cutoffs for AABB, instead of temp:
+            m_Box.min = glm::vec3(-0.5f);
+            m_Box.max = glm::vec3(0.5f);
+        }
+        virtual ~Light() {}
         
         // bind: to be called only by Scene during a render
         //  id is generated at time of render and may change!
@@ -99,6 +104,9 @@ class Light : public Node
         
         virtual SCOPED_ENUM_TYPE(NodeType) nodeType() const { return NodeType::LIGHT; }
         virtual std::string nodeTypeString() const { return "light"; }
+
+        virtual const AABB* box(unsigned int flags = 0) const { return &m_Box; }
+        virtual AABB* box(unsigned int flags = 0) { return &m_Box; }
     
     private:
         
@@ -107,6 +115,8 @@ class Light : public Node
         Color m_Specular;
         glm::vec3 m_Atten; // c, l, q
         Type m_Type;
+
+        AABB m_Box;
 };
 
 #endif

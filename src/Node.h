@@ -1,21 +1,11 @@
-/**
- * @file Node.h
- * @author Grady O'Connell <grady <at> prolificaxis <dot> com>
+/*
+ * Node.h
  *
- * @section LICENSE
- *
- * For internal use only. Do not redistribute.
- * © 2011 Prolific Axis, LLC
- *
- * @section DESCRIPTION
- *
- * Basic Node Class
- * Connects to a parent to store hierarchal transformations
- * Handles children using a simple list (no smart ordering or partioning)
- * Handles position and transformation through a 4x4 Matrix.
- * Transform can be changed (to Euler or Quat, perhaps) by overloading matrix[_c]() accessors
- */
-
+* - Connects to a parent to store hierarchal transformations
+* - Handles children using a simple list (no smart ordering or partioning)
+* - Handles position and transformation through a 4x4 Matrix.
+* - Transform can be changed (to Euler or Quat, perhaps) by overloading matrix[_c]() accessors
+*/
 
 #ifndef _NODE_H
 #define _NODE_H
@@ -211,8 +201,9 @@ public:
     enum eRenderFlags
     {
         RENDER_USE_STACK=BIT(0),
-        RENDER_SELF_ONLY=BIT(1)
-        //RENDER_AMBIENT_PASS=BIT(2)
+        RENDER_SELF_ONLY=BIT(1),
+        RENDER_AMBIENT_PASS=BIT(2),
+        RENDER_INDICATORS=BIT(3)
     };
     virtual void renderSelf(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
     virtual void render(Partitioner* partitioner = NULL, unsigned int flags = 0) const;

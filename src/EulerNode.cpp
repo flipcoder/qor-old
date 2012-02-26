@@ -154,7 +154,9 @@ void EulerNode :: tilt(float deg)
 
 glm::vec3 EulerNode :: getRotationHeading() const
 {
-    if(floatcmp(abs(m_pitch.degrees()), 90.0f))
+    if(floatcmp(m_pitch.degrees(), 90.0f))
+        return -Matrix::upXZ(*matrix_c());
+    else if(floatcmp(m_pitch.degrees(), -90.0f))
         return Matrix::upXZ(*matrix_c());
     return Matrix::headingXZ(*matrix_c());
     //    return matrix_c()->up().XZ().unit();

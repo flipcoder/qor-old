@@ -178,14 +178,20 @@ void Node :: render(Partitioner* partitioner, unsigned int flags) const
     //    glMultMatrixf(glm::value_ptr(*matrix_c()));
     //else
     //{
-        glm::mat4 modelview = *Renderer::get().getViewMatrix() * *matrix_c(S_WORLD);
-        glLoadMatrixf(glm::value_ptr(modelview));
+    //
     //}
     //glMultMatrixf(glm::value_ptr(*matrix_c()));
+    if(flags & RENDER_USE_STACK)
+        glMultMatrixf(glm::value_ptr(*matrix_c()));
 
     // render self
-    if(visible() && (!hasAttribute(NodeAttributes::SIZE) || inView(partitioner)))
+    if(visible() && (!hasAttribute(NodeAttributes::SIZE) || inView(partitioner))) {
+        if(!(flags & RENDER_USE_STACK)) {
+            glm::mat4 modelview = *Renderer::get().getViewMatrix() * *matrix_c(S_WORLD);
+            glLoadMatrixf(glm::value_ptr(modelview));
+        }
         renderSelf(partitioner, flags);
+    }
 
     // render children
     if(!(flags & RENDER_SELF_ONLY))

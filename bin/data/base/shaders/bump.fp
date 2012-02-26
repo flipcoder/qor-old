@@ -44,7 +44,7 @@ void main(void)
 	if(shine > EPSILON)
 	{
 		shine = 1.0 / shine;
-		specular = pow(clamp(dot(reflect(-eye, bump), light), 0.0, 1.0), shine) * 1.0;
+		specular = pow(clamp(dot(reflect(-eye, bump), light), 0.0, 1.0), shine) * 0.5; // 1.0
 	}
 	else
 		specular = 0.0f;
@@ -79,12 +79,12 @@ void main(void)
 	else
 		atten_frag = 1.0;
 	
-	/*vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);*/
-	/*float fog_factor = eye_dist / 20.0f;*/
+    vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);
+    float fog_factor = eye_dist / 20.0f;
+    
+    vec4 lit = color_frag * occ * atten_frag * lightcolor;
 	
-	vec4 lit = color_frag * occ * atten_frag * lightcolor;
-	
-	gl_FragColor = lit;
-	/*gl_FragColor = mix(lit, fog_color, clamp(fog_factor,0.0,1.0));*/
+	/*gl_FragColor = lit;*/
+    gl_FragColor = mix(lit, fog_color, clamp(fog_factor,0.0,1.0));
 }
 
