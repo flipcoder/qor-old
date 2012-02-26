@@ -6,3 +6,4 @@ bin/*.dll
 bin/*.so
 obj/*
 build/obj/*
+src/game
