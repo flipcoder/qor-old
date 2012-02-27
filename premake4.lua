@@ -39,6 +39,9 @@ solution("qor")
             "src/**.h",
             "src/**.cpp"
         }
+        excludes {
+            "src/mod_**"
+        }
 
         if (linux) then
             includedirs {"/usr/include/freetype2/**"}

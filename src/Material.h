@@ -54,8 +54,8 @@ public:
     virtual ~Material();
     bool good() { return m_spTexture?m_spTexture->good():false; }
     Texture* getTexture() { return m_spTexture.get(); }
-    Texture* getBump() { return m_spBump.get(); }
-    bool hasBump() { return m_spBump.get(); }
+    //Texture* getBump() { return m_spBump.get(); }
+    //bool hasBump() { return m_spBump.get(); }
     unsigned int bind(unsigned int layer = 0) {
         glEnable(GL_COLOR_MATERIAL);
         glm::vec4 full(1.0f);
@@ -67,7 +67,7 @@ public:
         unsigned offset = 0;
         glColor4fv(m_Color.array());
         m_spTexture->bind(layer + offset++);
-        if(Renderer::get().shaders())
+        if(Renderer::get().shadersBound())
         {
             if(m_spBump)
                 m_spBump->bind(layer + offset++);

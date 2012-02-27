@@ -104,10 +104,8 @@ OBJECTS := \
 	$(OBJDIR)/pnUtil.o \
 	$(OBJDIR)/pn.o \
 	$(OBJDIR)/matrixstack.o \
-	$(OBJDIR)/GameState.o \
 	$(OBJDIR)/EditorState.o \
 	$(OBJDIR)/SelectorNode.o \
-	$(OBJDIR)/GameState.o \
 
 RESOURCES := \
 
@@ -288,16 +286,10 @@ $(OBJDIR)/pn.o: src/pn/pn.cpp
 $(OBJDIR)/matrixstack.o: src/math/matrixstack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/GameState.o: src/mod_demo/GameState.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EditorState.o: src/editor/EditorState.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/SelectorNode.o: src/editor/SelectorNode.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/GameState.o: src/mod_ne/GameState.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

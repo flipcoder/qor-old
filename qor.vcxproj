@@ -106,6 +106,7 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
+		<ClInclude Include="src\IStateManager.h" />
 		<ClInclude Include="src\Octree.h" />
 		<ClInclude Include="src\Texture.h" />
 		<ClInclude Include="src\Util.h" />
@@ -133,6 +134,7 @@
 		<ClInclude Include="src\ISuperParent.h" />
 		<ClInclude Include="src\EnvironmentNode.h" />
 		<ClInclude Include="src\Scene.h" />
+		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\ResourceMap.h" />
 		<ClInclude Include="src\Engine.h" />
 		<ClInclude Include="src\Graphics.h" />
@@ -150,6 +152,7 @@
 		<ClInclude Include="src\Spectator.h" />
 		<ClInclude Include="src\Log.h" />
 		<ClInclude Include="src\Mesh.h" />
+		<ClInclude Include="src\IState.h" />
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\Physics.h" />
 		<ClInclude Include="src\Filesystem.h" />
@@ -167,13 +170,11 @@
 		<ClInclude Include="src\math\matrixops.h" />
 		<ClInclude Include="src\math\matrixstack.h" />
 		<ClInclude Include="src\math\common.h" />
-		<ClInclude Include="src\mod_demo\GameState.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
 		<ClInclude Include="src\editor\SelectorNode.h" />
 		<ClInclude Include="src\editor\EditorState.h" />
 		<ClInclude Include="src\editor\Selection.h" />
-		<ClInclude Include="src\mod_ne\GameState.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<ClCompile Include="src\Freq.cpp">
@@ -256,13 +257,9 @@
 		</ClCompile>
 		<ClCompile Include="src\math\matrixstack.cpp">
 		</ClCompile>
-		<ClCompile Include="src\mod_demo\GameState.cpp">
-		</ClCompile>
 		<ClCompile Include="src\editor\EditorState.cpp">
 		</ClCompile>
 		<ClCompile Include="src\editor\SelectorNode.cpp">
-		</ClCompile>
-		<ClCompile Include="src\mod_ne\GameState.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

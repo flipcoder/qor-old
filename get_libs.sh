@@ -5,7 +5,6 @@ echo Press a key...
 read
 
 sudo apt-get install unrar
-sudo apt-get install cmake
 sudo apt-get install `cat third_party/lib_names.txt`
 
 mkdir temp

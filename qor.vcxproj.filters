@@ -2,34 +2,31 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{AD873212-B18F-2C10-2783-4F158F700595}</UniqueIdentifier>
+			<UniqueIdentifier>{4846D870-AE69-A6D4-0E1B-12FF03C3C4D5}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\game">
-			<UniqueIdentifier>{B3B831DD-A0EF-2BB4-CE44-128FD2CEDDF3}</UniqueIdentifier>
+			<UniqueIdentifier>{1ECD4A8C-8ADA-48C2-4D1B-927A482D1BC2}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\LuaScript">
-			<UniqueIdentifier>{F41960EE-8FEB-4F83-7DF6-30A5460FB331}</UniqueIdentifier>
+			<UniqueIdentifier>{AE580DC4-54E6-119D-4433-A512D4C81832}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\pn">
-			<UniqueIdentifier>{E3CF9938-A1EA-3AEE-A0EC-5BE60E2BADA4}</UniqueIdentifier>
+			<UniqueIdentifier>{D8BF61A9-DC8B-4B00-46A1-C18CF775D380}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\math">
-			<UniqueIdentifier>{B90AD00A-6D15-B368-00BE-C9627A9F909C}</UniqueIdentifier>
-		</Filter>
-		<Filter Include="src\mod_demo">
-			<UniqueIdentifier>{0062A897-DE8C-FC63-A116-1A11A42CE479}</UniqueIdentifier>
+			<UniqueIdentifier>{38C15624-32E7-A08D-E322-EBFDA097954F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\transition">
-			<UniqueIdentifier>{69BA450E-9294-79E3-693E-8BA69A56D7E8}</UniqueIdentifier>
+			<UniqueIdentifier>{6171B3E9-E424-8788-B9A3-3FB9C55F5ABC}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\editor">
-			<UniqueIdentifier>{8A145BEE-3DBA-CDA3-D473-CBA8A476787F}</UniqueIdentifier>
-		</Filter>
-		<Filter Include="src\mod_ne">
-			<UniqueIdentifier>{690A294A-56E5-176C-9790-5ADDA2587BEA}</UniqueIdentifier>
+			<UniqueIdentifier>{FD89CF90-AB86-C9CA-1E85-45743C86D760}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
+		<ClInclude Include="src\IStateManager.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="src\Octree.h">
 			<Filter>src</Filter>
 		</ClInclude>
@@ -111,6 +108,9 @@
 		<ClInclude Include="src\Scene.h">
 			<Filter>src</Filter>
 		</ClInclude>
+		<ClInclude Include="src\IConfig.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="src\ResourceMap.h">
 			<Filter>src</Filter>
 		</ClInclude>
@@ -160,6 +160,9 @@
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="src\Mesh.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IState.h">
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="src\Console.h">
@@ -213,9 +216,6 @@
 		<ClInclude Include="src\math\common.h">
 			<Filter>src\math</Filter>
 		</ClInclude>
-		<ClInclude Include="src\mod_demo\GameState.h">
-			<Filter>src\mod_demo</Filter>
-		</ClInclude>
 		<ClInclude Include="src\transition\TransitionState.h">
 			<Filter>src\transition</Filter>
 		</ClInclude>
@@ -230,9 +230,6 @@
 		</ClInclude>
 		<ClInclude Include="src\editor\Selection.h">
 			<Filter>src\editor</Filter>
-		</ClInclude>
-		<ClInclude Include="src\mod_ne\GameState.h">
-			<Filter>src\mod_ne</Filter>
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
@@ -356,17 +353,11 @@
 		<ClCompile Include="src\math\matrixstack.cpp">
 			<Filter>src\math</Filter>
 		</ClCompile>
-		<ClCompile Include="src\mod_demo\GameState.cpp">
-			<Filter>src\mod_demo</Filter>
-		</ClCompile>
 		<ClCompile Include="src\editor\EditorState.cpp">
 			<Filter>src\editor</Filter>
 		</ClCompile>
 		<ClCompile Include="src\editor\SelectorNode.cpp">
 			<Filter>src\editor</Filter>
-		</ClCompile>
-		<ClCompile Include="src\mod_ne\GameState.cpp">
-			<Filter>src\mod_ne</Filter>
 		</ClCompile>
 	</ItemGroup>
 </Project>
