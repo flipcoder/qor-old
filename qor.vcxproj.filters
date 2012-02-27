@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{AD873212-B18F-2C10-2783-4F158F700595}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\game">
+			<UniqueIdentifier>{B3B831DD-A0EF-2BB4-CE44-128FD2CEDDF3}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\LuaScript">
+			<UniqueIdentifier>{F41960EE-8FEB-4F83-7DF6-30A5460FB331}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\pn">
+			<UniqueIdentifier>{E3CF9938-A1EA-3AEE-A0EC-5BE60E2BADA4}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\math">
+			<UniqueIdentifier>{B90AD00A-6D15-B368-00BE-C9627A9F909C}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\mod_demo">
+			<UniqueIdentifier>{0062A897-DE8C-FC63-A116-1A11A42CE479}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\transition">
+			<UniqueIdentifier>{69BA450E-9294-79E3-693E-8BA69A56D7E8}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\editor">
+			<UniqueIdentifier>{8A145BEE-3DBA-CDA3-D473-CBA8A476787F}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\mod_ne">
+			<UniqueIdentifier>{690A294A-56E5-176C-9790-5ADDA2587BEA}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\Octree.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Texture.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Util.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Actor.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\RenderBuffer.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IPhysicsObject.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\AITypeParser.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\NodeFactory.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ParticleSystem.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Audio.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Material.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\TrackerNode.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ISingleton.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Renderer.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\NodeAttributes.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Shader.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Viewmodel.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Developer.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IFallible.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Entity.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\EulerNode.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\PropertyList.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ITrackable.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Node.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ISuperParent.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\EnvironmentNode.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Scene.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ResourceMap.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Engine.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Graphics.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Partitioner.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DumbyPartitioner.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IListenable.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Version.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Shadow.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Frustum.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IMeshContainer.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\GUI.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Freq.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Light.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Settings.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Spectator.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Log.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Mesh.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Console.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Physics.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Filesystem.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IStaticInstance.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Batch.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Input.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\GfxAPI.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Sound.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\game\GameState.h">
+			<Filter>src\game</Filter>
+		</ClInclude>
+		<ClInclude Include="src\LuaScript\LuaState.h">
+			<Filter>src\LuaScript</Filter>
+		</ClInclude>
+		<ClInclude Include="src\pn\pnUtil.h">
+			<Filter>src\pn</Filter>
+		</ClInclude>
+		<ClInclude Include="src\pn\pn.h">
+			<Filter>src\pn</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\vectorops.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\angle.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\matrixops.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\matrixstack.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\common.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\mod_demo\GameState.h">
+			<Filter>src\mod_demo</Filter>
+		</ClInclude>
+		<ClInclude Include="src\transition\TransitionState.h">
+			<Filter>src\transition</Filter>
+		</ClInclude>
+		<ClInclude Include="src\transition\TransitionInfo.h">
+			<Filter>src\transition</Filter>
+		</ClInclude>
+		<ClInclude Include="src\editor\SelectorNode.h">
+			<Filter>src\editor</Filter>
+		</ClInclude>
+		<ClInclude Include="src\editor\EditorState.h">
+			<Filter>src\editor</Filter>
+		</ClInclude>
+		<ClInclude Include="src\editor\Selection.h">
+			<Filter>src\editor</Filter>
+		</ClInclude>
+		<ClInclude Include="src\mod_ne\GameState.h">
+			<Filter>src\mod_ne</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\Freq.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Filesystem.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Entity.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Frustum.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Physics.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Engine.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\IPhysicsObject.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Shader.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ParticleSystem.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Scene.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Input.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\EnvironmentNode.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Developer.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Spectator.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Mesh.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Texture.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Console.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Log.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\PropertyList.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Node.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\GUI.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Renderer.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Graphics.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Actor.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Material.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Audio.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\TrackerNode.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\DumbyPartitioner.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\EulerNode.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Settings.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Batch.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Shadow.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\NodeFactory.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\game\GameState.cpp">
+			<Filter>src\game</Filter>
+		</ClCompile>
+		<ClCompile Include="src\pn\pnSocket.cpp">
+			<Filter>src\pn</Filter>
+		</ClCompile>
+		<ClCompile Include="src\pn\pnBuffer.cpp">
+			<Filter>src\pn</Filter>
+		</ClCompile>
+		<ClCompile Include="src\pn\pnUtil.cpp">
+			<Filter>src\pn</Filter>
+		</ClCompile>
+		<ClCompile Include="src\pn\pn.cpp">
+			<Filter>src\pn</Filter>
+		</ClCompile>
+		<ClCompile Include="src\math\matrixstack.cpp">
+			<Filter>src\math</Filter>
+		</ClCompile>
+		<ClCompile Include="src\mod_demo\GameState.cpp">
+			<Filter>src\mod_demo</Filter>
+		</ClCompile>
+		<ClCompile Include="src\editor\EditorState.cpp">
+			<Filter>src\editor</Filter>
+		</ClCompile>
+		<ClCompile Include="src\editor\SelectorNode.cpp">
+			<Filter>src\editor</Filter>
+		</ClCompile>
+		<ClCompile Include="src\mod_ne\GameState.cpp">
+			<Filter>src\mod_ne</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

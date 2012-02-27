@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|Win32">
+			<Configuration>Debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|Win32">
+			<Configuration>Release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{51577DE0-6128-11E1-B86C-0800200C9A66}</ProjectGuid>
+		<RootNamespace>qor</RootNamespace>
+		<Keyword>Win32Proj</Keyword>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>MultiByte</CharacterSet>
+		<UseDebugLibraries>true</UseDebugLibraries>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>MultiByte</CharacterSet>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<UseDebugLibraries>false</UseDebugLibraries>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Label="ExtensionSettings">
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros" />
+	<PropertyGroup>
+		<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bin\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">obj\Debug\</IntDir>
+		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">qor</TargetName>
+		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bin\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">obj\Release\</IntDir>
+		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">qor</TargetName>
+		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<ClCompile>
+			<Optimization>Disabled</Optimization>
+			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<MinimalRebuild>true</MinimalRebuild>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<PrecompiledHeader></PrecompiledHeader>
+			<WarningLevel>Level3</WarningLevel>
+			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+		</ClCompile>
+		<ResourceCompile>
+			<PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+		</ResourceCompile>
+		<Link>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)qor.exe</OutputFile>
+			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<ProgramDataBaseFileName>$(OutDir)qor.pdb</ProgramDataBaseFileName>
+			<EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<ClCompile>
+			<Optimization>Full</Optimization>
+			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<MinimalRebuild>false</MinimalRebuild>
+			<StringPooling>true</StringPooling>
+			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<FunctionLevelLinking>true</FunctionLevelLinking>
+			<PrecompiledHeader></PrecompiledHeader>
+			<WarningLevel>Level3</WarningLevel>
+			<DebugInformationFormat></DebugInformationFormat>
+		</ClCompile>
+		<ResourceCompile>
+			<PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+		</ResourceCompile>
+		<Link>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)qor.exe</OutputFile>
+			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+			<SubSystem>Windows</SubSystem>
+			<GenerateDebugInformation>false</GenerateDebugInformation>
+			<OptimizeReferences>true</OptimizeReferences>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+			<TargetMachine>MachineX86</TargetMachine>
+		</Link>
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClInclude Include="src\Octree.h" />
+		<ClInclude Include="src\Texture.h" />
+		<ClInclude Include="src\Util.h" />
+		<ClInclude Include="src\Actor.h" />
+		<ClInclude Include="src\RenderBuffer.h" />
+		<ClInclude Include="src\IPhysicsObject.h" />
+		<ClInclude Include="src\AITypeParser.h" />
+		<ClInclude Include="src\NodeFactory.h" />
+		<ClInclude Include="src\ParticleSystem.h" />
+		<ClInclude Include="src\Audio.h" />
+		<ClInclude Include="src\Material.h" />
+		<ClInclude Include="src\TrackerNode.h" />
+		<ClInclude Include="src\ISingleton.h" />
+		<ClInclude Include="src\Renderer.h" />
+		<ClInclude Include="src\NodeAttributes.h" />
+		<ClInclude Include="src\Shader.h" />
+		<ClInclude Include="src\Viewmodel.h" />
+		<ClInclude Include="src\Developer.h" />
+		<ClInclude Include="src\IFallible.h" />
+		<ClInclude Include="src\Entity.h" />
+		<ClInclude Include="src\EulerNode.h" />
+		<ClInclude Include="src\PropertyList.h" />
+		<ClInclude Include="src\ITrackable.h" />
+		<ClInclude Include="src\Node.h" />
+		<ClInclude Include="src\ISuperParent.h" />
+		<ClInclude Include="src\EnvironmentNode.h" />
+		<ClInclude Include="src\Scene.h" />
+		<ClInclude Include="src\ResourceMap.h" />
+		<ClInclude Include="src\Engine.h" />
+		<ClInclude Include="src\Graphics.h" />
+		<ClInclude Include="src\Partitioner.h" />
+		<ClInclude Include="src\DumbyPartitioner.h" />
+		<ClInclude Include="src\IListenable.h" />
+		<ClInclude Include="src\Version.h" />
+		<ClInclude Include="src\Shadow.h" />
+		<ClInclude Include="src\Frustum.h" />
+		<ClInclude Include="src\IMeshContainer.h" />
+		<ClInclude Include="src\GUI.h" />
+		<ClInclude Include="src\Freq.h" />
+		<ClInclude Include="src\Light.h" />
+		<ClInclude Include="src\Settings.h" />
+		<ClInclude Include="src\Spectator.h" />
+		<ClInclude Include="src\Log.h" />
+		<ClInclude Include="src\Mesh.h" />
+		<ClInclude Include="src\Console.h" />
+		<ClInclude Include="src\Physics.h" />
+		<ClInclude Include="src\Filesystem.h" />
+		<ClInclude Include="src\IStaticInstance.h" />
+		<ClInclude Include="src\Batch.h" />
+		<ClInclude Include="src\Input.h" />
+		<ClInclude Include="src\GfxAPI.h" />
+		<ClInclude Include="src\Sound.h" />
+		<ClInclude Include="src\game\GameState.h" />
+		<ClInclude Include="src\LuaScript\LuaState.h" />
+		<ClInclude Include="src\pn\pnUtil.h" />
+		<ClInclude Include="src\pn\pn.h" />
+		<ClInclude Include="src\math\vectorops.h" />
+		<ClInclude Include="src\math\angle.h" />
+		<ClInclude Include="src\math\matrixops.h" />
+		<ClInclude Include="src\math\matrixstack.h" />
+		<ClInclude Include="src\math\common.h" />
+		<ClInclude Include="src\mod_demo\GameState.h" />
+		<ClInclude Include="src\transition\TransitionState.h" />
+		<ClInclude Include="src\transition\TransitionInfo.h" />
+		<ClInclude Include="src\editor\SelectorNode.h" />
+		<ClInclude Include="src\editor\EditorState.h" />
+		<ClInclude Include="src\editor\Selection.h" />
+		<ClInclude Include="src\mod_ne\GameState.h" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\Freq.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Filesystem.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Entity.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Frustum.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Physics.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Engine.cpp">
+		</ClCompile>
+		<ClCompile Include="src\IPhysicsObject.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Shader.cpp">
+		</ClCompile>
+		<ClCompile Include="src\ParticleSystem.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Scene.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Input.cpp">
+		</ClCompile>
+		<ClCompile Include="src\EnvironmentNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Developer.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Spectator.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Mesh.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Main.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Texture.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Console.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Log.cpp">
+		</ClCompile>
+		<ClCompile Include="src\PropertyList.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Node.cpp">
+		</ClCompile>
+		<ClCompile Include="src\GUI.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Renderer.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Graphics.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Actor.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Material.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Audio.cpp">
+		</ClCompile>
+		<ClCompile Include="src\TrackerNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\DumbyPartitioner.cpp">
+		</ClCompile>
+		<ClCompile Include="src\EulerNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Settings.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Batch.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Shadow.cpp">
+		</ClCompile>
+		<ClCompile Include="src\NodeFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="src\game\GameState.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pnSocket.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pnBuffer.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pnUtil.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pn.cpp">
+		</ClCompile>
+		<ClCompile Include="src\math\matrixstack.cpp">
+		</ClCompile>
+		<ClCompile Include="src\mod_demo\GameState.cpp">
+		</ClCompile>
+		<ClCompile Include="src\editor\EditorState.cpp">
+		</ClCompile>
+		<ClCompile Include="src\editor\SelectorNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\mod_ne\GameState.cpp">
+		</ClCompile>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ImportGroup Label="ExtensionTargets">
+	</ImportGroup>
+</Project>

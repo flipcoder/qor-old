@@ -11,6 +11,7 @@ solution("qor")
         flags { "Optimize" }
 
     project("qor")
+        uuid("51577de0-6128-11e1-b86c-0800200c9a66")
         kind("WindowedApp")
         language("C++")
         links {
