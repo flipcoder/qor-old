@@ -7,17 +7,17 @@ class IFallible
 {
     protected:
 
+        virtual void setError(const std::string& err){
+            m_sError = err;
+            //std::cout << "Error: " << err << std::endl;
+        }
+
+    public:
+
         class Failure : public std::runtime_error {
             public:
                 Failure(): std::runtime_error("failure") {}
         };
-
-        virtual void setError(const std::string& err){
-            m_sError = err;
-            std::cout << "Error: " << err << std::endl;
-        }
-
-    public:
 
         IFallible() {}
         virtual ~IFallible() {}
@@ -25,6 +25,7 @@ class IFallible
         virtual bool hasError() const { return !m_sError.empty(); }
         virtual std::string getError() const { return m_sError; }
         virtual std::string moveError() { return std::move(m_sError); }
+        virtual void clearError() { m_sError = ""; }
 
     private:
 

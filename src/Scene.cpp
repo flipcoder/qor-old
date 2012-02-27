@@ -45,9 +45,10 @@ Scene::Scene(string fn, unsigned int flags)
     
     initInternals();
 
-    load(fn);
-    if(flags & F_PHYSICS)
-        m_spPhysics.reset(new Physics());
+    if(load(fn)) {
+        if(flags & F_PHYSICS)
+            m_spPhysics.reset(new Physics());
+    }
     
     //ps = new ParticleSystem();
     //ps->setTextureOwnership(true);
@@ -71,13 +72,12 @@ bool Scene :: load(string fn)
 {
     clear();
 
-    if(stringEndsWith<string>(boost::to_upper_copy(fn), ".OBJ"))
-        return loadAI(fn);
     if(stringEndsWith<string>(boost::to_upper_copy(fn), ".FML"))
         return loadFML(fn);
+    return loadAI(fn);
 
-    setError("Unrecognized scene file type.");
-    return false;
+    //setError("Unrecognized scene file type.");
+    //return false;
 }
 
 bool Scene :: loadFML(string fn)
@@ -98,6 +98,7 @@ bool Scene :: loadFML(string fn)
         info_node = fml_node->first_node("info");
     if(info_node)
         loadFMLInfo(info_node);
+    m_spRoot.reset(new Node(Node::defaultFlags(), NodeLayer::ROOT));
     return m_spRoot->read(this, fml_node->first_node("node"));
 }
 
@@ -192,8 +193,9 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
         if(!aiscene || err != "" || 
             aiscene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
             aiscene->mFlags & AI_SCENE_FLAGS_VALIDATED) {
-            Log::get().error(err);
-            throw exception();
+            Log::get().warning(err);
+            return NULL;
+            //throw exception();
         }
         //printDetails(aiscene);
 
@@ -203,8 +205,9 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
             if(err != "" || 
                 aiscene_lmap->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
                 aiscene_lmap->mFlags & AI_SCENE_FLAGS_VALIDATED){
-                Log::get().error(err);
-                throw exception();
+                Log::get().warning(err);
+                return NULL;
+                //throw exception();
             }
         }
         //printDetails(aiscene_lmap);
@@ -265,7 +268,8 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
                 if(!material)
                 {
                     Log::get().error("Failed to load texture: " + path + str(texpath.data));
-                    throw exception();
+                    return NULL;
+                    //throw exception();
                 }
                 //    Log::get().write("Added material: " + (string)path + texpath.data + " (type: " + str(type) + ")");
 
@@ -313,7 +317,7 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
                     if(!material)
                     {
                         Log::get().error("Failed to load texture: " + path + str(texpath.data));
-                        throw exception();
+                        return NULL;
                     }
 
                     tempdata.materials[material_offset+i] = material;
@@ -326,8 +330,10 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
             }
         }
 
-        if(!loadAIMeshData(fn, aiscene, aiscene_lmap, &tempdata)) // aiscene_lmap might be null
-            throw exception();
+        if(!loadAIMeshData(fn, aiscene, aiscene_lmap, &tempdata)) { // aiscene_lmap might be null
+            //throw exception();
+            return NULL;
+        }
 
         // Load Scene Geometry
         //if(!m_spRoot || flags & F_CLEAR_ALL)
@@ -341,8 +347,10 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
         //    clearEnvironment();
         EnvironmentNode* scene_map = new EnvironmentNode(flags, fn);
         parent->add(scene_map);
-        if(!loadAINode(scene_map, aiscene->mRootNode, &tempdata))
-            throw exception();
+        if(!loadAINode(scene_map, aiscene->mRootNode, &tempdata)) {
+            return NULL;
+            //throw exception();
+        }
         scene_map->recalculate();
         
         base = scene_map;

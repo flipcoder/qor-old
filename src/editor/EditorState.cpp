@@ -13,10 +13,9 @@
 using namespace std;
 using namespace placeholders;
 
-EditorState::EditorState(Engine* engine, TransitionInfo* trans)
+EditorState::EditorState()
 {
     nullify();
-    m_pEngine = engine;
 
     try{
         
@@ -44,8 +43,8 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
         loadScene();
 
         string filename;
-        if((filename = engine->getOption(Engine::OP_SCENE)).empty())
-            filename = engine->getArg(0);
+        if((filename = Engine::get().getOption(Engine::OP_SCENE)).empty())
+            filename = Engine::get().getArg(0);
 
         // temp
         if(filename.empty())
@@ -62,11 +61,11 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
             throw 1;
         }
         
-        m_spScene->add(m_pPlayer = new Spectator(/*engine->input()*/));
+        m_spScene->add(m_pPlayer = new Spectator(/*Engine::get().input()*/));
         m_vView.clear(Matrix::translation(*m_pPlayer->matrix()));
 
         //m_spScene->compile();
-        m_pEngine->input()->hideMouse(false);
+        Engine::get().input()->hideMouse(false);
 
         loadGUI();
         
@@ -98,7 +97,7 @@ EditorState::EditorState(Engine* engine, TransitionInfo* trans)
 
 EditorState::~EditorState()
 {
-    m_pEngine->input()->hideMouse(false);
+    Engine::get().input()->hideMouse(false);
 }
 
 void EditorState::loadScene()
@@ -265,7 +264,7 @@ void EditorState::xSave(GUI::Menu* menu, GUI::Menu::Option* op)
 void EditorState::xQuit(GUI::Menu* menu, GUI::Menu::Option* op)
 {
     Log::get().write(op->caption() + " clicked.");
-    m_pEngine->quit();
+    Engine::get().quit();
 }
 
 void EditorState :: xAddEnvironment(GUI::Menu* menu, GUI::Menu::Option* op)
@@ -366,7 +365,6 @@ void EditorState :: xAddByFilename(GUI::Menu* menu, GUI::Menu::Option* op, std::
 
 void EditorState::nullify()
 {
-    m_pEngine = NULL;
     m_spScene = NULL;
     m_FadeTime = Freq::Time::seconds(0.25f);
     //m_fOverviewScale = 1.0f;
@@ -379,16 +377,16 @@ void EditorState::nullify()
 
 }
 
-int EditorState::logic(unsigned int advance)
+bool EditorState::logic(unsigned int advance)
 {
     float timestep = advance * 0.001f;
-    Input* input = m_pEngine->input();
+    Input* input = Engine::get().input();
 
     // is GUI "blocking" Input? if so do GUI logic and nothing else
     if(m_spGUI->blocking())
     {
         m_spGUI->logic(advance, input);
-        return 0;
+        return true;
     }
 
     // perform logic for all objects in scene graph
@@ -397,7 +395,7 @@ int EditorState::logic(unsigned int advance)
     // toggle input modes (changes ortho/persp views in render())
     if(input->keyd(SDLK_TAB))
     {
-        m_pPlayer->input(m_pPlayer->input() ? NULL : m_pEngine->input());
+        m_pPlayer->input(m_pPlayer->input() ? NULL : Engine::get().input());
         
         bool input_enabled = m_pPlayer->input();
         
@@ -445,13 +443,14 @@ int EditorState::logic(unsigned int advance)
                     0.0f,
                     ((input->mouseMiddleClick())?-1.0f:1.0f) *
                     ((input->key(SDLK_LSHIFT))?0.1f:1.0f) *
+                    5.0f *
                     timestep,
                     0.0f
                 )),
                 Selection::MOD_WORLD
             );
         }
-        return 0; // no other logic
+        return true;
     }
      // did a GUI object claim focus (or respond to event) of the mouse?
     if(!m_spGUI->logic(advance, input))
@@ -641,7 +640,7 @@ int EditorState::logic(unsigned int advance)
     // set player as audio listener
     m_pPlayer->listen();
     
-    return 0;
+    return true;
 }
 
 void EditorState::syncView() const
@@ -699,8 +698,8 @@ void EditorState::render() const
 
     //glColor4f(1.0f,1.0f,1.0f,1.0f);
     // debug info
-    //string s = "mouse= " + str(m_pEngine->input()->getMouseX()) + str(", ") +
-    //    str(Renderer::get().height()-m_pEngine->input()->getMouseY());
+    //string s = "mouse= " + str(Engine::get().input()->getMouseX()) + str(", ") +
+    //    str(Renderer::get().height()-Engine::get().input()->getMouseY());
     //glm::vec3 mouse_world = mouseWorldSpace();
     //glm::vec3 v = m_pPlayer->matrix_c()->translation();
     //s+= str(" ||| view= ") + str(v.x) + string(", ") + str(v.z);
@@ -711,16 +710,16 @@ void EditorState::render() const
 
 glm::vec3 EditorState :: mouseLocalSpace() const
 {
-    return glm::vec3(float(m_pEngine->input()->getMouseX()),
-        float(Renderer::get().height()-m_pEngine->input()->getMouseY()-1.0f),
+    return glm::vec3(float(Engine::get().input()->getMouseX()),
+        float(Renderer::get().height()-Engine::get().input()->getMouseY()-1.0f),
         0.0f);
 }
 
 glm::vec3 EditorState :: mouseLocalSpaceXZ() const
 {
-    return glm::vec3(float(m_pEngine->input()->getMouseX()),
+    return glm::vec3(float(Engine::get().input()->getMouseX()),
         0.0f,
-        -float(Renderer::get().height()-m_pEngine->input()->getMouseY()-1.0f));
+        -float(Renderer::get().height()-Engine::get().input()->getMouseY()-1.0f));
 }
 
 glm::vec3 EditorState :: mouseWorldSpace() const

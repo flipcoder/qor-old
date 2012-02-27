@@ -68,7 +68,7 @@ class Light : public Node
             //Node::move(glm::vec3(shift*timestep*10.0f, 0.0f, 0.0f));
             /*offset += shift*timestep*10.0f;*/
         }
-        virtual void renderSelf(Partitioner* partitioner, unsigned int flags = 0) const {
+        virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const {
             //if(id)
             //{
             //    glPushMatrix();

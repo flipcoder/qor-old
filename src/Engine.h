@@ -13,24 +13,16 @@
 #include "Console.h"
 #include "Settings.h"
 #include "Audio.h"
+#include "IFallible.h"
+#include "IStateManager.h"
+#include "IState.h"
+
 class Developer;
 #include "Developer.h"
 
-#include "IFallible.h"
-
-class Engine
+class Engine: public IStaticInstance<Engine>, public IFallible, public IStateManager<std::string, IState>
 {
 public:
-
-    class State : public IFallible
-    {
-    public:
-        virtual ~State() = 0;
-        virtual int logic(unsigned int advance) {return 1;}
-        virtual void render(/*float t*/) const {}
-        //virtual bool error() { return true; }
-        //virtual std::string getErrorString() { return ""; }
-    };
 
     enum eOption {
         OP_SCENE,
@@ -39,8 +31,8 @@ public:
 
 private:
 
-    std::string m_sError;
-    std::string m_sStateDest;
+    //std::string m_sError;
+    //std::string m_sStateDest;
     std::vector<std::string> m_vArgs;
     boost::array<std::string, MAX_OP> m_Options;
 
@@ -48,7 +40,6 @@ private:
     Input* m_pInput;
     //Freq* m_pTimer;
     //Log* m_pLog;
-    State* m_pState;
     Console* m_pConsole;
     //Settings* m_pSettings;
     Audio* m_pAudio;
@@ -58,14 +49,12 @@ private:
     bool m_bQuitFlag;
 
     // Perform state changes as necessary
-    bool verifyState();
     void nullify();
 
 public:
 
     Engine(std::vector<std::string>& args);
     //static Engine* create(const std::vector<std::string>& args);
-    static void destroy(Engine* core);
 
     std::string getArg(unsigned int idx) const {
         if(idx < 0 || idx >= m_vArgs.size())
@@ -85,7 +74,7 @@ public:
     //    return "";
     //}
     
-    ~Engine();
+    virtual ~Engine();
 
     bool init();
     int logic();
@@ -96,13 +85,15 @@ public:
     //Renderer* renderer() const { return m_pRenderer; }
     Input* input() const { return m_pInput; }
     //Freq* timer() const { return m_pTimer; }
-    State* state() const { return m_pState; }
     Audio* audio() const { return m_pAudio; }
 
+// IStateManager
+    virtual IState* newState(const std::string id);
+
 // Accessors:
-    bool hasError() const { return (m_sError!=""); }
-    void setState(std::string s) { m_sStateDest = s; }
-    void swapState(State* next_state);
+    //bool hasError() const { return (m_sError!=""); }
+    //void setState(std::string s) { m_sStateDest = s; }
+    //void swapState(State* next_state);
 
     bool quitFlag() const { return m_bQuitFlag; }
     void quit(bool b = true) { m_bQuitFlag = b; }

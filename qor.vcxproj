@@ -119,6 +119,7 @@
 		<ClInclude Include="src\Audio.h" />
 		<ClInclude Include="src\Material.h" />
 		<ClInclude Include="src\TrackerNode.h" />
+		<ClInclude Include="src\ResourcePath.h" />
 		<ClInclude Include="src\ISingleton.h" />
 		<ClInclude Include="src\Renderer.h" />
 		<ClInclude Include="src\NodeAttributes.h" />
@@ -130,6 +131,7 @@
 		<ClInclude Include="src\EulerNode.h" />
 		<ClInclude Include="src\PropertyList.h" />
 		<ClInclude Include="src\ITrackable.h" />
+		<ClInclude Include="src\IRealtime.h" />
 		<ClInclude Include="src\Node.h" />
 		<ClInclude Include="src\ISuperParent.h" />
 		<ClInclude Include="src\EnvironmentNode.h" />
@@ -137,8 +139,9 @@
 		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\ResourceMap.h" />
 		<ClInclude Include="src\Engine.h" />
+		<ClInclude Include="src\IPartitioner.h" />
 		<ClInclude Include="src\Graphics.h" />
-		<ClInclude Include="src\Partitioner.h" />
+		<ClInclude Include="src\IRenderable.h" />
 		<ClInclude Include="src\DumbyPartitioner.h" />
 		<ClInclude Include="src\IListenable.h" />
 		<ClInclude Include="src\Version.h" />

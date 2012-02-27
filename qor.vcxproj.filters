@@ -2,25 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{4846D870-AE69-A6D4-0E1B-12FF03C3C4D5}</UniqueIdentifier>
+			<UniqueIdentifier>{8A4886AA-2805-8B06-09D4-E39BB01F8A3F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\game">
-			<UniqueIdentifier>{1ECD4A8C-8ADA-48C2-4D1B-927A482D1BC2}</UniqueIdentifier>
+			<UniqueIdentifier>{E611BAF6-D965-AE60-8046-FE1D88088D2F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\LuaScript">
-			<UniqueIdentifier>{AE580DC4-54E6-119D-4433-A512D4C81832}</UniqueIdentifier>
+			<UniqueIdentifier>{005D2F9F-E9F4-10AC-D780-EF2350C159E5}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\pn">
-			<UniqueIdentifier>{D8BF61A9-DC8B-4B00-46A1-C18CF775D380}</UniqueIdentifier>
+			<UniqueIdentifier>{C2785254-3CEF-687A-69FB-CFDD39D39D10}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\math">
-			<UniqueIdentifier>{38C15624-32E7-A08D-E322-EBFDA097954F}</UniqueIdentifier>
+			<UniqueIdentifier>{0854E8E5-976B-D02D-C24C-DE8806CDC896}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\transition">
-			<UniqueIdentifier>{6171B3E9-E424-8788-B9A3-3FB9C55F5ABC}</UniqueIdentifier>
+			<UniqueIdentifier>{D1AC1A5D-01B8-8F97-6573-A4500BCD590B}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\editor">
-			<UniqueIdentifier>{FD89CF90-AB86-C9CA-1E85-45743C86D760}</UniqueIdentifier>
+			<UniqueIdentifier>{FE4B678A-FBD5-E47E-B7B9-96E332907E5B}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -63,6 +63,9 @@
 		<ClInclude Include="src\TrackerNode.h">
 			<Filter>src</Filter>
 		</ClInclude>
+		<ClInclude Include="src\ResourcePath.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="src\ISingleton.h">
 			<Filter>src</Filter>
 		</ClInclude>
@@ -96,6 +99,9 @@
 		<ClInclude Include="src\ITrackable.h">
 			<Filter>src</Filter>
 		</ClInclude>
+		<ClInclude Include="src\IRealtime.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="src\Node.h">
 			<Filter>src</Filter>
 		</ClInclude>
@@ -117,10 +123,13 @@
 		<ClInclude Include="src\Engine.h">
 			<Filter>src</Filter>
 		</ClInclude>
+		<ClInclude Include="src\IPartitioner.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="src\Graphics.h">
 			<Filter>src</Filter>
 		</ClInclude>
-		<ClInclude Include="src\Partitioner.h">
+		<ClInclude Include="src\IRenderable.h">
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="src\DumbyPartitioner.h">

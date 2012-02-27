@@ -27,7 +27,7 @@ class EnvironmentNode : public Node, public IMeshContainer, public IPhysicsObjec
             IMeshContainer::logic(advance);
         }
         
-        virtual void renderSelf(Partitioner* partitioner, unsigned int flags = 0) const;
+        virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const;
 
         virtual bool hasAttribute(unsigned int attr) const {
             if(attr == NodeAttributes::PHYSICS)

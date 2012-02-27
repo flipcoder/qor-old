@@ -8,7 +8,7 @@
 #include <assimp/aiScene.h>
 #include <assimp/aiPostProcess.h>
 #include <rapidxml.hpp>
-#include "Partitioner.h"
+#include "IPartitioner.h"
 #include "math/common.h"
 
 #include "Log.h"
@@ -64,7 +64,7 @@ private:
     
     //Camera* m_pCamera;
     std::unique_ptr<Physics> m_spPhysics;
-    std::unique_ptr<Partitioner> m_spPartitioner;
+    std::unique_ptr<IPartitioner> m_spPartitioner;
 
     void nullify();
     void initInternals();

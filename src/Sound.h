@@ -26,7 +26,7 @@ class Sound : public Node
         virtual void logicSelf(unsigned int advance) {
             m_spSource->refresh();
         }
-        virtual void renderSelf(Partitioner* partitioner, unsigned int flags = 0) const {}
+        virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const {}
 
         Audio::Source* source() { return m_spSource.get(); }
         Audio::Buffer* buffer() { return m_spBuffer.get(); }

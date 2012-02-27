@@ -2,12 +2,12 @@
 #define _DUMBYPARTITIONER_H
 
 #include "NodeAttributes.h"
-#include "Partitioner.h"
+#include "IPartitioner.h"
 #include "Light.h"
 
 // A unoptimized implementation of the Partitioner base
 
-class DumbyPartitioner : public Partitioner
+class DumbyPartitioner : public IPartitioner
 {
 public:
     DumbyPartitioner() {}

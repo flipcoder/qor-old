@@ -1,6 +1,7 @@
 #ifndef _EDITORSTATE_H
 #define _EDITORSTATE_H
 
+#include "../IState.h"
 #include "../Engine.h"
 #include "../Scene.h"
 #include "../Spectator.h"
@@ -15,16 +16,16 @@
 
 #include <FTGL/ftgl.h>
 
-class EditorState : public Engine::State
+class EditorState : public IState
 {
 public:
 
-    EditorState(Engine* engine, TransitionInfo* trans = NULL);
+    EditorState();
     virtual ~EditorState();
     void loadGUI();
     void loadScene();
 
-    virtual int logic(unsigned int advance);
+    virtual bool logic(unsigned int advance);
     virtual void render() const;
     void syncView() const;
 

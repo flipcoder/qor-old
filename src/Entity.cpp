@@ -40,7 +40,7 @@ Entity::~Entity()
 {
 }
 
-void Entity :: renderSelf(Partitioner* partitioner, unsigned int flags) const
+void Entity :: renderSelf(IPartitioner* partitioner, unsigned int flags) const
 {
     //if(flags & F_ONTOP){
     //}

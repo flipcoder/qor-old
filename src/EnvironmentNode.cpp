@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void EnvironmentNode :: renderSelf(Partitioner* partitioner, unsigned int flags) const
+void EnvironmentNode :: renderSelf(IPartitioner* partitioner, unsigned int flags) const
 {
     //auto& meshes = *getMeshes_c();
     //foreach(const Mesh* m, meshes)

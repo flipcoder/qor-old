@@ -14,7 +14,7 @@ class Input
     //protected:
     public:
         Input();
-        ~Input() {}
+        virtual ~Input() {}
         
         enum Button
         {

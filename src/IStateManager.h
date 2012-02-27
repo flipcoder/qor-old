@@ -87,9 +87,14 @@ class IStateManager
             nullify();
         }
         virtual ~IStateManager() {
+            destroyStateManager();
+        }
+
+        void destroyStateManager() {
             m_bFast = true; // no timed transitions
             stackClear();
         }
+        
 
         void popState() {
             m_Operation = OP_POP;
@@ -176,6 +181,7 @@ class IStateManager
         // optional overload
         virtual void freeState(const tState* s) {
             delete s;
+            s = NULL;
         }
 };
 

@@ -6,7 +6,7 @@
 
 namespace NodeFactory{
     
-    int getNodeTypeID(std::string s) {
+    static int getNodeTypeID(std::string s) {
         for(unsigned int i=0; i<NodeTypeStrings.size(); i++)
             if(NodeTypeStrings[i] == s)
                 return i;
@@ -35,8 +35,10 @@ namespace NodeFactory{
                 node = scene->loadAI("data/ne/environment/" + fn, glm::vec3(), 0, parent);
             if(!node)
                 node = scene->loadAI("data/ne/assets/" + fn, glm::vec3(), 0, parent);
-            if(!node)
-                Log::get().write("Node failed to load.");
+            if(node)
+                scene->clearError();
+            else
+                return NULL;
             return node;
             //else return new EnvironmentNode(Node::defaultFlags());
         }

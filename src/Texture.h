@@ -2,9 +2,10 @@
 #define _TEXTURE_H
 
 #include "GfxAPI.h"
+#include "IFallible.h"
 #include <string>
 
-class Texture
+class Texture : public IFallible
 {
     public:
 

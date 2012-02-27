@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "math/common.h"
 #include "NodeFactory.h"
-#include "Partitioner.h"
+#include "IPartitioner.h"
 
 #include <iostream>
 using namespace std;
@@ -165,7 +165,7 @@ void Node :: move(const glm::vec3& v, Node::Space s)
     pendWorldMatrix();
 }
 
-void Node :: render(Partitioner* partitioner, unsigned int flags) const
+void Node :: render(IPartitioner* partitioner, unsigned int flags) const
 {
     //glPushMatrix();
     //if(isWorldMatrixPendingCache())
@@ -221,12 +221,12 @@ void Node :: logic(unsigned int a)
     //}
 }
 
-void Node :: renderSelf(Partitioner* partitioner, unsigned int flags) const
+void Node :: renderSelf(IPartitioner* partitioner, unsigned int flags) const
 {
     // Nothing to render
 }
 
-void Node :: renderFrom(Partitioner* partitioner, unsigned int flags) const
+void Node :: renderFrom(IPartitioner* partitioner, unsigned int flags) const
 {
     // Grab queue of parents connected this node
     queue<const Node*> parents;

@@ -1,4 +1,3 @@
-
 #ifndef _GAMESTATE_H
 #define _GAMESTATE_H
 
@@ -11,10 +10,10 @@
 #include <string>
 #include <memory>
 
-class GameState : public Engine::State
+class GameState : public IState
 {
 public:
-    GameState(Engine* engine, TransitionInfo* trans = NULL);
+    GameState();
     virtual ~GameState();
 
     virtual int logic(unsigned int advance);
@@ -23,9 +22,6 @@ public:
     //virtual std::string getErrorString() { return m_sError; }
 
 private:
-
-    bool m_bError;
-    std::string m_sError;
 
     Actor* m_pPlayer;
     Engine* m_pEngine; //weakref

@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Renderer.h"
 #include "ResourceMap.h"
+#include "IFallible.h"
 
 #include <string>
 using namespace std;

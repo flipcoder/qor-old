@@ -89,7 +89,7 @@ class ParticleSystem : public Node
         //bool getTextureOwnership() { return m_bTextureOwnership; }
 
         virtual void logicSelf(unsigned int advance);
-        virtual void renderSelf(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
+        virtual void renderSelf(IPartitioner* partitioner = NULL, unsigned int flags = 0) const;
 
         // offsets particle spawn point without changing matrix
         void offset(const glm::vec3& pos){

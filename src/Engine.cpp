@@ -12,8 +12,6 @@
 
 using namespace std;
 
-Engine::State :: ~State() {}
-
 //Engine::Engine()
 //{
 //    nullify();
@@ -28,16 +26,14 @@ Engine::Engine(std::vector<std::string>& args)
 
 Engine::~Engine()
 {
-    // cleanup() not needed, runs at the end of run()
+    
 }
 
 void Engine::nullify()
 {
-    m_sStateDest = "";
     //m_pRenderer = NULL;
     m_pInput = NULL;
     //m_pTimer = NULL;
-    m_pState = NULL;
     m_pConsole = NULL;
     //m_pSettings = NULL;
     m_pAudio = NULL;
@@ -70,7 +66,7 @@ bool Engine::run()
         FPSAlarm.setSeconds(fpsRefresh);
     int frames = 0;
 
-    while(logic() != 1 && !quitFlag())
+    while(pollState() && logic() != 1 && !quitFlag())
     {
         render();
         Renderer::get().draw();
@@ -94,12 +90,6 @@ bool Engine::run()
 
 bool Engine::init()
 {
-    Settings::get(new Settings("settings.ini"));
-
-    Log::get(new Log());
-    Log::get().setStdOut(Settings::get().getProperty("Console", "StandardOut", "true")=="true"); // output to stdout
-    Log::get().write("Logging system initialized.");
-
     if(!Renderer::ptr())
     {
         Renderer::get(new Renderer(
@@ -151,9 +141,7 @@ bool Engine::init()
     if(Settings::get().getProperty("Developer", "Enabled", "true") == "true")
         m_spDeveloper.reset(new Developer(this, input()));
 
-    setState("game");
-    if(!verifyState())
-        return false;
+    clearToState("game");
     return true;
 }
 
@@ -169,14 +157,12 @@ int Engine::logic()
         m_spDeveloper->logic(a);
     if(m_pConsole)
         m_pConsole->logic(a, m_pInput);
-    if(m_pState)
-        m_pState->logic(a);
+    if(currentState())
+        if(!currentState()->logic(a))
+            return 1;
 
     m_uiLastAdv = now;
     
-    if(!verifyState())
-        return 1;
-
     return 0;
 }
 
@@ -186,8 +172,8 @@ void Engine::render() const
     Renderer::get().shaders(Renderer::BIND_SHADERS);
     Renderer::get().lighting(Renderer::BIND_LIGHTING);
 
-    if(m_pState)
-        m_pState->render();
+    if(currentState())
+        currentState()->render();
 
     Renderer::get().viewport(Renderer::VIEW_ORTHO);
     Renderer::get().lighting(Renderer::UNBIND_LIGHTING);
@@ -201,8 +187,10 @@ void Engine::render() const
 
 void Engine::cleanup()
 {
-    Log::get().write("Unloading state...");
-    delete m_pState;
+    destroyStateManager();
+
+    //Log::get().write("Unloading state...");
+    //delete m_pState;
     Log::get().write("Unloading console...");
     delete m_pConsole;
     //Log::get().write("Unloading renderer...");
@@ -219,57 +207,23 @@ void Engine::cleanup()
 }
 
 
-bool Engine :: verifyState()
+IState* Engine :: newState(const std::string id)
 {
-    if(m_sStateDest=="")
-        return true;
-    //Log::get().write("Changing state to: " + m_sStateDest);
-
-    if(m_pState)
-    {
-        delete m_pState;
-        m_pState = NULL;
+    IState* state = nullptr;
+    if(id == "game")
+        state = new GameState();
+    else if(id == "editor")
+        state = new EditorState();
+    else {
+        Log::get().error("Unknown state request.");
+        return nullptr;
     }
 
-    if(m_sStateDest == "game")
-        m_pState = new GameState(this);
-    else if(m_sStateDest == "editor")
-        m_pState = new EditorState(this);
-    else
-        Log::get().warning("Unknown state request.");
+    Log::get().write("State Change: " + boost::to_upper_copy(id));
 
-    //switch(m_eStateDest)
-    //{
-    //    case STATE_GAME:
-    //        break;
-    //    case STATE:EDITOR:
-    //        break;
-    //    default:
-    //}
-
-    if(m_sStateDest != "" && m_pState)
-    {
-        Log::get().write("State Change: " + boost::to_upper_copy(m_sStateDest));
-
-        if(m_pState->hasError())
-        {
-            Log::get().error(m_pState->getError());
-            delete m_pState;
-            m_pState = NULL;
-            return false;
-        }
-    }
+    if(state && state->hasError())
+        Log::get().error(state->getError());
         
-    m_sStateDest = "";
-    return true;
-}
-
-void Engine :: swapState(State* next_state)
-{
-    if(m_pState)
-    {
-        delete m_pState;
-        m_pState = next_state;
-    }
+    return state;
 }
 

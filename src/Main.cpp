@@ -18,14 +18,22 @@ int main(int argc, char *argv[])
     for(int i=1; i<argc; i++)
         args.push_back(argv[i]);
 
+    // init basic logging and settings systems
+    Settings::get(new Settings("settings.ini"));
+    Log::get(new Log());
+    Log::get().setStdOut(Settings::get().getProperty("Console", "StandardOut", "true")=="true");
+    Log::get().write("Logging system initialized.");
+
     // create driver
-    unique_ptr<Engine> pEngine(new Engine(args));
-    if(!pEngine || pEngine->hasError()) {
-        std::cout << "Engine failed to load." << endl;
+    try{
+        Engine::get(new Engine(args));
+    }catch(const IFallible::Failure& f) {
+        if(Engine::ptr())
+            Log::get().error(Engine::get().getError());
         return 1;
     }
     
     // start driver
-    return pEngine->run() ? 0 : 1;
+    return Engine::get().run() ? 0 : 1;
 }
 

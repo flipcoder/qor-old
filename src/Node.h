@@ -27,7 +27,7 @@
 #include "IPhysicsObject.h"
 #include "Frustum.h"
 #include "Graphics.h"
-#include "Partitioner.h"
+#include "IPartitioner.h"
 
 class Scene;
 
@@ -205,13 +205,13 @@ public:
         RENDER_AMBIENT_PASS=BIT(2),
         RENDER_INDICATORS=BIT(3)
     };
-    virtual void renderSelf(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
-    virtual void render(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
-    virtual void renderFrom(Partitioner* partitioner = NULL, unsigned int flags = 0) const;
+    virtual void renderSelf(IPartitioner* partitioner = NULL, unsigned int flags = 0) const;
+    virtual void render(IPartitioner* partitioner = NULL, unsigned int flags = 0) const;
+    virtual void renderFrom(IPartitioner* partitioner = NULL, unsigned int flags = 0) const;
     //virtual void 
 
     // NOTE: should always return true if view is NULL
-    virtual bool inView(Partitioner* partitioner = NULL) const {
+    virtual bool inView(IPartitioner* partitioner = NULL) const {
         //if(!partitioner)
         //    return true;
         return true;

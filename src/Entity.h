@@ -40,7 +40,7 @@ public:
     virtual void logicSelf(unsigned int advance){
         IMeshContainer::logic(advance);
     }
-    virtual void renderSelf(Partitioner* partitioner, unsigned int flags = 0) const;
+    virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const;
     virtual void sync(glm::mat4* m) {
         *matrix() = *m;
         pendWorldMatrix();

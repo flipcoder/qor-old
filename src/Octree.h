@@ -2,7 +2,7 @@
 #define _OCTREE_H
 
 template <class T>
-class Octree
+class Octree : public IPartitioner
 {
     
 };
