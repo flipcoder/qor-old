@@ -25,7 +25,11 @@ solution("qor")
             "ILU",
             "openal",
             "alut",
-            "Newton",
+            --"Newton",
+            "BulletSoftBody",
+            "BulletDynamics",
+            "BulletCollision",
+            "LinearMath",
             "ogg",
             "vorbis",
             "vorbisfile",
@@ -44,7 +48,10 @@ solution("qor")
         }
 
         if (linux) then
-            includedirs {"/usr/include/freetype2/**"}
+            includedirs {
+                "/usr/include/freetype2/",
+                "/usr/local/include/bullet/"
+            }
         end
 
         includedirs {"third_party/include/"}

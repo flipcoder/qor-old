@@ -10,6 +10,12 @@
 // extra Matrix functions that aren't easily provided by glm
 
 namespace Matrix{
+
+    inline float index(glm::mat4& m, unsigned int idx) {
+        float* f = glm::value_ptr(m);
+        return f[idx];
+    }
+
     inline void resetOrientation(glm::mat4& m) {
         float* f = glm::value_ptr(m);
         f[1]=f[2]=f[4]=f[5]=f[8]=f[9]=0.0f;
@@ -109,6 +115,13 @@ namespace Matrix{
         for(int i=0;i<16;i++)
             m_array[i] = f[i];
         return m;
+    }
+
+    inline float* ptr(glm::mat4& m) {
+        return glm::value_ptr(m);
+    }
+    inline const float* ptr(const glm::mat4& m) {
+        return glm::value_ptr(m);
     }
 }
 

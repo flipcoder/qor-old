@@ -92,8 +92,6 @@ void Actor::logicSelf(unsigned int a)
         m_fJumpForce = m_fJumpLength;
     }
 
-    
-    
     //if(m_pInput->key(SDLK_a))
     //    delta.setRel(0.0,
     //    -m_fAccel,

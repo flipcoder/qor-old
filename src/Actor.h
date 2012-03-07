@@ -10,7 +10,7 @@
 #include "math/common.h"
 
 // We can use EulerNode for this because the physics for our actor is only based on position :)
-class Actor : public EulerNode, public IPhysicsObject
+class Actor : public EulerNode
 {
 protected:
 

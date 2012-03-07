@@ -460,7 +460,7 @@ int Scene::logic(unsigned int a)
 {
     m_spRoot->logic(a);
     if(m_spPhysics.get())
-        m_spPhysics->logic(a, m_spRoot.get());
+        m_spPhysics->logic(a);
     return 0;
 }
 

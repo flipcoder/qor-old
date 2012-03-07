@@ -5,7 +5,7 @@
 #include "IMeshContainer.h"
 #include "ResourceMap.h"
 
-class Entity : public Node, public IMeshContainer, public IPhysicsObject
+class Entity : public Node, public IMeshContainer
 {
 public:
 

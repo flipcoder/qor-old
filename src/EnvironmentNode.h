@@ -9,7 +9,7 @@
 
 // EnvironmentNode is a Node-style class that can contain static meshes
 
-class EnvironmentNode : public Node, public IMeshContainer, public IPhysicsObject
+class EnvironmentNode : public Node, public IMeshContainer
 {
     public:
 

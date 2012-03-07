@@ -24,6 +24,7 @@
 
 #include "Util.h"
 #include "NodeAttributes.h"
+#include "Physics.h"
 #include "IPhysicsObject.h"
 #include "Frustum.h"
 #include "Graphics.h"
@@ -31,7 +32,7 @@
 
 class Scene;
 
-class Node : public std::enable_shared_from_this<Node>
+class Node : public IPhysicsObject, public std::enable_shared_from_this<Node>
 {
 
 protected:
@@ -170,6 +171,17 @@ public:
     virtual const glm::mat4* matrix_c() const { return &m_Matrix; }
     virtual const glm::mat4* matrix_c(Node::Space s) const;
     //virtual glm::mat4 matrix(Node::Space s = Node::S_PARENT) const;
+
+    // btMotionState overloads
+    virtual void setWorldTransform(const btTransform& worldTrans) {
+        // TODO: assumes world space
+        worldTrans.getOpenGLMatrix((btScalar*)Matrix::ptr(*matrix()));
+        pendWorldMatrix();
+    }
+    virtual void getWorldTransform(btTransform& worldTrans) const {
+        worldTrans.setFromOpenGLMatrix(Matrix::ptr(*matrix_c()));
+    }
+    virtual void setKinematicPos(btTransform &currentPos) {}
 
     virtual void pendWorldMatrix() const {
         m_PendingCache |= PC_WORLD_MATRIX;

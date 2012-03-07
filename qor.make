@@ -29,7 +29,7 @@ ifeq ($(config),debug)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -51,7 +51,7 @@ ifeq ($(config),release)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -81,6 +81,7 @@ OBJECTS := \
 	$(OBJDIR)/Mesh.o \
 	$(OBJDIR)/Main.o \
 	$(OBJDIR)/Texture.o \
+	$(OBJDIR)/Path.o \
 	$(OBJDIR)/Console.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/PropertyList.o \
@@ -215,6 +216,9 @@ $(OBJDIR)/Main.o: src/Main.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Texture.o: src/Texture.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Path.o: src/Path.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Console.o: src/Console.cpp

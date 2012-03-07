@@ -66,7 +66,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -94,7 +94,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -141,6 +141,7 @@
 		<ClInclude Include="src\Engine.h" />
 		<ClInclude Include="src\IPartitioner.h" />
 		<ClInclude Include="src\Graphics.h" />
+		<ClInclude Include="src\Path.h" />
 		<ClInclude Include="src\IRenderable.h" />
 		<ClInclude Include="src\DumbyPartitioner.h" />
 		<ClInclude Include="src\IListenable.h" />
@@ -213,6 +214,8 @@
 		<ClCompile Include="src\Main.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Texture.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Path.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Console.cpp">
 		</ClCompile>
