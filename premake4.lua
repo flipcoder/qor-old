@@ -47,16 +47,17 @@ solution("qor")
             "src/mod_**"
         }
 
-        if (linux) then
+        configuration { "linux" }
             includedirs {
                 "/usr/include/freetype2/",
-                "/usr/local/include/bullet/"
+                "/usr/include/bullet/"
             }
-        end
+        configuration {}
 
         includedirs {"third_party/include/"}
         libdirs {"third_party/lib/"}
 
         configuration { "gmake" }
             buildoptions { "-std=c++0x" }
+        configuration {}
 

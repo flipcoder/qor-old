@@ -24,7 +24,7 @@ ifeq ($(config),debug)
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
   DEFINES   += -DDEBUG
-  INCLUDES  += -Ithird_party/include
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/bullet -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release)
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
   DEFINES   += -DNDEBUG
-  INCLUDES  += -Ithird_party/include
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/bullet -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
@@ -64,49 +64,49 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/Freq.o \
-	$(OBJDIR)/Filesystem.o \
-	$(OBJDIR)/Entity.o \
-	$(OBJDIR)/Frustum.o \
-	$(OBJDIR)/Physics.o \
-	$(OBJDIR)/Engine.o \
-	$(OBJDIR)/IPhysicsObject.o \
-	$(OBJDIR)/Shader.o \
-	$(OBJDIR)/ParticleSystem.o \
-	$(OBJDIR)/Scene.o \
-	$(OBJDIR)/Input.o \
-	$(OBJDIR)/EnvironmentNode.o \
-	$(OBJDIR)/Developer.o \
-	$(OBJDIR)/Spectator.o \
-	$(OBJDIR)/Mesh.o \
-	$(OBJDIR)/Main.o \
-	$(OBJDIR)/Texture.o \
-	$(OBJDIR)/Path.o \
-	$(OBJDIR)/Console.o \
-	$(OBJDIR)/Log.o \
-	$(OBJDIR)/PropertyList.o \
-	$(OBJDIR)/Node.o \
-	$(OBJDIR)/GUI.o \
-	$(OBJDIR)/Renderer.o \
-	$(OBJDIR)/Graphics.o \
-	$(OBJDIR)/Actor.o \
-	$(OBJDIR)/Material.o \
-	$(OBJDIR)/Audio.o \
-	$(OBJDIR)/TrackerNode.o \
-	$(OBJDIR)/DumbyPartitioner.o \
-	$(OBJDIR)/EulerNode.o \
-	$(OBJDIR)/Settings.o \
-	$(OBJDIR)/Batch.o \
 	$(OBJDIR)/Shadow.o \
+	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/NodeFactory.o \
+	$(OBJDIR)/Scene.o \
+	$(OBJDIR)/EnvironmentNode.o \
+	$(OBJDIR)/Console.o \
+	$(OBJDIR)/Mesh.o \
+	$(OBJDIR)/DumbyPartitioner.o \
+	$(OBJDIR)/Material.o \
+	$(OBJDIR)/Main.o \
+	$(OBJDIR)/Engine.o \
+	$(OBJDIR)/TrackerNode.o \
+	$(OBJDIR)/Entity.o \
+	$(OBJDIR)/Renderer.o \
+	$(OBJDIR)/Path.o \
+	$(OBJDIR)/Frustum.o \
+	$(OBJDIR)/Spectator.o \
+	$(OBJDIR)/Freq.o \
+	$(OBJDIR)/PropertyList.o \
+	$(OBJDIR)/Physics.o \
+	$(OBJDIR)/Node.o \
+	$(OBJDIR)/Settings.o \
+	$(OBJDIR)/Developer.o \
+	$(OBJDIR)/Graphics.o \
+	$(OBJDIR)/Log.o \
+	$(OBJDIR)/Batch.o \
+	$(OBJDIR)/ParticleSystem.o \
+	$(OBJDIR)/Texture.o \
+	$(OBJDIR)/Actor.o \
+	$(OBJDIR)/Shader.o \
+	$(OBJDIR)/Audio.o \
+	$(OBJDIR)/IPhysicsObject.o \
+	$(OBJDIR)/GUI.o \
+	$(OBJDIR)/Input.o \
+	$(OBJDIR)/EulerNode.o \
 	$(OBJDIR)/GameState.o \
+	$(OBJDIR)/pn.o \
+	$(OBJDIR)/pnUtil.o \
 	$(OBJDIR)/pnSocket.o \
 	$(OBJDIR)/pnBuffer.o \
-	$(OBJDIR)/pnUtil.o \
-	$(OBJDIR)/pn.o \
-	$(OBJDIR)/matrixstack.o \
-	$(OBJDIR)/EditorState.o \
 	$(OBJDIR)/SelectorNode.o \
+	$(OBJDIR)/EditorState.o \
+	$(OBJDIR)/matrixstack.o \
 
 RESOURCES := \
 
@@ -167,112 +167,118 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Freq.o: src/Freq.cpp
+$(OBJDIR)/Shadow.o: src/Shadow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Filesystem.o: src/Filesystem.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Entity.o: src/Entity.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Frustum.o: src/Frustum.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Physics.o: src/Physics.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Engine.o: src/Engine.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/IPhysicsObject.o: src/IPhysicsObject.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Shader.o: src/Shader.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/ParticleSystem.o: src/ParticleSystem.cpp
+$(OBJDIR)/NodeFactory.o: src/NodeFactory.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Scene.o: src/Scene.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Input.o: src/Input.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EnvironmentNode.o: src/EnvironmentNode.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Developer.o: src/Developer.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Spectator.o: src/Spectator.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Mesh.o: src/Mesh.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Main.o: src/Main.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Texture.o: src/Texture.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Path.o: src/Path.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Console.o: src/Console.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Log.o: src/Log.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/PropertyList.o: src/PropertyList.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Node.o: src/Node.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/GUI.o: src/GUI.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Renderer.o: src/Renderer.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Graphics.o: src/Graphics.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Actor.o: src/Actor.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Material.o: src/Material.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Audio.o: src/Audio.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/TrackerNode.o: src/TrackerNode.cpp
+$(OBJDIR)/Mesh.o: src/Mesh.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/DumbyPartitioner.o: src/DumbyPartitioner.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/EulerNode.o: src/EulerNode.cpp
+$(OBJDIR)/Material.o: src/Material.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Main.o: src/Main.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Engine.o: src/Engine.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/TrackerNode.o: src/TrackerNode.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Entity.o: src/Entity.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Renderer.o: src/Renderer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Path.o: src/Path.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Frustum.o: src/Frustum.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Spectator.o: src/Spectator.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Freq.o: src/Freq.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/PropertyList.o: src/PropertyList.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Physics.o: src/Physics.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Node.o: src/Node.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Settings.o: src/Settings.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Developer.o: src/Developer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Graphics.o: src/Graphics.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Log.o: src/Log.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Batch.o: src/Batch.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Shadow.o: src/Shadow.cpp
+$(OBJDIR)/ParticleSystem.o: src/ParticleSystem.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/NodeFactory.o: src/NodeFactory.cpp
+$(OBJDIR)/Texture.o: src/Texture.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Actor.o: src/Actor.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Shader.o: src/Shader.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Audio.o: src/Audio.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/IPhysicsObject.o: src/IPhysicsObject.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/GUI.o: src/GUI.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Input.o: src/Input.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/EulerNode.o: src/EulerNode.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/GameState.o: src/game/GameState.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/pn.o: src/pn/pn.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/pnUtil.o: src/pn/pnUtil.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/pnSocket.o: src/pn/pnSocket.cpp
@@ -281,19 +287,13 @@ $(OBJDIR)/pnSocket.o: src/pn/pnSocket.cpp
 $(OBJDIR)/pnBuffer.o: src/pn/pnBuffer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/pnUtil.o: src/pn/pnUtil.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/pn.o: src/pn/pn.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/matrixstack.o: src/math/matrixstack.cpp
+$(OBJDIR)/SelectorNode.o: src/editor/SelectorNode.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EditorState.o: src/editor/EditorState.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/SelectorNode.o: src/editor/SelectorNode.cpp
+$(OBJDIR)/matrixstack.o: src/math/matrixstack.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
