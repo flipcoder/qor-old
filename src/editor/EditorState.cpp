@@ -405,7 +405,7 @@ bool EditorState::logic(unsigned int advance)
             Renderer::get().shaders(Renderer::ENABLE_SHADERS | Renderer::BIND_SHADERS);
 
             glm::vec3 mouse_world = mouseWorldSpace();
-            Log::get().write("Mouse World: " + str(mouse_world.x) + ", " + str(mouse_world.y));
+            //Log::get().write("Mouse World: " + str(mouse_world.x) + ", " + str(mouse_world.y));
             m_pPlayer->resetOrientation();
             Matrix::translation(*m_pPlayer->matrix(), glm::vec3(
                mouse_world.x,
