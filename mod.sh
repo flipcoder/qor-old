@@ -5,11 +5,12 @@ if [ $# -ne 1 ]; then
     echo "Swaps between qor mods."
     echo "Usage: ./mod.sh {mod}"
     echo "Example: ./mod.sh demo"
-    exit
+    exit 1
 fi
 
-if [ -e "mod_$1" ]; then
+if [ ! -e "src/mod_$1" ]; then
     echo "Mod specified does not exist"
+    exit 1
 fi
 
 mod="mod_$1"
