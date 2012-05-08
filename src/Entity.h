@@ -4,8 +4,9 @@
 #include "Node.h"
 #include "IMeshContainer.h"
 #include "ResourceMap.h"
+#include "IPhysicsObject.h"
 
-class Entity : public Node, public IMeshContainer
+class Entity : public Node, public IPhysicsObject, public IMeshContainer
 {
 public:
 
@@ -41,11 +42,9 @@ public:
         IMeshContainer::logic(advance);
     }
     virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const;
-    virtual void sync(glm::mat4* m) {
-        *matrix() = *m;
-        pendWorldMatrix();
-        //matrix()->clear(Matrix::COPY, *m);
-    }
+    //virtual void sync(glm::mat4& m) {
+    //    *matrix() = m;
+    //}
 
     virtual float mass() { return 10.0f; } // temp
     virtual IPhysicsObject::Type getPhysicsType() { return m_Flags & F_PASSABLE ? NONE : DYNAMIC; }

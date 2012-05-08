@@ -41,7 +41,7 @@ private:
 public:
 
     Settings(std::string fn = "");
-    ~Settings();
+    virtual ~Settings();
 
     void nullify();
     bool open(std::string fn);

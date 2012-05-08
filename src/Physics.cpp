@@ -12,8 +12,6 @@ using namespace std;
 
 Physics::Physics()
 {
-    nullify();
-
     m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
     m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
     m_spBroadphase.reset(new btDbvtBroadphase());
@@ -61,12 +59,9 @@ void Physics :: cleanup()
 //#endif
 //    NewtonDestroyAllBodies(m_pWorld);
 //    NewtonDestroy(m_pWorld);
-
-    nullify();
 }
 
-
-bool Physics :: logic(unsigned int advance)
+void Physics :: logic(unsigned int advance)
 {
     static float accum = 0.0f;
     float timestep = advance*0.001f; // msec to sec
@@ -83,24 +78,19 @@ bool Physics :: logic(unsigned int advance)
 //#endif
         accum = 0.0f;
     }
-
-    return true;
 }
 
-void Physics :: generate(Node* node, unsigned int flags, glm::mat4* transform)
+void Physics :: generate(Node* node, unsigned int flags, std::unique_ptr<glm::mat4> transform)
 {
     if(!node)
         return;
 
     // generate identity matrix if transform was passed in as null
     // could use an auto_ptr in these situations but meh
-    bool created_transform = false;
+
+    // TODO: If no transform is given, derive world space transform from node
     if(!transform)
-    {
-        // TODO: If no transform is given, derive world space transform from node
-        transform = new glm::mat4();
-        created_transform = true; // keep track so we can delete
-    }
+        transform.reset(new glm::mat4());
 
     // apply transformation of node so the mesh vertices are correct
     *transform *= *node->matrix_c();
@@ -114,108 +104,157 @@ void Physics :: generate(Node* node, unsigned int flags, glm::mat4* transform)
         if(object->getPhysicsBody() == NULL)
         {
             // Check if there's static geometry in this node, if so let's process it
-            if(object->getPhysicsType() == IPhysicsObject::STATIC)
+            switch(object->getPhysicsType())
             {
-                // Collision Tree
-                generateTree(node, flags, transform);
-            }
-            else if(object->getPhysicsType() == IPhysicsObject::ACTOR)
-            {
-                // Actor Controller
-                generateActor(node, flags, transform);
-            }
-            else if(object->getPhysicsType() == IPhysicsObject::DYNAMIC)
-            {
-                // Standard dynamic physics object (entity)
-                generateDynamic(node, flags, transform);
+                case IPhysicsObject::STATIC:
+                    generateTree(node, flags, transform.get());
+                    break;
+                case IPhysicsObject::ACTOR:
+                    generateActor(node, flags, transform.get());
+                    break;
+                case IPhysicsObject::DYNAMIC:
+                    generateDynamic(node, flags, transform.get());
+                    break;
+                default:
+                    assert(false);
+                    break;
             }
         }
     }
 
     // generate children
-    if(node->hasAttribute(NodeAttributes::CHILDREN)  && (flags & GEN_RECURSIVE))
+    if(node->hasAttribute(NodeAttributes::CHILDREN) && (flags & GEN_RECURSIVE))
     {
         std::list<Node*>* children = static_cast<std::list<Node*>*>(node->getAttribute(NodeAttributes::CHILDREN));
         foreach(Node* child, (*children))
         {
             // copy current node's transform so it can be modified by child
-            glm::mat4* transform_copy = new glm::mat4(*transform);
-            generate(child, flags, transform_copy);
-            delete transform_copy;
+            std::unique_ptr<glm::mat4> transform_copy(new glm::mat4(*transform));
+            generate(child, flags, std::move(transform_copy));
         }
     }
     
     // delete generated identity matrix for those who passed in null matrix pointers
-    if(created_transform)
-        delete transform;
+    //if(created_transform)
+    //    delete transform;
 }
 
 void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transform) {
     assert(node);
     assert(transform);
 
-    //glm::mat4 body_matrix = glm::rotate(glm::mat4(), 90.0f, Axis::Z);//(glm::mat4::ROTATE_Z, 90.0f);
-    //Matrix::translation(body_matrix, glm::vec3(0.0f, -object->height()/4.0f, 0.0f));
-    //NewtonCollision* collision = NewtonCreateCapsule(m_pWorld, object->radius(), object->height(), 1, glm::value_ptr(body_matrix));
-    //NewtonBody* body = addBody(collision, object, transform);
-
-    //NewtonConstraintCreateUpVector(m_pWorld, glm::value_ptr(Axis::Y), body);
-    //NewtonReleaseCollision(m_pWorld, collision);
-
+    // TODO: CharacterController w/ btCapsuleShape
+    IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
+    std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height()));
+    btVector3 inertia(0,0,0);
+    shape->calculateLocalInertia(physics_object->mass(), inertia);
+    btRigidBody::btRigidBodyConstructionInfo info(
+        physics_object->mass(),
+        physics_object, // inherits btMotionState
+        shape.get(),
+        inertia
+    );
+    std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
+    ((btRigidBody*)body.get())->setAngularFactor(0.0);
+    ((btRigidBody*)body.get())->setSleepingThresholds(0.0, 0.0);
+    physics_object->addCollisionShape(shape);
+    physics_object->setBody(body);
+    physics_object->setPhysics(this);
+    m_spWorld->addRigidBody((btRigidBody*)physics_object->getBody());
 }
 void Physics :: generateTree(Node* node, unsigned int flags, glm::mat4* transform) {
     assert(node);
     assert(transform);
 
+    // TODO: btBvhTriangleMeshShape or btMultiMaterialTriangleMeshShape
+
     // [Assumption]  Node contains static geometry therefore it is atleast a IMeshContainer...
-    //std::list<shared_ptr<Mesh>>* mesh_list = dynamic_cast<IMeshContainer*>(node)->getMeshes();
-    //if(!mesh_list->empty())
-    //{
-    //    // right now, all meshes in a node are combined into one collision tree
-    //    NewtonCollision* collision = NewtonCreateTreeCollision(m_pWorld, 0);
-    //    NewtonTreeCollisionBeginBuild(collision);
+    
+    std::list<shared_ptr<Mesh>>* mesh_list = dynamic_cast<IMeshContainer*>(node)->getMeshes();
+    if(mesh_list->empty())
+        return;
+    IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
+    
+    //TODO: move this ptr into an object that actually persists
+    std::unique_ptr<btTriangleMesh> triangles(new btTriangleMesh());
 
-    //    unsigned int face_id = 1;
+    unsigned int face_id = 1;
     //    //foreach(Mesh* m, *mesh_list)
-    //    for(auto itr = mesh_list->begin();
-    //        itr != mesh_list->end();
-    //        ++itr)
-    //    {
-    //        Mesh* m = itr->get();
+    // loop through current node's meshes
+    for(auto itr = mesh_list->begin();
+        itr != mesh_list->end();
+        ++itr)
+    {
+        Mesh* m = itr->get();
 
-    //        // loop through current node's meshes
-    //        for(unsigned int i=0; i<m->faces.size(); i++)
-    //        {
-    //            glm::vec3 verts[3];
-    //            for(unsigned int f = 0; f<3; f++)
-    //                verts[f] = m->vertices[m->faces[i].indices[f]];
-    //            NewtonTreeCollisionAddFace(collision, 3, glm::value_ptr(verts[0]), sizeof(glm::vec3), 0[> i+1 <]);
-    //            face_id++;
-    //        }
-    //    }
+        // for each face in inside mesh, add it to triangles list
+        for(unsigned int i=0; i<m->faces.size(); i++)
+        {
+            glm::vec3 verts[3];
+            for(unsigned int f = 0; f<3; f++)
+                verts[f] = m->vertices[m->faces[i].indices[f]];
+            triangles->addTriangle(
+                toBulletVector(verts[0]),
+                toBulletVector(verts[1]),
+                toBulletVector(verts[2])
+            );
+            face_id++;
+        }
+    }
 
-    //    NewtonTreeCollisionEndBuild(collision, 0);
-    //    glm::mat4 identity;
-    //    addBody(collision, object, transform);
-    //    NewtonReleaseCollision(m_pWorld, collision);
-    //}
-
+    //TODO: move this ptr into an object that actually persists
+    // use triangles list to build rigidbody info for bullet
+    std::unique_ptr<btCollisionShape> shape(new btBvhTriangleMeshShape(triangles.get(),true,true));
+    btRigidBody::btRigidBodyConstructionInfo info(
+        0.0, // no mass
+        physics_object, // inherits btMotionState
+        shape.get()
+    );
+    std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
+    std::unique_ptr<btStridingMeshInterface> interface(std::move(triangles));
+    physics_object->addStridingMeshInterface(interface);
+    physics_object->addCollisionShape(shape);
+    physics_object->setBody(body);
+    physics_object->setPhysics(this);
+    m_spWorld->addRigidBody((btRigidBody*)physics_object->getBody());
 }
+
 void Physics :: generateDynamic(Node* node, unsigned int flags, glm::mat4* transform) {
     assert(node);
     assert(transform);
 
+    // TODO: btConvexHull
+
     //std::list<shared_ptr<Mesh>>* mesh_list = dynamic_cast<IMeshContainer*>(node)->getMeshes();
-    //if(!mesh_list->empty())
+    //if(mesh_list->empty())
+    //    return;
+    //IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
+
+    //std::unique_ptr<btTriangleMesh> triangles(new btTriangleMesh());
+
+    //unsigned int face_id = 1;
+    //for(auto itr = mesh_list->begin();
+    //    itr != mesh_list->end();
+    //    ++itr)
     //{
-    //    Mesh* m = mesh_list->front().get();
-    //    const float tolerance = 0.002f;
-    //    glm::mat4 identity;
-    //    NewtonCollision* collision = NewtonCreateConvexHull(m_pWorld, m->vertices.size(),
-    //        glm::value_ptr(m->vertices[0]), sizeof(glm::vec3), tolerance, 0, glm::value_ptr(identity));[>glm::value_ptr(*transform));<]
-    //    addBody(collision, object, transform); // &identity
-    //    NewtonReleaseCollision(m_pWorld, collision);
+    //    Mesh* m = itr->get();
+    //    // for each face in inside mesh, add it to triangles list
+    //    for(unsigned int i=0; i<m->faces.size(); i++)
+    //    {
+    //        glm::vec3 verts[3];
+    //        for(unsigned int f = 0; f<3; f++)
+    //            verts[f] = m->vertices[m->faces[i].indices[f]];
+    //        triangles->addTriangle(
+    //            toBulletVector(verts[0]),
+    //            toBulletVector(verts[1]),
+    //            toBulletVector(verts[2])
+    //        );
+    //        face_id++;
+    //    }
+    //    std::unique_ptr<btCollisionObject> body(new btConvexHull());
     //}
+
+    
 }
 
 

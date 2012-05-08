@@ -9,7 +9,7 @@
 
 // EnvironmentNode is a Node-style class that can contain static meshes
 
-class EnvironmentNode : public Node, public IMeshContainer
+class EnvironmentNode : public Node, public IMeshContainer, public IPhysicsObject
 {
     public:
 
@@ -55,7 +55,6 @@ class EnvironmentNode : public Node, public IMeshContainer
             return const_cast<EnvironmentNode*>(this)->getAttribute(attr);
         }
 
-        virtual void sync(glm::mat4* m) {}
         virtual IPhysicsObject::Type getPhysicsType() { return IPhysicsObject::STATIC; }
 
         virtual std::string filename() const {

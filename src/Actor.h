@@ -10,7 +10,7 @@
 #include "math/common.h"
 
 // We can use EulerNode for this because the physics for our actor is only based on position :)
-class Actor : public EulerNode
+class Actor : public EulerNode, public IPhysicsObject
 {
 protected:
 
@@ -51,9 +51,9 @@ public:
     // remember when rendering, to set visible(false) if the player is local ;)
     //virtual void renderSelf() {}
     
-    virtual void sync(glm::mat4* m) {
-        Matrix::translation(*matrix(), Matrix::translation(*m));
-        pendWorldMatrix();
+    virtual bool sync(glm::mat4& m) {
+        Matrix::translation(*matrix(), Matrix::translation(m));
+        return true;
     }
 
     virtual IPhysicsObject::Type getPhysicsType() { return IPhysicsObject::ACTOR; }

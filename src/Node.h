@@ -25,14 +25,13 @@
 #include "Util.h"
 #include "NodeAttributes.h"
 #include "Physics.h"
-#include "IPhysicsObject.h"
 #include "Frustum.h"
 #include "Graphics.h"
 #include "IPartitioner.h"
 
 class Scene;
 
-class Node : public IPhysicsObject, public std::enable_shared_from_this<Node>
+class Node : public IRealtime, public std::enable_shared_from_this<Node>
 {
 
 protected:
@@ -173,15 +172,15 @@ public:
     //virtual glm::mat4 matrix(Node::Space s = Node::S_PARENT) const;
 
     // btMotionState overloads
-    virtual void setWorldTransform(const btTransform& worldTrans) {
-        // TODO: assumes world space
-        worldTrans.getOpenGLMatrix((btScalar*)Matrix::ptr(*matrix()));
-        pendWorldMatrix();
-    }
-    virtual void getWorldTransform(btTransform& worldTrans) const {
-        worldTrans.setFromOpenGLMatrix(Matrix::ptr(*matrix_c()));
-    }
-    virtual void setKinematicPos(btTransform &currentPos) {}
+    //virtual void setWorldTransform(const btTransform& worldTrans) {
+    //    // TODO: assumes world space
+    //    worldTrans.getOpenGLMatrix((btScalar*)Matrix::ptr(*matrix()));
+    //    pendWorldMatrix();
+    //}
+    //virtual void getWorldTransform(btTransform& worldTrans) const {
+    //    worldTrans.setFromOpenGLMatrix(Matrix::ptr(*matrix_c()));
+    //}
+    //virtual void setKinematicPos(btTransform &currentPos) {}
 
     virtual void pendWorldMatrix() const {
         m_PendingCache |= PC_WORLD_MATRIX;
@@ -264,8 +263,6 @@ public:
     virtual void collapse(Space s = S_PARENT, unsigned int flags = 0);
 
     virtual unsigned int numChildren() { return m_Children.size(); }
-
-    virtual void sync(glm::mat4& m) {}
     
     virtual std::list<std::shared_ptr<Node>>* children() {
         return &m_Children;

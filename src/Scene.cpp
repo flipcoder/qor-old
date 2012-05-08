@@ -456,12 +456,11 @@ void Scene::clearEnvironment()
     }
 }
 
-int Scene::logic(unsigned int a)
+void Scene::logic(unsigned int a)
 {
     m_spRoot->logic(a);
     if(m_spPhysics.get())
         m_spPhysics->logic(a);
-    return 0;
 }
 
 void Scene::render(Node* from) const

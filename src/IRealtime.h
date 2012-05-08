@@ -7,7 +7,7 @@ class IRealtime
 {
     public:
         virtual ~IRealtime() {}
-        virtual bool logic(unsigned int t) {return false;}
+        virtual void logic(unsigned int t) = 0;
         //virtual bool logic(unsigned int advance) {return logic(advance*0.001f);}
         //virtual bool logic(unsigned int advance) {return false;}
 };

@@ -2,16 +2,19 @@
 #define _IPHYSICSOBJECT_H
 
 #include <memory>
+#include <vector>
 
 #include "Physics.h"
 class Physics;
 #include "math/common.h"
-// Simple user data interface for physics for nodes
+#include "Node.h"
 
 class IPhysicsObject: public btMotionState
 {
 protected:
-    btCollisionObject* m_pPhysicsBody;
+    std::unique_ptr<btCollisionObject> m_spPhysicsBody;
+    std::vector<std::unique_ptr<btStridingMeshInterface>> m_StridingMeshInterfaces;
+    std::vector<std::unique_ptr<btCollisionShape>> m_CollisionShapes;
     //btMotionState* m_pMotionState;
     Physics* m_pPhysics;
 
@@ -25,21 +28,18 @@ public:
     };
 
     IPhysicsObject():
-        m_pPhysicsBody(NULL),
         m_pPhysics(NULL) {}
     virtual ~IPhysicsObject();
     
     btMotionState* getMotionState() { return this; }
-    btCollisionObject* getPhysicsBody() { return m_pPhysicsBody; }
-    void setPhysicsBody(Physics* sys, btCollisionObject* p) {
-        delete m_pPhysicsBody;
-        //delete m_pMotionState;
-
+    btCollisionObject* getPhysicsBody() { return m_spPhysicsBody.get(); }
+    void setPhysics(Physics* sys) {
         m_pPhysics = sys;
-        m_pPhysicsBody=p;
-        //m_pMotionState=m;
     }
-    virtual void sync(glm::mat4* m) {}
+    void setBody(std::unique_ptr<btCollisionObject>& obj) {
+        m_spPhysicsBody = std::move(obj);
+    }
+    btCollisionObject* getBody() { return m_spPhysicsBody.get(); }
     
     virtual float radius() { return 0.0f; }
     virtual float height() { return 0.0f; }
@@ -49,9 +49,31 @@ public:
     virtual unsigned int physicsLogic(float timestep, float mass, glm::vec3& force, glm::vec3& omega, glm::vec3& torque, glm::vec3& velocity);
     virtual float mass() { return 0.0f; }
     
-    virtual void setWorldTransform(const btTransform& worldTrans) {}
-    virtual void getWorldTransform(btTransform& worldTrans) {}
+    virtual void setWorldTransform(const btTransform& worldTrans) {
+        Node* node = dynamic_cast<Node*>(this);
+        glm::mat4 matrix = Physics::fromBulletTransform(worldTrans);
+        if(!sync(matrix))
+            *node->matrix() = matrix;
+        node->pendWorldMatrix();
+    }
+    virtual void getWorldTransform(btTransform& worldTrans) const {
+        const Node* node = dynamic_cast<const Node*>(this);
+        worldTrans = Physics::toBulletTransform(*node->matrix_c());
+    }
+    
+    // returns true if the object will sync its own properties, otherwise false to autosync
+    virtual bool sync(glm::mat4& m) {
+        return false;
+    }
+
     virtual void setKinematicPos(btTransform &currentPos) {}
+
+    void addStridingMeshInterface(std::unique_ptr<btStridingMeshInterface>& a) {
+        m_StridingMeshInterfaces.push_back(std::move(a));
+    }
+    void addCollisionShape(std::unique_ptr<btCollisionShape>& a) {
+        m_CollisionShapes.push_back(std::move(a));
+    }
 };
 
 #endif

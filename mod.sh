@@ -16,4 +16,6 @@ fi
 mod="mod_$1"
 
 rm -rf src/game 2>/dev/null
-ln -s $mod src/game
+pushd src > /dev/null
+ln -s $mod game
+popd > /dev/null

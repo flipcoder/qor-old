@@ -42,7 +42,7 @@ void GameState::nullify()
     m_pScene = NULL;
 }
 
-int GameState::logic(unsigned int advance)
+void GameState::logic(unsigned int advance)
 {
     // perform logic for all objects in scene graph
     m_pScene->logic(advance);
@@ -51,8 +51,6 @@ int GameState::logic(unsigned int advance)
 
     // set player as audio listener
     m_pPlayer->listen();
-
-    return 0;
 }
 
 void GameState::render() const

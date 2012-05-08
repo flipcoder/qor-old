@@ -39,6 +39,23 @@ private:
 
 public:
 
+    static btVector3 toBulletVector(const glm::vec3& v) {
+        return btVector3(v.x,v.y,v.z);
+    }
+    static glm::vec3 fromBulletVector(const btVector3& v){
+        return glm::vec3(v.x(),v.y(),v.z());
+    }
+    static btTransform toBulletTransform(const glm::mat4& m) {
+        btTransform t;
+        t.setFromOpenGLMatrix(glm::value_ptr(m));
+        return t;
+    }
+    static glm::mat4 fromBulletTransform(const btTransform& t) {
+        glm::mat4 m;
+        t.getOpenGLMatrix(glm::value_ptr(m));
+        return m;
+    }
+
     Physics();
     virtual ~Physics();
 
@@ -49,7 +66,7 @@ public:
      * \param advance Ticks (in ms) to advanced simulation.
      * \param root Root of physics node which can be automatically synced
      */
-    virtual bool logic(unsigned int advance);
+    virtual void logic(unsigned int advance);
 
     enum GenerateFlags {
         GEN_RECURSIVE = BIT(0)
@@ -59,7 +76,7 @@ public:
      *  \param flags GenerationFlags
      *  \param matrix Current transformation matrix
      */
-    void generate(Node* node, unsigned int flags = 0, glm::mat4* transform = NULL);
+    void generate(Node* node, unsigned int flags = 0, std::unique_ptr<glm::mat4> transform = std::unique_ptr<glm::mat4>());
     
     enum SyncFlags {
         SYNC_RECURSIVE = BIT(0)

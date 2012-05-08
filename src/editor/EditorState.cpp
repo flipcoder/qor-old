@@ -377,7 +377,7 @@ void EditorState::nullify()
 
 }
 
-bool EditorState::logic(unsigned int advance)
+void EditorState::logic(unsigned int advance)
 {
     float timestep = advance * 0.001f;
     Input* input = Engine::get().input();
@@ -386,7 +386,7 @@ bool EditorState::logic(unsigned int advance)
     if(m_spGUI->blocking())
     {
         m_spGUI->logic(advance, input);
-        return true;
+        return;
     }
 
     // perform logic for all objects in scene graph
@@ -450,7 +450,7 @@ bool EditorState::logic(unsigned int advance)
                 Selection::MOD_WORLD
             );
         }
-        return true;
+        return;
     }
      // did a GUI object claim focus (or respond to event) of the mouse?
     if(!m_spGUI->logic(advance, input))
@@ -639,8 +639,6 @@ bool EditorState::logic(unsigned int advance)
 
     // set player as audio listener
     m_pPlayer->listen();
-    
-    return true;
 }
 
 void EditorState::syncView() const

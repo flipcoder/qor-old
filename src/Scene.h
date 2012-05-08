@@ -25,7 +25,7 @@
 
 class Entity;
 
-class Scene : public IFallible
+class Scene : public IFallible, public IRealtime
 {
 public:
 
@@ -93,7 +93,7 @@ public:
     void clear();
     void clearEnvironment();
 
-    int logic(unsigned int a);
+    virtual void logic(unsigned int a);
     //void renderNode(const aiScene* scene, const aiNode* node) const;
     void render(Node* from = NULL) const;
     void renderOverview(const glm::vec3& pos, float scale) const;
