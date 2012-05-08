@@ -425,8 +425,8 @@ void Scene::nullify()
 
 Scene::~Scene()
 {
-    m_spRoot.reset(); // must reset root before deleting physics or segfault
     m_spPhysics.reset();
+    m_spRoot.reset();
 
     //foreach(Mesh* mesh, tempdata.meshes)
     //    delete mesh;

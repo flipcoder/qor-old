@@ -13,6 +13,8 @@ class IPhysicsObject: public btMotionState
 {
 protected:
     std::unique_ptr<btCollisionObject> m_spPhysicsBody;
+    std::unique_ptr<btActionInterface> m_ActionInterface;
+    std::unique_ptr<btGhostPairCallback> m_GhostPairCallback;
     std::vector<std::unique_ptr<btStridingMeshInterface>> m_StridingMeshInterfaces;
     std::vector<std::unique_ptr<btCollisionShape>> m_CollisionShapes;
     //btMotionState* m_pMotionState;
@@ -31,6 +33,7 @@ public:
         m_pPhysics(NULL) {}
     virtual ~IPhysicsObject();
     
+    Physics* getPhysics() { return m_pPhysics; }
     btMotionState* getMotionState() { return this; }
     btCollisionObject* getPhysicsBody() { return m_spPhysicsBody.get(); }
     void setPhysics(Physics* sys) {
@@ -73,6 +76,18 @@ public:
     }
     void addCollisionShape(std::unique_ptr<btCollisionShape>& a) {
         m_CollisionShapes.push_back(std::move(a));
+    }
+    void setAction(std::unique_ptr<btActionInterface>& a) {
+        m_ActionInterface = std::move(a);
+    }
+    btActionInterface* getAction() {
+        return m_ActionInterface.get();
+    }
+    btKinematicCharacterController* getCharacter() {
+        return dynamic_cast<btKinematicCharacterController*>(m_ActionInterface.get());
+    }
+    void setGhostPairCallback(std::unique_ptr<btGhostPairCallback>& a) {
+        m_GhostPairCallback = std::move(a);
     }
 };
 

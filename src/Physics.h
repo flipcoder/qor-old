@@ -6,6 +6,8 @@
 #include "math/common.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+#include <BulletDynamics/Character/btKinematicCharacterController.h>
 #include "Log.h"
 #include "Util.h"
 #include "IFallible.h"
@@ -24,7 +26,7 @@ private:
     //NewtonWorld* m_pWorld;
     std::unique_ptr<btDefaultCollisionConfiguration> m_spCollisionConfig;
     std::unique_ptr<btCollisionDispatcher> m_spDispatcher;
-    std::unique_ptr<btDbvtBroadphase> m_spBroadphase;
+    std::unique_ptr<btBroadphaseInterface> m_spBroadphase;
     std::unique_ptr<btSequentialImpulseConstraintSolver> m_spSolver;
     std::unique_ptr<btDiscreteDynamicsWorld> m_spWorld;
 
@@ -103,7 +105,7 @@ public:
     };
     //static void cbForceTorque(const btCollisionObject* body, float timestep, int threadIndex);
     //static void cbTransform(const btCollisionObject* body);
-    
+    btCollisionWorld* getWorld() { return m_spWorld.get(); }
 };
 
 #endif

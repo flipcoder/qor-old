@@ -14,7 +14,10 @@ Physics::Physics()
 {
     m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
     m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
-    m_spBroadphase.reset(new btDbvtBroadphase());
+    //m_spBroadphase.reset(new btDbvtBroadphase());
+    btVector3 worldMin(-1000,-1000,-1000);
+	btVector3 worldMax(1000,1000,1000);
+    m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
     m_spSolver.reset(new btSequentialImpulseConstraintSolver());
     m_spWorld.reset(new btDiscreteDynamicsWorld(
         m_spDispatcher.get(),
@@ -66,18 +69,18 @@ void Physics :: logic(unsigned int advance)
     static float accum = 0.0f;
     float timestep = advance*0.001f; // msec to sec
 
-    if(accum + timestep < 1.0f/120.0f)
-       accum+=timestep;
-    else
-    {
-        m_spWorld->stepSimulation(accum + timestep, NUM_SUBSTEPS);
+    //if(accum + timestep < 1.0f/120.0f)
+    //    accum+=timestep;
+    //else
+    //{
+        m_spWorld->stepSimulation(/*accum + */timestep, NUM_SUBSTEPS);
 //        NewtonUpdate(m_pWorld, accum + timestep);
 //        //syncBody(root, SYNC_RECURSIVE);
 //#ifdef _NEWTON_VISUAL_DEBUGGER
 //        NewtonDebuggerServe(m_pDebugger, m_pWorld);
 //#endif
-        accum = 0.0f;
-    }
+    //    accum = 0.0f;
+    //}
 }
 
 void Physics :: generate(Node* node, unsigned int flags, std::unique_ptr<glm::mat4> transform)
@@ -143,25 +146,71 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
     assert(node);
     assert(transform);
 
-    // TODO: CharacterController w/ btCapsuleShape
     IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
-    std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height()));
-    btVector3 inertia(0,0,0);
-    shape->calculateLocalInertia(physics_object->mass(), inertia);
-    btRigidBody::btRigidBodyConstructionInfo info(
-        physics_object->mass(),
-        physics_object, // inherits btMotionState
-        shape.get(),
-        inertia
+    //Actor* actor = dynamic_cast<Actor*>(node);
+
+    btTransform bt_transform = Physics::toBulletTransform(*transform);
+    //bt_transform.setIdentity();
+    //bt_transform.setOrigin(btVector3(0.0, 0.0, 0.0));
+    std::unique_ptr<btPairCachingGhostObject> ghost(new btPairCachingGhostObject()); // ->object
+    ghost->setWorldTransform(bt_transform);
+    std::unique_ptr<btGhostPairCallback> ghost_callback(new btGhostPairCallback()); // -
+    m_spBroadphase->getOverlappingPairCache()->setInternalGhostPairCallback(ghost_callback.get());
+    std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height())); //-
+    ghost->setCollisionShape(shape.get());
+    ghost->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+    btScalar step_height(0.35);
+    std::unique_ptr<btKinematicCharacterController> character( // -> interface
+        new btKinematicCharacterController(
+            ghost.get(),
+            ((btConvexShape*)shape.get()),
+            step_height
+        )
     );
-    std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
-    ((btRigidBody*)body.get())->setAngularFactor(0.0);
-    ((btRigidBody*)body.get())->setSleepingThresholds(0.0, 0.0);
+
+    //character->setUpAxis(1);
+
     physics_object->addCollisionShape(shape);
+    physics_object->setGhostPairCallback(ghost_callback);
+    std::unique_ptr<btCollisionObject> body(std::move(ghost));
+
+    m_spWorld->addCollisionObject(
+        body.get(),
+        btBroadphaseProxy::CharacterFilter,
+        btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter
+    );
+
+    std::unique_ptr<btActionInterface> interface(std::move(character));
+    m_spWorld->addAction(interface.get());
+    m_spBroadphase->getOverlappingPairCache()->cleanProxyFromPairs(
+        body->getBroadphaseHandle(),
+        m_spDispatcher.get()
+    );
+    ((btKinematicCharacterController*)interface.get())->reset();
+    ((btKinematicCharacterController*)interface.get())->warp(Physics::toBulletVector(node->position()));
+
     physics_object->setBody(body);
+    physics_object->setAction(interface);
     physics_object->setPhysics(this);
-    m_spWorld->addRigidBody((btRigidBody*)physics_object->getBody());
+
+    // Without character controller:
+    
+    //IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
+    //std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height()));
+    //btVector3 inertia(0,0,0);
+    //shape->calculateLocalInertia(physics_object->mass(), inertia);
+    //btRigidBody::btRigidBodyConstructionInfo info(
+    //    physics_object->mass(),
+    //    physics_object, // inherits btMotionState
+    //    shape.get(),
+    //    inertia
+    //);
+    //std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
+    //((btRigidBody*)body.get())->setAngularFactor(0.0);
+    //((btRigidBody*)body.get())->setSleepingThresholds(0.0, 0.0);
+    
 }
+
 void Physics :: generateTree(Node* node, unsigned int flags, glm::mat4* transform) {
     assert(node);
     assert(transform);
