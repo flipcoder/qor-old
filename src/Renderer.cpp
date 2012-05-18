@@ -11,9 +11,9 @@
 #include <iostream>
 using namespace std;
 
-#define DIST_NEAR_PLANE 0.01f
-//#define DIST_FAR_PLANE 1000.0f
-#define DIST_FAR_PLANE -1.0f
+#define DIST_NEAR_PLANE 0.1f
+#define DIST_FAR_PLANE 100.0f
+//#define DIST_FAR_PLANE -1.0f
 
 #define DEFAULT_FOV 60.0f //70
 
@@ -60,7 +60,7 @@ bool Renderer :: setDisplayMode()
     unsigned int flags = SDL_OPENGL;
 
     if(m_VideoInfo.fullscreen)
-        flags |= SDL_FULLSCREEN | SDL_HWSURFACE;
+        flags |= SDL_FULLSCREEN;
 
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -68,15 +68,15 @@ bool Renderer :: setDisplayMode()
         return false;
     }
 
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    //SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    //SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    //SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    //SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     //SDL_GL_SetSwapInterval(0); // vsync
     //SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);  // Force VSync
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); // AA x4
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4); // AA x4
+    //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1); // AA x4
+    //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4); // AA x4
 
     SDL_Surface* screen = SDL_SetVideoMode(m_VideoInfo.w, m_VideoInfo.h, m_VideoInfo.bpp, flags);
     if (!screen)
@@ -101,9 +101,10 @@ bool Renderer :: startIL()
 
 void Renderer :: draw()
 {
-    glFlush();
+    //glFinish();
     SDL_GL_SwapBuffers();
-    //clear(m_clearColor);
+    SDL_Delay(1);
+    clear();
 }
 
 
@@ -112,19 +113,19 @@ bool Renderer :: startGL()
     if(glewInit()!=GLEW_OK)
         return false;
 
-    glShadeModel(GL_SMOOTH);
-    glClearDepth(1.0f);
+    //glShadeModel(GL_SMOOTH);
+    //glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_TEXTURE_2D);
     glEnable(GL_CULL_FACE);
     //glEnable(GL_POINT_SMOOTH);
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glEnable(GL_POINT_SPRITE);
-    glEnable(GL_LINE_SMOOTH);
-    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    glEnable(GL_POLYGON_SMOOTH);
-    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    //glEnable(GL_LINE_SMOOTH);
+    //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    //glEnable(GL_POLYGON_SMOOTH); //!
+    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     glCullFace(GL_BACK);
     glDepthFunc(GL_LEQUAL);
     //glEnable(GL_MULTISAMPLE);
@@ -175,7 +176,7 @@ bool Renderer :: startGL()
     m_TextureUniform[1] = m_spProgram->uniform("nmap");
     m_TextureUniform[2] = m_spProgram->uniform("disp");
     m_TextureUniform[3] = m_spProgram->uniform("spec");
-    m_TextureUniform[4] = m_spProgram->uniform("occ");
+    //m_TextureUniform[4] = m_spProgram->uniform("occ");
     
     m_ViewMatrixUniform = m_spProgram->uniform("ViewMatrix");
 
@@ -325,7 +326,7 @@ void Renderer :: bindTexture(Texture* t, unsigned int layer)
         m_TextureSlots[layer] = t;
         glBindTexture(GL_TEXTURE_2D, t->id);
         if(m_spProgram)
-            if((int)m_TextureUniform[layer] > -1)
+            if((int)m_TextureUniform[layer] >= 0)
                 m_spProgram->uniform(m_TextureUniform[layer], (int)layer);
         glEnable(GL_TEXTURE_2D);
     }

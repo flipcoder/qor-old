@@ -8,8 +8,9 @@
 #include <memory>
 #include "GfxAPI.h"
 #include "Settings.h"
+#include "IRealtime.h"
 
-class Input
+class Input : public IRealtime
 {
     //protected:
     public:
@@ -61,6 +62,8 @@ class Input
         int mouse_rel_x;
         int mouse_rel_y;
         
+        bool m_bQuit;
+
         bool m_bMouseHidden;
         bool m_bMouseLeft;
         bool m_bMouseLeftFrame;
@@ -101,7 +104,7 @@ class Input
         bool key(int key) const;
         bool keyd(int key) { bool b = m_key[key]; m_key[key]=false; return b; }
         void disableKey(int key) { m_key[key]=false; }
-        int logic();
+        virtual void logic(unsigned int t);
         void clearKeys();
         
         //void getString(std::string* str, std::string app = "");
@@ -161,6 +164,8 @@ class Input
             m_bMouseWheelDown=false;
             return b;
         }
+
+        bool quit() const { return m_bQuit; }
 
         InputController* getControl(int idx) { return &inputController[idx]; }
         

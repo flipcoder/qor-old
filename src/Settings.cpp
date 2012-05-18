@@ -13,7 +13,7 @@ Settings :: Settings(std::string fn)
 
 Settings :: ~Settings()
 {
-
+    save();
 }
 
 
@@ -36,7 +36,10 @@ bool Settings :: open(std::string fn)
 
 bool Settings :: save()
 {
-    m_Properties.save(m_FileName.c_str());
+    if(!m_FileName.empty())
+        m_Properties.save(m_FileName.c_str());
+    else
+        return false;
     return true;
 }
 

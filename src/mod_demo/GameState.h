@@ -16,7 +16,7 @@ public:
     GameState();
     virtual ~GameState();
 
-    virtual int logic(unsigned int advance);
+    virtual void logic(unsigned int advance);
     virtual void render() const;
     //virtual bool error() { return m_bError; }
     //virtual std::string getErrorString() { return m_sError; }

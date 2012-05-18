@@ -425,8 +425,8 @@ void Scene::nullify()
 
 Scene::~Scene()
 {
-    m_spRoot.reset(); // must reset root before deleting physics or segfault
     m_spPhysics.reset();
+    m_spRoot.reset();
 
     //foreach(Mesh* mesh, tempdata.meshes)
     //    delete mesh;
@@ -456,12 +456,11 @@ void Scene::clearEnvironment()
     }
 }
 
-int Scene::logic(unsigned int a)
+void Scene::logic(unsigned int a)
 {
     m_spRoot->logic(a);
     if(m_spPhysics.get())
-        m_spPhysics->logic(a, m_spRoot.get());
-    return 0;
+        m_spPhysics->logic(a);
 }
 
 void Scene::render(Node* from) const

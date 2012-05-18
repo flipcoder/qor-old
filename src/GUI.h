@@ -263,7 +263,7 @@ class GUI : public IFallible
         }
         bool remove(Object* obj) {
             std::remove_if(m_Objects.begin(), m_Objects.end(),
-                [obj](shared_ptr<Object> sp){
+                [obj](shared_ptr<Object> sp) {
                     return sp.get() == obj;
                 }
             );

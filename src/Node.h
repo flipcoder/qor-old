@@ -24,14 +24,14 @@
 
 #include "Util.h"
 #include "NodeAttributes.h"
-#include "IPhysicsObject.h"
+#include "Physics.h"
 #include "Frustum.h"
 #include "Graphics.h"
 #include "IPartitioner.h"
 
 class Scene;
 
-class Node : public std::enable_shared_from_this<Node>
+class Node : public IRealtime, public std::enable_shared_from_this<Node>
 {
 
 protected:
@@ -58,13 +58,6 @@ protected:
 
 public:
 
-    enum Space
-    {
-        S_LOCAL,
-        S_PARENT,
-        S_WORLD
-    };
-    
     //class ScopedMatrixMod
     //{
     //private:
@@ -168,8 +161,19 @@ public:
 
     virtual glm::mat4* matrix() { return &m_Matrix; }
     virtual const glm::mat4* matrix_c() const { return &m_Matrix; }
-    virtual const glm::mat4* matrix_c(Node::Space s) const;
-    //virtual glm::mat4 matrix(Node::Space s = Node::S_PARENT) const;
+    virtual const glm::mat4* matrix_c(SCOPED_ENUM_TYPE(Space) s) const;
+    //virtual glm::mat4 matrix(Space s = Space::PARENT) const;
+
+    // btMotionState overloads
+    //virtual void setWorldTransform(const btTransform& worldTrans) {
+    //    // TODO: assumes world space
+    //    worldTrans.getOpenGLMatrix((btScalar*)Matrix::ptr(*matrix()));
+    //    pendWorldMatrix();
+    //}
+    //virtual void getWorldTransform(btTransform& worldTrans) const {
+    //    worldTrans.setFromOpenGLMatrix(Matrix::ptr(*matrix_c()));
+    //}
+    //virtual void setKinematicPos(btTransform &currentPos) {}
 
     virtual void pendWorldMatrix() const {
         m_PendingCache |= PC_WORLD_MATRIX;
@@ -187,9 +191,9 @@ public:
     }
 
     virtual glm::vec3 heading() const { return Matrix::heading(*matrix_c()); }
-    virtual glm::vec3 position(Node::Space s = Node::S_PARENT) const;
-    virtual void position(const glm::vec3& v, Node::Space s = Node::S_PARENT);
-    virtual void move(const glm::vec3& v, Node::Space s = Node::S_PARENT);
+    virtual glm::vec3 position(SCOPED_ENUM_TYPE(Space) s = Space::PARENT) const;
+    virtual void position(const glm::vec3& v, SCOPED_ENUM_TYPE(Space) s = Space::PARENT);
+    virtual void move(const glm::vec3& v, SCOPED_ENUM_TYPE(Space) s = Space::PARENT);
 
     // find searches subnodes automatically, to not search subnodes,
     // (p->getParent_c()==c)?c:NULL is equivalent
@@ -249,11 +253,9 @@ public:
     //virtual void removeAll(std::list<Node*>& removed_nodes, unsigned int flags = 0);
     //virtual void removeAll(std::list<shared_ptr<Node>>& removed_nodes, unsigned int flags = 0);
 
-    virtual void collapse(Space s = S_PARENT, unsigned int flags = 0);
+    virtual void collapse(SCOPED_ENUM_TYPE(Space) s = Space::PARENT, unsigned int flags = 0);
 
     virtual unsigned int numChildren() { return m_Children.size(); }
-
-    virtual void sync(glm::mat4& m) {}
     
     virtual std::list<std::shared_ptr<Node>>* children() {
         return &m_Children;

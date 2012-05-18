@@ -11,6 +11,7 @@ Input :: Input()
     m_tempString = "";
     //m_destString = NULL;
     
+    m_bQuit = false;
     m_bGrabString = false;
     m_bMouseHidden = false;
     m_bMouseLeft = false;
@@ -80,7 +81,7 @@ bool Input :: key(int key) const
     return m_key[key];
 }
 
-int Input :: logic()
+void Input :: logic(unsigned int t)
 {
     SDL_Event ev;
     
@@ -98,7 +99,7 @@ int Input :: logic()
         switch (ev.type)
         {
             case SDL_QUIT:
-                return 1;
+                m_bQuit = true;
                 break;
 
             case SDL_KEYDOWN:
@@ -122,11 +123,11 @@ int Input :: logic()
                             break;
                     }
                 }
-                else
-                {
-                    if (ev.key.keysym.sym == SDLK_ESCAPE)
-                        return 1;
-                }
+                //else
+                //{
+                    //if (ev.key.keysym.sym == SDLK_ESCAPE)
+                    //    return 1;
+                //}
                 
                 break;
             }
@@ -188,8 +189,6 @@ int Input :: logic()
         {
             backspaceString();
         }*/
-
-    return 0;
 }
 
 //void Input :: getString(string* str, string app)

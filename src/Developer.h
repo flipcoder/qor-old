@@ -3,22 +3,21 @@
 
 class Engine;
 
-#include "Engine.h"
 #include "Input.h"
+#include "IRealtime.h"
+#include "IRenderable.h"
 
-
-class Developer
+class Developer : public IRealtime, public IRenderable
 {
     private:
 
-        Engine* m_pEngine; //weak
         Input* m_pInput; //weak
 
     public:
-        Developer(Engine* core, Input* input);
+        Developer(Input* input);
         virtual ~Developer();
 
-        virtual int logic(unsigned int a);
+        virtual void logic(unsigned int a);
         virtual void render() const;
 };
 

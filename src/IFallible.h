@@ -22,6 +22,7 @@ class IFallible
         IFallible() {}
         virtual ~IFallible() {}
 
+        virtual void failsafe() {}
         virtual bool hasError() const { return !m_sError.empty(); }
         virtual std::string getError() const { return m_sError; }
         virtual std::string moveError() { return std::move(m_sError); }
