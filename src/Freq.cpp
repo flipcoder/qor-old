@@ -29,7 +29,6 @@ double Freq :: getElapsedSeconds() const
 
 bool Freq :: tick()
 {
-    
     if ( getElapsedTime() / m_dTimeBetweenTicks > m_ulTicks )
     {
         ++m_ulTicks;

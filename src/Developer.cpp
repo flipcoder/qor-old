@@ -1,8 +1,8 @@
 #include "Developer.h"
+#include "Engine.h"
 
-Developer :: Developer(Engine* core, Input* input)
+Developer :: Developer(Input* input)
 {
-    m_pEngine = core;
     m_pInput = input;
 }
 
@@ -11,15 +11,18 @@ Developer :: ~Developer()
     
 }
 
-int Developer :: logic(unsigned int a)
+void Developer :: logic(unsigned int a)
 {
     if(m_pInput->keyd(SDLK_F1))
-        m_pEngine->clearToState("game");
+        Engine::get().clearToState("game");
     else if(m_pInput->keyd(SDLK_F2))
-        m_pEngine->clearToState("editor");
+        Engine::get().clearToState("editor");
     
     if(m_pInput->keyd(SDLK_F12))
         m_pInput->toggleHideMouse();
+
+    if(m_pInput->keyd(SDLK_ESCAPE))
+        Engine::get().quit();
 }
 
 void Developer :: render() const

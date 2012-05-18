@@ -41,7 +41,7 @@ class Light : public Node
                 Type light_type = lightType();
                 if(light_type == POINT || light_type == SPOT)
                 {
-                    vec = glm::vec4(position(Node::S_WORLD), 1.0);
+                    vec = glm::vec4(position(Space::WORLD), 1.0);
                 }
                 else if (light_type == DIRECTIONAL)
                 {

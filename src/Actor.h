@@ -51,9 +51,9 @@ public:
     // remember when rendering, to set visible(false) if the player is local ;)
     //virtual void renderSelf() {}
     
-    virtual void sync(glm::mat4* m) {
-        Matrix::translation(*matrix(), Matrix::translation(*m));
-        pendWorldMatrix();
+    virtual bool sync(glm::mat4& m) {
+        Matrix::translation(*matrix(), Matrix::translation(m));
+        return true;
     }
 
     virtual IPhysicsObject::Type getPhysicsType() { return IPhysicsObject::ACTOR; }

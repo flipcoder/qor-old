@@ -20,7 +20,12 @@
 class Developer;
 #include "Developer.h"
 
-class Engine: public IStaticInstance<Engine>, public IFallible, public IStateManager<std::string, IState>
+class Engine:
+    public IRealtime,
+    public IRenderable,
+    public IStaticInstance<Engine>,
+    public IFallible,
+    public IStateManager<std::string, IState>
 {
 public:
 
@@ -37,12 +42,12 @@ private:
     boost::array<std::string, MAX_OP> m_Options;
 
     //Renderer* m_pRenderer;
-    Input* m_pInput;
+    std::unique_ptr<Input> m_spInput;
     //Freq* m_pTimer;
     //Log* m_pLog;
-    Console* m_pConsole;
+    std::unique_ptr<Console> m_spConsole;
     //Settings* m_pSettings;
-    Audio* m_pAudio;
+    std::unique_ptr<Audio> m_spAudio;
     std::unique_ptr<Developer> m_spDeveloper;
 
     unsigned int m_uiLastAdv;
@@ -77,15 +82,15 @@ public:
     virtual ~Engine();
 
     bool init();
-    int logic();
-    void render() const;
+    virtual void logic(unsigned int t = 0);
+    virtual void render() const;
     void cleanup();
     bool run();
     
     //Renderer* renderer() const { return m_pRenderer; }
-    Input* input() const { return m_pInput; }
+    Input* input() const { return m_spInput.get(); }
     //Freq* timer() const { return m_pTimer; }
-    Audio* audio() const { return m_pAudio; }
+    Audio* audio() const { return m_spAudio.get(); }
 
 // IStateManager
     virtual IState* newState(const std::string id);

@@ -25,7 +25,7 @@ public:
     void loadGUI();
     void loadScene();
 
-    virtual bool logic(unsigned int advance);
+    virtual void logic(unsigned int advance);
     virtual void render() const;
     void syncView() const;
 

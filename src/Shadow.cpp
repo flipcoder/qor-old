@@ -24,8 +24,8 @@ Shadow :: Shadow(weak_ptr<Node>& mesh_node_ref, weak_ptr<Mesh>& mesh_ref, weak_p
             throw false;
         
         // Get matricies so we can get all the vectors into world space
-        glm::mat4 node_matrix = *shared_data.node->matrix_c(Node::S_WORLD);
-        glm::mat4 light_matrix = *shared_data.light->matrix_c(Node::S_WORLD);
+        glm::mat4 node_matrix = *shared_data.node->matrix_c(Space::WORLD);
+        glm::mat4 light_matrix = *shared_data.light->matrix_c(Space::WORLD);
         
         // now we go through the mesh and detect edges
         if(!generateEdges(shared_data))

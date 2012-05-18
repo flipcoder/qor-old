@@ -73,15 +73,13 @@ void Node :: getParents(stack<Node*>& s, bool include_self)
     }
 }
 
-const glm::mat4* Node :: matrix_c(Node::Space s) const
+const glm::mat4* Node :: matrix_c(SCOPED_ENUM_TYPE(Space) s) const
 {
     //m.clear(glm::mat4::IDENTITY);
 
-    ASSERT(s != Node::S_LOCAL);
-    if(s == Node::S_LOCAL)
-        return NULL;
+    ASSERT(s != Space::LOCAL);
 
-    if(s == Node::S_PARENT)
+    if(s == Space::PARENT)
         return matrix_c();
 
     // TODO
@@ -91,7 +89,7 @@ const glm::mat4* Node :: matrix_c(Node::Space s) const
     {    
         const Node* parent = getParent_c();
         if(parent && parent->getParent_c()) // 2nd check assumes root has identity matrix at all times
-            m_WorldMatrixCached = *getParent_c()->matrix_c(S_WORLD) * *matrix_c();
+            m_WorldMatrixCached = *getParent_c()->matrix_c(Space::WORLD) * *matrix_c();
         else
             m_WorldMatrixCached = *matrix_c();
         
@@ -111,15 +109,15 @@ const glm::mat4* Node :: matrix_c(Node::Space s) const
 }
 
 
-glm::vec3 Node :: position(Node::Space s) const
+glm::vec3 Node :: position(SCOPED_ENUM_TYPE(Space) s) const
 {
-    ASSERT(s != Node::S_LOCAL); // alert, you probably meant PARENT
+    ASSERT(s != Space::LOCAL); // alert, you probably meant PARENT
 
-    if(s == Node::S_PARENT)
+    if(s == Space::PARENT)
         return Matrix::translation(m_Matrix);
-    else if (s == Node::S_WORLD)
+    else if (s == Space::WORLD)
     {
-        return Matrix::translation(*matrix_c(Node::S_WORLD));
+        return Matrix::translation(*matrix_c(Space::WORLD));
 
         //// TODO: Move this local-to-world crap to an actual Node method
         ////       and fix it because it looks broken
@@ -149,18 +147,18 @@ glm::vec3 Node :: position(Node::Space s) const
     return glm::vec3();
 }
 
-void Node :: position(const glm::vec3& v, Node::Space s)
+void Node :: position(const glm::vec3& v, SCOPED_ENUM_TYPE(Space) s)
 {
-    ASSERT(s != S_LOCAL); // didn't you mean parent?
-    ASSERT(s != S_WORLD); // not yet implemented
+    ASSERT(s != Space::LOCAL); // didn't you mean parent?
+    ASSERT(s != Space::WORLD); // not yet implemented
     Matrix::translation(m_Matrix, v);
     pendWorldMatrix();
 }
 
-void Node :: move(const glm::vec3& v, Node::Space s)
+void Node :: move(const glm::vec3& v, SCOPED_ENUM_TYPE(Space) s)
 {
-    ASSERT(s != S_LOCAL); // didn't you mean parent?
-    ASSERT(s != S_WORLD); // not yet implemented
+    ASSERT(s != Space::LOCAL); // didn't you mean parent?
+    ASSERT(s != Space::WORLD); // not yet implemented
     Matrix::translate(m_Matrix, v);
     pendWorldMatrix();
 }
@@ -187,7 +185,7 @@ void Node :: render(IPartitioner* partitioner, unsigned int flags) const
     // render self
     if(visible() && (!hasAttribute(NodeAttributes::SIZE) || inView(partitioner))) {
         if(!(flags & RENDER_USE_STACK)) {
-            glm::mat4 modelview = *Renderer::get().getViewMatrix() * *matrix_c(S_WORLD);
+            glm::mat4 modelview = *Renderer::get().getViewMatrix() * *matrix_c(Space::WORLD);
             glLoadMatrixf(glm::value_ptr(modelview));
         }
         renderSelf(partitioner, flags);
@@ -429,7 +427,7 @@ Node* Node ::add(shared_ptr<Node> n)
 {
     ASSERT(n);
     ASSERT(this != n.get());
-    ASSERT(n->getParent() == NULL); // node we're trying to add has no existing parent
+    //ASSERT(n->getParent() == NULL); // node we're trying to add has no existing parent
 
     // do similar checks in case assertions are disabled
     if(this == n.get())
@@ -594,11 +592,11 @@ void Node :: removeAll(unsigned int flags)
 //}
 
 
-void Node :: collapse(Space s, unsigned int flags)
+void Node :: collapse(SCOPED_ENUM_TYPE(Space) s, unsigned int flags)
 {
-    ASSERT(s != S_LOCAL);
+    ASSERT(s != Space::LOCAL);
 
-    if(s == S_PARENT)
+    if(s == Space::PARENT)
     {
         if(!getParent()) // if this node is root, exit
             return;
@@ -618,13 +616,13 @@ void Node :: collapse(Space s, unsigned int flags)
 
         ASSERT(m_pParent); // if this node becomes root, we've done something wrong
     }
-    else if(s == S_WORLD)
+    else if(s == Space::WORLD)
     {
         if(!getParent())
             return;
 
         while(getParent()->getParent())
-            collapse(S_PARENT);
+            collapse(Space::PARENT);
     }
 }
 
@@ -822,7 +820,7 @@ void Node :: cacheModelMatrix() const
         //if(getParent_c() && getParent_c()->isWorldMatrixPendingCache())
         //    m_WorldMatrixCached = 
         // ugh.. I need the model matrix, not modelview >:(
-        matrix_c(S_WORLD);
+        matrix_c(Space::WORLD);
         //Renderer::get().getModelView(m_WorldMatrixCached);
         
         // pend children

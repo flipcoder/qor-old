@@ -14,10 +14,11 @@
 #include <assimp/aiPostProcess.h>
 #include "Shadow.h"
 #include "Light.h"
+#include "IRealtime.h"
 class Shadow;
 class Light;
 
-class Mesh
+class Mesh : public IRealtime
 {
 
 public:
@@ -68,7 +69,7 @@ public:
     enum {
         RENDER_LOD = BIT(0)
     };
-    void logic(unsigned int advance);
+    virtual void logic(unsigned int advance);
     void render(unsigned int flags = 0, float quality = 1.0f) const;
     Shadow* getShadow(Node* node, Light* light){
         

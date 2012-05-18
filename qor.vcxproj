@@ -66,7 +66,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -94,7 +94,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -106,163 +106,170 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="src\IStateManager.h" />
-		<ClInclude Include="src\Octree.h" />
-		<ClInclude Include="src\Texture.h" />
-		<ClInclude Include="src\Util.h" />
-		<ClInclude Include="src\Actor.h" />
-		<ClInclude Include="src\RenderBuffer.h" />
-		<ClInclude Include="src\IPhysicsObject.h" />
-		<ClInclude Include="src\AITypeParser.h" />
-		<ClInclude Include="src\NodeFactory.h" />
-		<ClInclude Include="src\ParticleSystem.h" />
 		<ClInclude Include="src\Audio.h" />
-		<ClInclude Include="src\Material.h" />
-		<ClInclude Include="src\TrackerNode.h" />
-		<ClInclude Include="src\ResourcePath.h" />
-		<ClInclude Include="src\ISingleton.h" />
-		<ClInclude Include="src\Renderer.h" />
-		<ClInclude Include="src\NodeAttributes.h" />
-		<ClInclude Include="src\Shader.h" />
-		<ClInclude Include="src\Viewmodel.h" />
-		<ClInclude Include="src\Developer.h" />
-		<ClInclude Include="src\IFallible.h" />
-		<ClInclude Include="src\Entity.h" />
-		<ClInclude Include="src\EulerNode.h" />
+		<ClInclude Include="src\Freq.h" />
+		<ClInclude Include="src\Spectator.h" />
 		<ClInclude Include="src\PropertyList.h" />
-		<ClInclude Include="src\ITrackable.h" />
-		<ClInclude Include="src\IRealtime.h" />
-		<ClInclude Include="src\Node.h" />
-		<ClInclude Include="src\ISuperParent.h" />
-		<ClInclude Include="src\EnvironmentNode.h" />
-		<ClInclude Include="src\Scene.h" />
-		<ClInclude Include="src\IConfig.h" />
-		<ClInclude Include="src\ResourceMap.h" />
-		<ClInclude Include="src\Engine.h" />
-		<ClInclude Include="src\IPartitioner.h" />
-		<ClInclude Include="src\Graphics.h" />
-		<ClInclude Include="src\IRenderable.h" />
-		<ClInclude Include="src\DumbyPartitioner.h" />
 		<ClInclude Include="src\IListenable.h" />
 		<ClInclude Include="src\Version.h" />
-		<ClInclude Include="src\Shadow.h" />
-		<ClInclude Include="src\Frustum.h" />
-		<ClInclude Include="src\IMeshContainer.h" />
-		<ClInclude Include="src\GUI.h" />
-		<ClInclude Include="src\Freq.h" />
-		<ClInclude Include="src\Light.h" />
-		<ClInclude Include="src\Settings.h" />
-		<ClInclude Include="src\Spectator.h" />
-		<ClInclude Include="src\Log.h" />
-		<ClInclude Include="src\Mesh.h" />
-		<ClInclude Include="src\IState.h" />
-		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\Physics.h" />
 		<ClInclude Include="src\Filesystem.h" />
-		<ClInclude Include="src\IStaticInstance.h" />
-		<ClInclude Include="src\Batch.h" />
-		<ClInclude Include="src\Input.h" />
-		<ClInclude Include="src\GfxAPI.h" />
+		<ClInclude Include="src\IPartitioner.h" />
+		<ClInclude Include="src\Settings.h" />
+		<ClInclude Include="src\NodeAttributes.h" />
+		<ClInclude Include="src\IMeshContainer.h" />
+		<ClInclude Include="src\Scene.h" />
+		<ClInclude Include="src\EnvironmentNode.h" />
+		<ClInclude Include="src\NodeFactory.h" />
+		<ClInclude Include="src\ResourceMap.h" />
 		<ClInclude Include="src\Sound.h" />
-		<ClInclude Include="src\game\GameState.h" />
+		<ClInclude Include="src\IConfig.h" />
+		<ClInclude Include="src\Path.h" />
+		<ClInclude Include="src\Renderer.h" />
+		<ClInclude Include="src\IScriptable.h" />
+		<ClInclude Include="src\IState.h" />
+		<ClInclude Include="src\ISingleton.h" />
+		<ClInclude Include="src\ITrackable.h" />
+		<ClInclude Include="src\Octree.h" />
+		<ClInclude Include="src\Frustum.h" />
+		<ClInclude Include="src\Texture.h" />
+		<ClInclude Include="src\Entity.h" />
+		<ClInclude Include="src\Light.h" />
+		<ClInclude Include="src\Developer.h" />
+		<ClInclude Include="src\Log.h" />
+		<ClInclude Include="src\Engine.h" />
+		<ClInclude Include="src\EulerNode.h" />
+		<ClInclude Include="src\GfxAPI.h" />
+		<ClInclude Include="src\Batch.h" />
+		<ClInclude Include="src\IPhysicsObject.h" />
+		<ClInclude Include="src\Shader.h" />
+		<ClInclude Include="src\DumbyPartitioner.h" />
+		<ClInclude Include="src\IRenderable.h" />
+		<ClInclude Include="src\Shadow.h" />
+		<ClInclude Include="src\Node.h" />
+		<ClInclude Include="src\IStateManager.h" />
+		<ClInclude Include="src\IRealtime.h" />
+		<ClInclude Include="src\GUI.h" />
+		<ClInclude Include="src\Actor.h" />
+		<ClInclude Include="src\Input.h" />
+		<ClInclude Include="src\Viewmodel.h" />
+		<ClInclude Include="src\Mesh.h" />
+		<ClInclude Include="src\ParticleSystem.h" />
+		<ClInclude Include="src\TrackerNode.h" />
+		<ClInclude Include="src\Graphics.h" />
+		<ClInclude Include="src\Material.h" />
+		<ClInclude Include="src\Console.h" />
+		<ClInclude Include="src\RenderBuffer.h" />
+		<ClInclude Include="src\ISuperParent.h" />
+		<ClInclude Include="src\ResourcePath.h" />
+		<ClInclude Include="src\IStaticInstance.h" />
+		<ClInclude Include="src\Util.h" />
+		<ClInclude Include="src\IFallible.h" />
+		<ClInclude Include="src\AITypeParser.h" />
+		<ClInclude Include="src\extra\KinematicCharacterController.h" />
 		<ClInclude Include="src\LuaScript\LuaState.h" />
-		<ClInclude Include="src\pn\pnUtil.h" />
-		<ClInclude Include="src\pn\pn.h" />
-		<ClInclude Include="src\math\vectorops.h" />
-		<ClInclude Include="src\math\angle.h" />
-		<ClInclude Include="src\math\matrixops.h" />
-		<ClInclude Include="src\math\matrixstack.h" />
-		<ClInclude Include="src\math\common.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
-		<ClInclude Include="src\editor\SelectorNode.h" />
+		<ClInclude Include="src\game\GameState.h" />
+		<ClInclude Include="src\pn\pnUtil.h" />
+		<ClInclude Include="src\pn\pn.h" />
 		<ClInclude Include="src\editor\EditorState.h" />
+		<ClInclude Include="src\editor\SelectorNode.h" />
 		<ClInclude Include="src\editor\Selection.h" />
+		<ClInclude Include="src\math\angle.h" />
+		<ClInclude Include="src\math\vectorops.h" />
+		<ClInclude Include="src\math\matrixops.h" />
+		<ClInclude Include="src\math\common.h" />
+		<ClInclude Include="src\math\matrixstack.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="src\Freq.cpp">
+		<ClCompile Include="src\Shadow.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Filesystem.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Entity.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Frustum.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Physics.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Engine.cpp">
-		</ClCompile>
-		<ClCompile Include="src\IPhysicsObject.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Shader.cpp">
-		</ClCompile>
-		<ClCompile Include="src\ParticleSystem.cpp">
+		<ClCompile Include="src\NodeFactory.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Scene.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Input.cpp">
-		</ClCompile>
 		<ClCompile Include="src\EnvironmentNode.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Developer.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Spectator.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Mesh.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Main.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Texture.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Console.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Log.cpp">
-		</ClCompile>
-		<ClCompile Include="src\PropertyList.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Node.cpp">
-		</ClCompile>
-		<ClCompile Include="src\GUI.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Renderer.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Graphics.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Actor.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Material.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Audio.cpp">
-		</ClCompile>
-		<ClCompile Include="src\TrackerNode.cpp">
+		<ClCompile Include="src\Mesh.cpp">
 		</ClCompile>
 		<ClCompile Include="src\DumbyPartitioner.cpp">
 		</ClCompile>
-		<ClCompile Include="src\EulerNode.cpp">
+		<ClCompile Include="src\Material.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Main.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Engine.cpp">
+		</ClCompile>
+		<ClCompile Include="src\TrackerNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Entity.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Renderer.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Path.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Frustum.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Spectator.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Freq.cpp">
+		</ClCompile>
+		<ClCompile Include="src\PropertyList.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Physics.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Node.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Settings.cpp">
 		</ClCompile>
+		<ClCompile Include="src\Developer.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Graphics.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Log.cpp">
+		</ClCompile>
 		<ClCompile Include="src\Batch.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Shadow.cpp">
+		<ClCompile Include="src\ParticleSystem.cpp">
 		</ClCompile>
-		<ClCompile Include="src\NodeFactory.cpp">
+		<ClCompile Include="src\Texture.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Actor.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Shader.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Audio.cpp">
+		</ClCompile>
+		<ClCompile Include="src\IPhysicsObject.cpp">
+		</ClCompile>
+		<ClCompile Include="src\GUI.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Input.cpp">
+		</ClCompile>
+		<ClCompile Include="src\EulerNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\extra\KinematicCharacterController.cpp">
 		</ClCompile>
 		<ClCompile Include="src\game\GameState.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pn.cpp">
+		</ClCompile>
+		<ClCompile Include="src\pn\pnUtil.cpp">
 		</ClCompile>
 		<ClCompile Include="src\pn\pnSocket.cpp">
 		</ClCompile>
 		<ClCompile Include="src\pn\pnBuffer.cpp">
 		</ClCompile>
-		<ClCompile Include="src\pn\pnUtil.cpp">
-		</ClCompile>
-		<ClCompile Include="src\pn\pn.cpp">
-		</ClCompile>
-		<ClCompile Include="src\math\matrixstack.cpp">
+		<ClCompile Include="src\editor\SelectorNode.cpp">
 		</ClCompile>
 		<ClCompile Include="src\editor\EditorState.cpp">
 		</ClCompile>
-		<ClCompile Include="src\editor\SelectorNode.cpp">
+		<ClCompile Include="src\math\matrixstack.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

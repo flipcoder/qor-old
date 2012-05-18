@@ -5,6 +5,13 @@
 #include <string>
 #include <vector>
 
+SCOPED_ENUM(Space)
+{
+    LOCAL,
+    PARENT,
+    WORLD
+}
+END_SCOPED_ENUM()
 
 SCOPED_ENUM(NodeAttributes)
 {

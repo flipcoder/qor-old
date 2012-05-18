@@ -26,17 +26,10 @@ Engine::Engine(std::vector<std::string>& args)
 
 Engine::~Engine()
 {
-    
 }
 
 void Engine::nullify()
 {
-    //m_pRenderer = NULL;
-    m_pInput = NULL;
-    //m_pTimer = NULL;
-    m_pConsole = NULL;
-    //m_pSettings = NULL;
-    m_pAudio = NULL;
     m_uiLastAdv = 0;
     m_bQuitFlag = false;
 }
@@ -58,6 +51,7 @@ bool Engine::run()
 {
     if(!init())
         return false;
+    // TODO: set cleanup() to a scoped callback (take out cleanup() call below if so)
 
     Freq::Alarm FPSAlarm;
     //FPSAlarm.assignToTimer(Freq::ptr());
@@ -66,8 +60,9 @@ bool Engine::run()
         FPSAlarm.setSeconds(fpsRefresh);
     int frames = 0;
 
-    while(pollState() && logic() != 1 && !quitFlag())
+    while(pollState() && !quitFlag())
     {
+        logic();
         render();
         Renderer::get().draw();
 
@@ -83,8 +78,8 @@ bool Engine::run()
             frames = 0;
         }
     }
-    
-    cleanup();
+
+    cleanup(); // TODO: eventually make this a scoped callback, I don't want it in the destructor
     return true;
 }
 
@@ -116,16 +111,16 @@ bool Engine::init()
 
     Log::get().write("OpenGL/SDL Renderer initialized.");
 
-    if(!m_pConsole)
-        m_pConsole = new Console();
+    if(!m_spConsole)
+        m_spConsole.reset(new Console());
     Log::get().write("Console initialized.");
 
-    if(!m_pInput)
-        m_pInput = new Input();
+    if(!m_spInput)
+        m_spInput.reset(new Input());
     Log::get().write("Input initialized.");
 
-    if(!m_pAudio)
-        m_pAudio = new Audio();
+    if(!m_spAudio)
+        m_spAudio.reset(new Audio());
     Log::get().write("Audio initialized.");
 
     if(!pnInit()) {
@@ -139,31 +134,33 @@ bool Engine::init()
     Log::get().write("Engine initialized.");
     
     if(Settings::get().getProperty("Developer", "Enabled", "true") == "true")
-        m_spDeveloper.reset(new Developer(this, input()));
+    {
+        Log::get().write("Developer mode enabled.");
+        m_spDeveloper.reset(new Developer(input()));
+    }
 
     clearToState("game");
     return true;
 }
 
-int Engine::logic()
+void Engine::logic(unsigned int t)
 {
-    unsigned long now = Freq::get().getElapsedTime();
-    unsigned long a = now - m_uiLastAdv;
+    unsigned long now, a;
+    now = Freq::get().getElapsedTime();
+    a = now - m_uiLastAdv;
     
-    if(m_pInput->logic() == 1)
-        return 1;
+    m_spInput->logic(a);
+    if(m_spInput->quit())
+        quit();
 
     if(m_spDeveloper)
         m_spDeveloper->logic(a);
-    if(m_pConsole)
-        m_pConsole->logic(a, m_pInput);
+    if(m_spConsole)
+        m_spConsole->logic(a, m_spInput.get());
     if(currentState())
-        if(!currentState()->logic(a))
-            return 1;
+        currentState()->logic(a);
 
     m_uiLastAdv = now;
-    
-    return 0;
 }
 
 void Engine::render() const
@@ -179,31 +176,23 @@ void Engine::render() const
     Renderer::get().lighting(Renderer::UNBIND_LIGHTING);
     Renderer::get().shaders(Renderer::UNBIND_SHADERS);
 
-    if(m_pConsole)
-        m_pConsole->render();
+    if(m_spConsole)
+        m_spConsole->render();
     if(m_spDeveloper)
         m_spDeveloper->render();
 }
 
 void Engine::cleanup()
 {
-    destroyStateManager();
+    destroyStateManager(); // this needs to happen before other components
 
-    //Log::get().write("Unloading state...");
-    //delete m_pState;
     Log::get().write("Unloading console...");
-    delete m_pConsole;
-    //Log::get().write("Unloading renderer...");
-    //delete m_pRenderer;
+    m_spConsole.reset();
     Log::get().write("Unloading input...");
-    delete m_pInput;
-    //Log::get().write("Unloading timer...");
-    //delete m_pTimer;
+    m_spInput.reset();
     Log::get().write("Unloading audio...");
-    delete m_pAudio;
+    m_spAudio.reset();
     Log::get().write("Application finished.");
-
-    Settings::get().save();
 }
 
 

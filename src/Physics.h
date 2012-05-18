@@ -2,26 +2,61 @@
 #define _PHYSICS_H
 
 #include <memory>
-#include <newton/Newton.h>
+//#include <newton/Newton.h>
+#include "math/common.h"
+#include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
+#include "extra/KinematicCharacterController.h"
 #include "Log.h"
 #include "Util.h"
-#include "Node.h"
+#include "IFallible.h"
+#include "IRealtime.h"
 
 class IPhysicsObject;
 class Node;
 //class Scene;
 
-class Physics// : public std::enable_shared_from_this<Physics>
+class Physics: public IFallible, public IRealtime// : public std::enable_shared_from_this<Physics>
 {
 private:
 
-    NewtonWorld* m_pWorld;
+    static const int NUM_SUBSTEPS = 7;
+
+    //NewtonWorld* m_pWorld;
+    std::unique_ptr<btDefaultCollisionConfiguration> m_spCollisionConfig;
+    std::unique_ptr<btCollisionDispatcher> m_spDispatcher;
+    std::unique_ptr<btBroadphaseInterface> m_spBroadphase;
+    std::unique_ptr<btSequentialImpulseConstraintSolver> m_spSolver;
+    std::unique_ptr<btDiscreteDynamicsWorld> m_spWorld;
+
 #ifndef _NEWTON_VISUAL_DEBUGGER
     void* m_pDebugger;
 #endif
     bool m_bError;
 
+    void generateActor(Node* node, unsigned int flags, glm::mat4* transform);
+    void generateTree(Node* node, unsigned int flags, glm::mat4* transform);
+    void generateDynamic(Node* node, unsigned int flags, glm::mat4* transform);
+
 public:
+
+    static btVector3 toBulletVector(const glm::vec3& v) {
+        return btVector3(v.x,v.y,v.z);
+    }
+    static glm::vec3 fromBulletVector(const btVector3& v){
+        return glm::vec3(v.x(),v.y(),v.z());
+    }
+    static btTransform toBulletTransform(const glm::mat4& m) {
+        btTransform t;
+        t.setFromOpenGLMatrix(glm::value_ptr(m));
+        return t;
+    }
+    static glm::mat4 fromBulletTransform(const btTransform& t) {
+        glm::mat4 m;
+        t.getOpenGLMatrix(glm::value_ptr(m));
+        return m;
+    }
 
     Physics();
     virtual ~Physics();
@@ -33,7 +68,7 @@ public:
      * \param advance Ticks (in ms) to advanced simulation.
      * \param root Root of physics node which can be automatically synced
      */
-    void logic(unsigned int advance, Node* root);
+    virtual void logic(unsigned int advance);
 
     enum GenerateFlags {
         GEN_RECURSIVE = BIT(0)
@@ -43,8 +78,8 @@ public:
      *  \param flags GenerationFlags
      *  \param matrix Current transformation matrix
      */
-    void generate(Node* node, unsigned int flags = 0, glm::mat4* transform = NULL);
-
+    void generate(Node* node, unsigned int flags = 0, std::unique_ptr<glm::mat4> transform = std::unique_ptr<glm::mat4>());
+    
     enum SyncFlags {
         SYNC_RECURSIVE = BIT(0)
     };
@@ -54,13 +89,13 @@ public:
      *  \param flags Syncronization options (use SyncFlags)
      *  \param matrix Current transformation matrix
      */
-    void syncBody(Node* node, unsigned int flags = 0);
+    //void syncBody(Node* node, unsigned int flags = 0);
 
     bool error() { return m_bError; }
 
     // IPhysicsObject param is required to also be of type Node*
-    NewtonBody* addBody(NewtonCollision* nc, IPhysicsObject* pud, glm::mat4* transform);
-    bool deleteBody(void* pud);
+    btRigidBody* addBody(btCollisionObject* obj, IPhysicsObject* pud, glm::mat4* transform);
+    bool deleteBody(btRigidBody* obj);
 
     enum {
         USER_FORCE = BIT(0),
@@ -68,9 +103,9 @@ public:
         USER_TORQUE = BIT(2),
         USER_VELOCITY = BIT(3)
     };
-    static void cbForceTorque(const NewtonBody* body, float timestep, int threadIndex);
-    static void cbTransform(const NewtonBody* body);
-    
+    //static void cbForceTorque(const btCollisionObject* body, float timestep, int threadIndex);
+    //static void cbTransform(const btCollisionObject* body);
+    btCollisionWorld* getWorld() { return m_spWorld.get(); }
 };
 
 #endif
