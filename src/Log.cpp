@@ -13,6 +13,7 @@ Log::Log()
     m_cbLog.set_capacity(LOG_LENGTH);
     m_bStdOut = false;
     m_LogFile.open(LOG_FILE, ios_base::trunc);
+    ios::sync_with_stdio(false);
 }
 
 
@@ -23,6 +24,7 @@ Log::~Log()
 void Log::write(const std::string& s, Log::Message::eLoggingLevel lev)
 {
     m_cbLog.push_back(Message(s,lev));
+    return;
 
     if(m_bStdOut)
     {

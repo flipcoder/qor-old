@@ -2,14 +2,7 @@ solution("qor")
     configurations {"Debug", "Release"}
 
     targetdir("bin")
-
-    configuration "Debug"
-        defines { "DEBUG" }
-        flags { "Symbols" }
-    configuration "Release"
-        defines { "NDEBUG" }
-        flags { "Optimize" }
-
+    
     project("qor")
         uuid("51577de0-6128-11e1-b86c-0800200c9a66")
         kind("WindowedApp")
@@ -59,5 +52,14 @@ solution("qor")
 
         configuration { "gmake" }
             buildoptions { "-std=c++0x" }
+            linkoptions { "" }
+        configuration {}
+
+        configuration { "Debug" }
+            defines { "DEBUG" }
+            flags { "Symbols" }
+        configuration { "Release" }
+            defines { "NDEBUG" }
+            flags { "Optimize" }
         configuration {}
 

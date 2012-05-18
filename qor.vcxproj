@@ -126,6 +126,7 @@
 		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\Path.h" />
 		<ClInclude Include="src\Renderer.h" />
+		<ClInclude Include="src\IScriptable.h" />
 		<ClInclude Include="src\IState.h" />
 		<ClInclude Include="src\ISingleton.h" />
 		<ClInclude Include="src\ITrackable.h" />
@@ -165,6 +166,7 @@
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
 		<ClInclude Include="src\AITypeParser.h" />
+		<ClInclude Include="src\extra\KinematicCharacterController.h" />
 		<ClInclude Include="src\LuaScript\LuaState.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
@@ -250,6 +252,8 @@
 		<ClCompile Include="src\Input.cpp">
 		</ClCompile>
 		<ClCompile Include="src\EulerNode.cpp">
+		</ClCompile>
+		<ClCompile Include="src\extra\KinematicCharacterController.cpp">
 		</ClCompile>
 		<ClCompile Include="src\game\GameState.cpp">
 		</ClCompile>

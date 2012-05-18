@@ -83,8 +83,8 @@ public:
     btActionInterface* getAction() {
         return m_ActionInterface.get();
     }
-    btKinematicCharacterController* getCharacter() {
-        return dynamic_cast<btKinematicCharacterController*>(m_ActionInterface.get());
+    KinematicCharacterController* getCharacter() {
+        return dynamic_cast<KinematicCharacterController*>(m_ActionInterface.get());
     }
     void setGhostPairCallback(std::unique_ptr<btGhostPairCallback>& a) {
         m_GhostPairCallback = std::move(a);

@@ -14,10 +14,10 @@ Physics::Physics()
 {
     m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
     m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
-    //m_spBroadphase.reset(new btDbvtBroadphase());
-    btVector3 worldMin(-1000,-1000,-1000);
-	btVector3 worldMax(1000,1000,1000);
-    m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
+    btVector3 worldMin(-100,-100,-100);
+	btVector3 worldMax(100,100,100);
+    m_spBroadphase.reset(new btDbvtBroadphase());
+    //m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
     m_spSolver.reset(new btSequentialImpulseConstraintSolver());
     m_spWorld.reset(new btDiscreteDynamicsWorld(
         m_spDispatcher.get(),
@@ -26,6 +26,7 @@ Physics::Physics()
         m_spCollisionConfig.get()
     ));
     m_spWorld->setGravity(btVector3(0.0, -9.8, 0.0));
+    m_spWorld->getDispatchInfo().m_allowedCcdPenetration=0.0001f;
 
 //    m_pWorld = NewtonCreate();
 //    NewtonSetPlatformArchitecture(m_pWorld, 1);
@@ -69,17 +70,16 @@ void Physics :: logic(unsigned int advance)
     static float accum = 0.0f;
     float timestep = advance*0.001f; // msec to sec
 
-    //if(accum + timestep < 1.0f/120.0f)
-    //    accum+=timestep;
-    //else
+    accum+=timestep;
+    //if(accum >= 1.0f/60.0f)
     //{
-        m_spWorld->stepSimulation(/*accum + */timestep, NUM_SUBSTEPS);
+        m_spWorld->stepSimulation(accum, NUM_SUBSTEPS);
 //        NewtonUpdate(m_pWorld, accum + timestep);
 //        //syncBody(root, SYNC_RECURSIVE);
 //#ifdef _NEWTON_VISUAL_DEBUGGER
 //        NewtonDebuggerServe(m_pDebugger, m_pWorld);
 //#endif
-    //    accum = 0.0f;
+        accum = 0.0f;
     //}
 }
 
@@ -160,8 +160,8 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
     ghost->setCollisionShape(shape.get());
     ghost->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
     btScalar step_height(0.35);
-    std::unique_ptr<btKinematicCharacterController> character( // -> interface
-        new btKinematicCharacterController(
+    std::unique_ptr<KinematicCharacterController> character( // -> interface
+        new KinematicCharacterController(
             ghost.get(),
             ((btConvexShape*)shape.get()),
             step_height
@@ -169,6 +169,10 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
     );
 
     //character->setUpAxis(1);
+    character->setGravity(9.8f);
+    character->setFallSpeed(9.8f);
+    //character->setJumpSpeed(6.0f);
+    //character->setMaxJumpHeight(1.0f);
 
     physics_object->addCollisionShape(shape);
     physics_object->setGhostPairCallback(ghost_callback);
@@ -186,8 +190,8 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
         body->getBroadphaseHandle(),
         m_spDispatcher.get()
     );
-    ((btKinematicCharacterController*)interface.get())->reset();
-    ((btKinematicCharacterController*)interface.get())->warp(Physics::toBulletVector(node->position()));
+    ((KinematicCharacterController*)interface.get())->reset();
+    ((KinematicCharacterController*)interface.get())->warp(Physics::toBulletVector(node->position()));
 
     physics_object->setBody(body);
     physics_object->setAction(interface);

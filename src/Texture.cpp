@@ -51,9 +51,11 @@ unsigned int Texture :: loadTex(std::string fn,
     //    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     //}
     
-    float filter;
-    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &filter);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, filter);
+    float filter = 2.0f;
+    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &filter); // can cause huge framerate drops
+    //Log::get().write("Anisotropic Filtering: " + str(round_int(filter)) + "x");
+    if (filter >= 2.0f)
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, filter);
     
 
     if(wrap==REPEAT)

@@ -17,7 +17,7 @@ Actor::Actor(Input* input)
     m_fJumpAccel = 100.0f;
     m_fJumpLength = 1.0f/16.0f;
     m_fJumpForce = m_fJumpLength;
-    m_fNormalSpeed = 5.0f;
+    m_fNormalSpeed = 10.0f;
     m_fRunSpeed = m_fNormalSpeed * 2.0f;
     m_fSpeed = m_fNormalSpeed;
 
@@ -36,7 +36,7 @@ void Actor::logicSelf(unsigned int a)
         return;
 
     // no motion states on a character controller, so we sync manually
-    setWorldTransform(getBody()->getWorldTransform()); // this will call sync() and then pend the matrix
+    //setWorldTransform(getBody()->getWorldTransform()); // this will call sync() and then pend the matrix
 
     glm::vec3 delta(0.0f);
     float turn_speed = 0.1f;
@@ -81,11 +81,19 @@ void Actor::logicSelf(unsigned int a)
             forward.x);
     
     if(glm::length(delta) > EPSILON)
-        delta = glm::normalize(delta) * m_fAccel;
+        delta = glm::normalize(delta);// * m_fAccel;
         //delta |= m_fAccel;
 
-    if(m_pInput->key(SDLK_g) || m_pInput->key(SDLK_SPACE))
-        getCharacter()->jump();
+    if(m_pInput->key(SDLK_g) || m_pInput->key(SDLK_SPACE)) {
+        delta += glm::vec3(0.0f, 1.0f, 0.0f);
+        //if(getCharacter()->canJump()) {
+        //    getCharacter()->jump();
+        //    // set timer
+        //}
+    }
+    if(m_pInput->key(SDLK_a)) {
+        delta -= glm::vec3(0.0f, 1.0f, 0.0f);
+    }
 
     //if(m_pInput->key(SDLK_a))
     //    delta.setRel(0.0,
@@ -93,7 +101,7 @@ void Actor::logicSelf(unsigned int a)
     //    0.0f);
 
     m_vMove = delta;
-    m_vMove *= 0.001f;
+    m_vMove *= m_fSpeed;
 
     //if(m_vMove != glm::vec3(0.0f)) {
     //    btVector3 old = ((btRigidBody*)getBody())->getLinearVelocity();
@@ -101,7 +109,8 @@ void Actor::logicSelf(unsigned int a)
     //    //v.setY(0.0);
     //    ((btRigidBody*)getBody())->setLinearVelocity(old + v * t);
     //}
-    getCharacter()->setWalkDirection(Physics::toBulletVector(m_vMove));
+    move(m_vMove * t);
+    //getCharacter()->setVelocityForTimeInterval(Physics::toBulletVector(m_vMove),1.0f);
 
     //listen(); // listen needs to be called explicitly when rendering
 }

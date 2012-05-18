@@ -28,7 +28,7 @@ ifeq ($(config),debug)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -Lthird_party/lib
+  LDFLAGS   +=  -Lthird_party/lib
   LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
@@ -50,7 +50,7 @@ ifeq ($(config),release)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -Lthird_party/lib
+  LDFLAGS   += -s  -Lthird_party/lib
   LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
@@ -99,6 +99,7 @@ OBJECTS := \
 	$(OBJDIR)/GUI.o \
 	$(OBJDIR)/Input.o \
 	$(OBJDIR)/EulerNode.o \
+	$(OBJDIR)/KinematicCharacterController.o \
 	$(OBJDIR)/GameState.o \
 	$(OBJDIR)/pn.o \
 	$(OBJDIR)/pnUtil.o \
@@ -270,6 +271,9 @@ $(OBJDIR)/Input.o: src/Input.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EulerNode.o: src/EulerNode.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/KinematicCharacterController.o: src/extra/KinematicCharacterController.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/GameState.o: src/game/GameState.cpp

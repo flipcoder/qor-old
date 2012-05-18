@@ -51,6 +51,7 @@ bool Engine::run()
 {
     if(!init())
         return false;
+    // TODO: set cleanup() to a scoped callback (take out cleanup() call below if so)
 
     Freq::Alarm FPSAlarm;
     //FPSAlarm.assignToTimer(Freq::ptr());
@@ -144,8 +145,9 @@ bool Engine::init()
 
 void Engine::logic(unsigned int t)
 {
-    unsigned long now = Freq::get().getElapsedTime();
-    unsigned long a = now - m_uiLastAdv;
+    unsigned long now, a;
+    now = Freq::get().getElapsedTime();
+    a = now - m_uiLastAdv;
     
     m_spInput->logic(a);
     if(m_spInput->quit())
