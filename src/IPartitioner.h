@@ -1,7 +1,7 @@
 #ifndef _PARTITIONER_H
 #define _PARTITIONER_H
 
-#include <list>
+#include <vector>
 #include "NodeAttributes.h"
 
 class Node;
@@ -13,10 +13,10 @@ public:
     IPartitioner() {}
     virtual ~IPartitioner() {}
 
-    virtual std::list<Light*> getViewableLights(Node* root) = 0;
-    virtual std::list<Node*> getViewableNodes(Node* root) = 0;
-    virtual std::list<Node*> getLitObjects(Light* light, Node* root) = 0;
-    virtual std::list<Node*> getLitObjects(Light* light, std::list<Node*>& node_list) = 0;
+    virtual std::vector<Light*> getViewableLights(Node* root) = 0;
+    virtual std::vector<Node*> getViewableNodes(Node* root) = 0;
+    virtual std::vector<Node*> getLitObjects(Light* light, Node* root) = 0;
+    virtual std::vector<Node*> getLitObjects(Light* light, std::vector<Node*>& node_vector) = 0;
 
     virtual SCOPED_ENUM_TYPE(Space) getBoundingSpace() { return Space::LOCAL; }
 private:

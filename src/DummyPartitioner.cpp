@@ -1,6 +1,6 @@
-#include "DumbyPartitioner.h"
+#include "DummyPartitioner.h"
 
-void DumbyPartitioner :: nodeTreeToList(Node* n, std::list<Node*>& node_list)
+void DummyPartitioner :: nodeTreeToList(Node* n, std::vector<Node*>& node_list)
 {
     node_list.push_back(n);
     for(auto itr = n->children()->begin();

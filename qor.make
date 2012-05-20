@@ -24,12 +24,12 @@ ifeq ($(config),debug)
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
   DEFINES   += -DDEBUG
-  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/bullet -Ithird_party/include
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   +=  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -ldJointLibrary -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -46,12 +46,12 @@ ifeq ($(config),release)
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
   DEFINES   += -DNDEBUG
-  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/bullet -Ithird_party/include
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -ldJointLibrary -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -71,10 +71,10 @@ OBJECTS := \
 	$(OBJDIR)/EnvironmentNode.o \
 	$(OBJDIR)/Console.o \
 	$(OBJDIR)/Mesh.o \
-	$(OBJDIR)/DumbyPartitioner.o \
 	$(OBJDIR)/Material.o \
 	$(OBJDIR)/Main.o \
 	$(OBJDIR)/Engine.o \
+	$(OBJDIR)/DummyPartitioner.o \
 	$(OBJDIR)/TrackerNode.o \
 	$(OBJDIR)/Entity.o \
 	$(OBJDIR)/Renderer.o \
@@ -88,6 +88,7 @@ OBJECTS := \
 	$(OBJDIR)/Settings.o \
 	$(OBJDIR)/Developer.o \
 	$(OBJDIR)/Graphics.o \
+	$(OBJDIR)/Light.o \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/Batch.o \
 	$(OBJDIR)/ParticleSystem.o \
@@ -99,7 +100,6 @@ OBJECTS := \
 	$(OBJDIR)/GUI.o \
 	$(OBJDIR)/Input.o \
 	$(OBJDIR)/EulerNode.o \
-	$(OBJDIR)/KinematicCharacterController.o \
 	$(OBJDIR)/GameState.o \
 	$(OBJDIR)/pn.o \
 	$(OBJDIR)/pnUtil.o \
@@ -189,9 +189,6 @@ $(OBJDIR)/Console.o: src/Console.cpp
 $(OBJDIR)/Mesh.o: src/Mesh.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/DumbyPartitioner.o: src/DumbyPartitioner.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Material.o: src/Material.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -199,6 +196,9 @@ $(OBJDIR)/Main.o: src/Main.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Engine.o: src/Engine.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/DummyPartitioner.o: src/DummyPartitioner.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/TrackerNode.o: src/TrackerNode.cpp
@@ -240,6 +240,9 @@ $(OBJDIR)/Developer.o: src/Developer.cpp
 $(OBJDIR)/Graphics.o: src/Graphics.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Light.o: src/Light.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Log.o: src/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -271,9 +274,6 @@ $(OBJDIR)/Input.o: src/Input.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EulerNode.o: src/EulerNode.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/KinematicCharacterController.o: src/extra/KinematicCharacterController.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/GameState.o: src/game/GameState.cpp

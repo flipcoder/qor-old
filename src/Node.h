@@ -42,7 +42,7 @@ protected:
     mutable glm::mat4 m_WorldMatrixCached;
     unsigned int m_Flags;
     unsigned int m_Layer; // "Node Layer" refers to scene node categories
-    int m_SortBias; // Sort order (normal objects default to 0)
+    int m_SortBias; // Sort order (normal objects default to 0), bigger numbers occur later
     
     enum {
         PC_WORLD_MATRIX = BIT(0),
@@ -204,7 +204,7 @@ public:
     virtual void logicSelf(unsigned int advance) {}
     enum eRenderFlags
     {
-        RENDER_USE_STACK=BIT(0),
+        RENDER_USE_FIXED=BIT(0),
         RENDER_SELF_ONLY=BIT(1),
         RENDER_AMBIENT_PASS=BIT(2),
         RENDER_INDICATORS=BIT(3)

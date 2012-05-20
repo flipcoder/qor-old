@@ -124,13 +124,13 @@ void Program :: unload()
     nullify();
 }
 
-bool Program :: attach(shared_ptr<Shader>& shader)
+bool Program :: attach(unique_ptr<Shader>&& shader)
 {
     ASSERT(shader);
     if(!shader || !shader->good())
         return false;
     glAttachShader(m_ID, shader->id());
-    m_Shaders.push_back(shader);
+    m_Shaders.push_back(std::move(shader));
     return true;
 }
 

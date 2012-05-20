@@ -68,27 +68,7 @@ class Light : public Node
             //Node::move(glm::vec3(shift*timestep*10.0f, 0.0f, 0.0f));
             /*offset += shift*timestep*10.0f;*/
         }
-        virtual void renderSelf(IPartitioner* partitioner, unsigned int flags = 0) const {
-            //if(id)
-            //{
-            //    glPushMatrix();
-            //    glLoadIdentity();
-            //        GLenum gl_light_idx = GL_LIGHT0 + id - 1;
-            //        glLightNodefv(gl_light_idx, GL_AMBIENT, ambient.array());
-            //        glLightNodefv(gl_light_idx, GL_DIFFUSE, diffuse.array());
-            //        glLightNodefv(gl_light_idx, GL_SPECULAR, specular.array());
-            //        //glLightNodefv(gl_light_idx, GL_SPOT_DIRECTION, glm::value_ptr(Axis::nZ));
-                    
-            //        glm::vec4 pos = glm::vec4(Matrix::translation(*matrix_c()), 1.0);
-            //        //glm::vec4 pos(1.0f);
-            //        glLightNodefv(gl_light_idx, GL_POSITION, glm::value_ptr(pos));
-            //        //glLightNodef(gl_light_idx, GL_CONSTANT_ATTENUATION, 2.0);
-            //        //glLightNodef(gl_light_idx, GL_LINEAR_ATTENUATION, 1.0);
-            //        //glLightNodef(gl_light_idx, GL_QUADRATIC_ATTENUATION, 0.2);
-            //        glEnable(gl_light_idx);
-            //    glPopMatrix();
-            //}
-        }
+        virtual void renderSelf(IPartitioner* partitioner, unsigned int flags) const;
         
         Color ambient() const { return m_Ambient; }
         Color diffuse() const { return m_Diffuse; }

@@ -75,9 +75,9 @@ void Console :: render() const
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-    glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-    glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE); // screen?
+    //glEnable(GL_BLEND);
+    ////glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+    //glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE); // screen?
 
     // bottom left "origin" coord
     int y_origin = h - round_int(m_fDrop*h/2.0f);

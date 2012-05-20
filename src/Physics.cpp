@@ -12,39 +12,41 @@ using namespace std;
 
 Physics::Physics()
 {
-    m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
-    m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
-    btVector3 worldMin(-100,-100,-100);
-	btVector3 worldMax(100,100,100);
-    m_spBroadphase.reset(new btDbvtBroadphase());
-    //m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
-    m_spSolver.reset(new btSequentialImpulseConstraintSolver());
-    m_spWorld.reset(new btDiscreteDynamicsWorld(
-        m_spDispatcher.get(),
-        m_spBroadphase.get(),
-        m_spSolver.get(),
-        m_spCollisionConfig.get()
-    ));
-    m_spWorld->setGravity(btVector3(0.0, -9.8, 0.0));
-    m_spWorld->getDispatchInfo().m_allowedCcdPenetration=0.0001f;
+    nullify();
 
-//    m_pWorld = NewtonCreate();
-//    NewtonSetPlatformArchitecture(m_pWorld, 1);
+    //m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
+    //m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
+    //btVector3 worldMin(-100,-100,-100);
+	//btVector3 worldMax(100,100,100);
+    //m_spBroadphase.reset(new btDbvtBroadphase());
+    ////m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
+    //m_spSolver.reset(new btSequentialImpulseConstraintSolver());
+    //m_pWorld.reset(new btDiscreteDynamicsWorld(
+    //    m_spDispatcher.get(),
+    //    m_spBroadphase.get(),
+    //    m_spSolver.get(),
+    //    m_spCollisionConfig.get()
+    //));
+    //m_pWorld->setGravity(btVector3(0.0, -9.8, 0.0));
+    //m_pWorld->getDispatchInfo().m_allowedCcdPenetration=0.0001f;
+
+    m_pWorld = NewtonCreate();
+    NewtonSetPlatformArchitecture(m_pWorld, 1);
     
-//    glm::vec3 min(-250.0), max(250.0); //temp world sizes
-//    NewtonSetWorldSize(m_pWorld, &min.x, &max.x);
+    glm::vec3 min(-250.0), max(250.0); //temp world sizes
+    NewtonSetWorldSize(m_pWorld, &min.x, &max.x);
 
-//    // If using debugger, debugger would be initilized here
-//#ifdef _NEWTON_VISUAL_DEBUGGER
-//    m_pDebugger = NewtonDebuggerCreateServer();
-//#endif
+    // If using debugger, debugger would be initilized here
+#ifdef _NEWTON_VISUAL_DEBUGGER
+    m_pDebugger = NewtonDebuggerCreateServer();
+#endif
     
-//    NewtonSetSolverModel(m_pWorld, 0);
+    NewtonSetSolverModel(m_pWorld, 0);
 
-//    int default_mat_id = NewtonMaterialGetDefaultGroupID(m_pWorld);
-//    NewtonMaterialSetDefaultElasticity(m_pWorld, default_mat_id, default_mat_id, 0.0f);
-//    NewtonMaterialSetDefaultSoftness(m_pWorld, default_mat_id, default_mat_id, 0.0f);
-//    NewtonMaterialSetDefaultFriction(m_pWorld, default_mat_id, default_mat_id, 0.0f, 0.0f);
+    int default_mat_id = NewtonMaterialGetDefaultGroupID(m_pWorld);
+    NewtonMaterialSetDefaultElasticity(m_pWorld, default_mat_id, default_mat_id, 0.0f);
+    NewtonMaterialSetDefaultSoftness(m_pWorld, default_mat_id, default_mat_id, 0.0f);
+    NewtonMaterialSetDefaultFriction(m_pWorld, default_mat_id, default_mat_id, 0.0f, 0.0f);
 }
 
 Physics::~Physics()
@@ -54,15 +56,22 @@ Physics::~Physics()
 
 void Physics :: nullify()
 {
+    m_pWorld = NULL;
+    m_pDebugger = NULL;
 }
 
 void Physics :: cleanup()
 {
-//#ifdef _NEWTON_VISUAL_DEBUGGER
-//    NewtonDebuggerDestroyServer(m_pDebugger);
-//#endif
-//    NewtonDestroyAllBodies(m_pWorld);
-//    NewtonDestroy(m_pWorld);
+#ifdef _NEWTON_VISUAL_DEBUGGER
+    if(m_pDebugger)
+        NewtonDebuggerDestroyServer(m_pDebugger);
+#endif
+    if(m_pWorld) {
+        //NewtonDestroyAllBodies(m_pWorld);
+        NewtonDestroy(m_pWorld);
+    }
+
+    nullify();
 }
 
 void Physics :: logic(unsigned int advance)
@@ -71,16 +80,16 @@ void Physics :: logic(unsigned int advance)
     float timestep = advance*0.001f; // msec to sec
 
     accum+=timestep;
-    //if(accum >= 1.0f/60.0f)
-    //{
-        m_spWorld->stepSimulation(accum, NUM_SUBSTEPS);
-//        NewtonUpdate(m_pWorld, accum + timestep);
+    if(accum >= 1.0f/60.0f)
+    {
+        //m_pWorld->stepSimulation(accum, NUM_SUBSTEPS);
+        NewtonUpdate(m_pWorld, accum + timestep);
 //        //syncBody(root, SYNC_RECURSIVE);
-//#ifdef _NEWTON_VISUAL_DEBUGGER
-//        NewtonDebuggerServe(m_pDebugger, m_pWorld);
-//#endif
+#ifdef _NEWTON_VISUAL_DEBUGGER
+        NewtonDebuggerServe(m_pDebugger, m_pWorld);
+#endif
         accum = 0.0f;
-    //}
+    }
 }
 
 void Physics :: generate(Node* node, unsigned int flags, std::unique_ptr<glm::mat4> transform)
@@ -148,71 +157,8 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
 
     IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
     //Actor* actor = dynamic_cast<Actor*>(node);
-
-    btTransform bt_transform = Physics::toBulletTransform(*transform);
-    //bt_transform.setIdentity();
-    //bt_transform.setOrigin(btVector3(0.0, 0.0, 0.0));
-    std::unique_ptr<btPairCachingGhostObject> ghost(new btPairCachingGhostObject()); // ->object
-    ghost->setWorldTransform(bt_transform);
-    std::unique_ptr<btGhostPairCallback> ghost_callback(new btGhostPairCallback()); // -
-    m_spBroadphase->getOverlappingPairCache()->setInternalGhostPairCallback(ghost_callback.get());
-    std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height())); //-
-    ghost->setCollisionShape(shape.get());
-    ghost->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-    btScalar step_height(0.35);
-    std::unique_ptr<KinematicCharacterController> character( // -> interface
-        new KinematicCharacterController(
-            ghost.get(),
-            ((btConvexShape*)shape.get()),
-            step_height
-        )
-    );
-
-    //character->setUpAxis(1);
-    character->setGravity(9.8f);
-    character->setFallSpeed(9.8f);
-    //character->setJumpSpeed(6.0f);
-    //character->setMaxJumpHeight(1.0f);
-
-    physics_object->addCollisionShape(shape);
-    physics_object->setGhostPairCallback(ghost_callback);
-    std::unique_ptr<btCollisionObject> body(std::move(ghost));
-
-    m_spWorld->addCollisionObject(
-        body.get(),
-        btBroadphaseProxy::CharacterFilter,
-        btBroadphaseProxy::StaticFilter | btBroadphaseProxy::DefaultFilter
-    );
-
-    std::unique_ptr<btActionInterface> interface(std::move(character));
-    m_spWorld->addAction(interface.get());
-    m_spBroadphase->getOverlappingPairCache()->cleanProxyFromPairs(
-        body->getBroadphaseHandle(),
-        m_spDispatcher.get()
-    );
-    ((KinematicCharacterController*)interface.get())->reset();
-    ((KinematicCharacterController*)interface.get())->warp(Physics::toBulletVector(node->position()));
-
-    physics_object->setBody(body);
-    physics_object->setAction(interface);
-    physics_object->setPhysics(this);
-
-    // Without character controller:
     
-    //IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
-    //std::unique_ptr<btCollisionShape> shape(new btCapsuleShape(physics_object->radius(), physics_object->height()));
-    //btVector3 inertia(0,0,0);
-    //shape->calculateLocalInertia(physics_object->mass(), inertia);
-    //btRigidBody::btRigidBodyConstructionInfo info(
-    //    physics_object->mass(),
-    //    physics_object, // inherits btMotionState
-    //    shape.get(),
-    //    inertia
-    //);
-    //std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
-    //((btRigidBody*)body.get())->setAngularFactor(0.0);
-    //((btRigidBody*)body.get())->setSleepingThresholds(0.0, 0.0);
-    
+    // TODO: generate code    
 }
 
 void Physics :: generateTree(Node* node, unsigned int flags, glm::mat4* transform) {
@@ -228,86 +174,19 @@ void Physics :: generateTree(Node* node, unsigned int flags, glm::mat4* transfor
         return;
     IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
     
-    //TODO: move this ptr into an object that actually persists
-    std::unique_ptr<btTriangleMesh> triangles(new btTriangleMesh());
-
-    unsigned int face_id = 1;
-    //    //foreach(Mesh* m, *mesh_list)
-    // loop through current node's meshes
-    for(auto itr = mesh_list->begin();
-        itr != mesh_list->end();
-        ++itr)
-    {
-        Mesh* m = itr->get();
-
-        // for each face in inside mesh, add it to triangles list
-        for(unsigned int i=0; i<m->faces.size(); i++)
-        {
-            glm::vec3 verts[3];
-            for(unsigned int f = 0; f<3; f++)
-                verts[f] = m->vertices[m->faces[i].indices[f]];
-            triangles->addTriangle(
-                toBulletVector(verts[0]),
-                toBulletVector(verts[1]),
-                toBulletVector(verts[2])
-            );
-            face_id++;
-        }
-    }
-
-    //TODO: move this ptr into an object that actually persists
-    // use triangles list to build rigidbody info for bullet
-    std::unique_ptr<btCollisionShape> shape(new btBvhTriangleMeshShape(triangles.get(),true,true));
-    btRigidBody::btRigidBodyConstructionInfo info(
-        0.0, // no mass
-        physics_object, // inherits btMotionState
-        shape.get()
-    );
-    std::unique_ptr<btCollisionObject> body(new btRigidBody(info));
-    std::unique_ptr<btStridingMeshInterface> interface(std::move(triangles));
-    physics_object->addStridingMeshInterface(interface);
-    physics_object->addCollisionShape(shape);
-    physics_object->setBody(body);
-    physics_object->setPhysics(this);
-    m_spWorld->addRigidBody((btRigidBody*)physics_object->getBody());
+    // TODO: generate code    
 }
 
 void Physics :: generateDynamic(Node* node, unsigned int flags, glm::mat4* transform) {
     assert(node);
     assert(transform);
 
-    // TODO: btConvexHull
+    std::list<shared_ptr<Mesh>>* mesh_list = dynamic_cast<IMeshContainer*>(node)->getMeshes();
+    if(mesh_list->empty())
+        return;
+    IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
 
-    //std::list<shared_ptr<Mesh>>* mesh_list = dynamic_cast<IMeshContainer*>(node)->getMeshes();
-    //if(mesh_list->empty())
-    //    return;
-    //IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
-
-    //std::unique_ptr<btTriangleMesh> triangles(new btTriangleMesh());
-
-    //unsigned int face_id = 1;
-    //for(auto itr = mesh_list->begin();
-    //    itr != mesh_list->end();
-    //    ++itr)
-    //{
-    //    Mesh* m = itr->get();
-    //    // for each face in inside mesh, add it to triangles list
-    //    for(unsigned int i=0; i<m->faces.size(); i++)
-    //    {
-    //        glm::vec3 verts[3];
-    //        for(unsigned int f = 0; f<3; f++)
-    //            verts[f] = m->vertices[m->faces[i].indices[f]];
-    //        triangles->addTriangle(
-    //            toBulletVector(verts[0]),
-    //            toBulletVector(verts[1]),
-    //            toBulletVector(verts[2])
-    //        );
-    //        face_id++;
-    //    }
-    //    std::unique_ptr<btCollisionObject> body(new btConvexHull());
-    //}
-
-    
+    // TODO: generate code
 }
 
 
@@ -358,7 +237,7 @@ void Physics :: generateDynamic(Node* node, unsigned int flags, glm::mat4* trans
 //    //btRigidBody* body = new bt
 
 //    //pud->setPhysicsBody(this, (void*)body, (void*)motion);
-//    //m_spWorld->addRigidBody(body);
+//    //m_pWorld->addRigidBody(body);
     
 //    //if(mass > EPSILON)
 //    //{
@@ -372,49 +251,52 @@ void Physics :: generateDynamic(Node* node, unsigned int flags, glm::mat4* trans
 //    return null;
 //}
 
-bool Physics :: deleteBody(btRigidBody* obj)
+//bool Physics :: deleteBody(btRigidBody* obj)
+//{
+//    if(!obj)
+//        return false;
+//    //m_pWorld->removeCollisionObject(obj);
+//    //delete obj;
+
+//    NewtonDestroyBody(m_pWorld, (NewtonBody*)obj);
+//    return true;
+//}
+
+void Physics :: cbForceTorque(const NewtonBody* body, float timestep, int threadIndex)
 {
-    if(!obj)
-        return false;
-    m_spWorld->removeCollisionObject(obj);
-    delete obj;
-    //NewtonDestroyBody(m_pWorld, (NewtonBody*)obj);
-    return true;
+    float mass, ix, iy, iz;
+    NewtonBodyGetMassMatrix(body, &mass, &ix, &iy, &iz);
+    glm::vec3 force(0.0f, mass * -9.8f, 0.0f);
+    glm::vec3 omega(0.0f);
+    glm::vec3 velocity(0.0f);
+    glm::vec3 torque(0.0f);
+    NewtonBodyGetVelocity(body, glm::value_ptr(velocity));
+
+    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
+    unsigned int userflags = pobj->physicsLogic(timestep, mass, force, omega, torque, velocity);
+
+    if(userflags & USER_FORCE)
+        NewtonBodyAddForce(body, glm::value_ptr(force));
+    if(userflags & USER_OMEGA)
+        NewtonBodySetOmega(body, glm::value_ptr(omega));
+    if(userflags & USER_TORQUE)
+        NewtonBodySetTorque(body, glm::value_ptr(torque));
+    if(userflags & USER_VELOCITY)
+        NewtonBodySetVelocity(body, glm::value_ptr(velocity));
 }
 
-//void Physics :: cbForceTorque(const NewtonBody* body, float timestep, int threadIndex)
-//{
-    //float mass, ix, iy, iz;
-    //NewtonBodyGetMassMatrix(body, &mass, &ix, &iy, &iz);
-    //glm::vec3 force(0.0f, mass * -9.8f, 0.0f);
-    //glm::vec3 omega(0.0f);
-    //glm::vec3 velocity(0.0f);
-    //glm::vec3 torque(0.0f);
-    //NewtonBodyGetVelocity(body, glm::value_ptr(velocity));
-
-    //IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
-    //unsigned int userflags = pobj->physicsLogic(timestep, mass, force, omega, torque, velocity);
-
-    //if(userflags & USER_FORCE)
-    //    NewtonBodyAddForce(body, glm::value_ptr(force));
-    //if(userflags & USER_OMEGA)
-    //    NewtonBodySetOmega(body, glm::value_ptr(omega));
-    //if(userflags & USER_TORQUE)
-    //    NewtonBodySetTorque(body, glm::value_ptr(torque));
-    //if(userflags & USER_VELOCITY)
-    //    NewtonBodySetVelocity(body, glm::value_ptr(velocity));
-//}
-
-//void Physics :: cbTransform(const NewtonBody* body)
-//{
-//    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
+void Physics :: cbTransform(const NewtonBody* body)
+{
+    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
     
-//    float marray[16];
-//    NewtonBodyGetMatrix(body, &marray[0]);
-//    // TODO: World Space :(
-//    glm::mat4 m = Matrix::fromArray(marray);
-//    //m.clear(glm::mat4::TRANSPOSE, m);
-//    //node->sync(&m);
+    float marray[16];
+    NewtonBodyGetMatrix(body, &marray[0]);
     
-//    pobj->sync(&m);
-//}
+    // Note: All physics nodes should be collapsed (node transform should have identity matrix),
+    //  so leaving this in world space is fine for now, unless in the future a better constraint system
+    //  is integrated
+    glm::mat4 m = Matrix::fromArray(marray);
+    //m.clear(glm::mat4::TRANSPOSE, m);
+    //node->sync(&m);
+    pobj->sync(&m);
+}

@@ -30,10 +30,12 @@ void main(void)
 	float height = texture2D(disp, vUV).r * 0.04 - 0.02;
 	vec2 uvp = vUV + (eye.xy * height);
 	
-	vec4 texel = texture2D(tex, uvp);
+    vec4 texel = texture2D(tex, uvp);
+    /*vec4 texel = vec4(0.0f, 0.0f, 0.0f, 1.0f);*/ // this line + white light for pencil sketch shader
 	if(texel.a < 0.5)
 		discard;
-	vec3 bump = normalize(texture2D(nmap, uvp).rgb * 2.0 - 1.0);
+    vec3 bump = normalize(texture2D(nmap, uvp).rgb * 2.0 - 1.0);
+	/*vec3 bump = normalize(vec3(1.0, 1.0, 1.0) * 2.0 - 1.0);*/
 	/*float occ = texture2D(occ, uvp).r;*/
 	
 	/*float ambient = 0.1;*/
@@ -44,7 +46,7 @@ void main(void)
 	if(shine > EPSILON)
 	{
 		shine = 1.0 / shine;
-		specular = pow(clamp(dot(reflect(-eye, bump), light), 0.0, 1.0), shine) * 0.1; // 1.0
+		specular = pow(clamp(dot(reflect(-eye, bump), light), 0.0, 1.0), shine) * 1.0; // 1.0
 	}
 	else
 		specular = 0.0f;

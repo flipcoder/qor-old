@@ -66,7 +66,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;dJointLibrary.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -94,7 +94,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;dJointLibrary.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -143,10 +143,10 @@
 		<ClInclude Include="src\Batch.h" />
 		<ClInclude Include="src\IPhysicsObject.h" />
 		<ClInclude Include="src\Shader.h" />
-		<ClInclude Include="src\DumbyPartitioner.h" />
 		<ClInclude Include="src\IRenderable.h" />
 		<ClInclude Include="src\Shadow.h" />
 		<ClInclude Include="src\Node.h" />
+		<ClInclude Include="src\DummyPartitioner.h" />
 		<ClInclude Include="src\IStateManager.h" />
 		<ClInclude Include="src\IRealtime.h" />
 		<ClInclude Include="src\GUI.h" />
@@ -166,7 +166,6 @@
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
 		<ClInclude Include="src\AITypeParser.h" />
-		<ClInclude Include="src\extra\KinematicCharacterController.h" />
 		<ClInclude Include="src\LuaScript\LuaState.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
@@ -197,13 +196,13 @@
 		</ClCompile>
 		<ClCompile Include="src\Mesh.cpp">
 		</ClCompile>
-		<ClCompile Include="src\DumbyPartitioner.cpp">
-		</ClCompile>
 		<ClCompile Include="src\Material.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Main.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Engine.cpp">
+		</ClCompile>
+		<ClCompile Include="src\DummyPartitioner.cpp">
 		</ClCompile>
 		<ClCompile Include="src\TrackerNode.cpp">
 		</ClCompile>
@@ -231,6 +230,8 @@
 		</ClCompile>
 		<ClCompile Include="src\Graphics.cpp">
 		</ClCompile>
+		<ClCompile Include="src\Light.cpp">
+		</ClCompile>
 		<ClCompile Include="src\Log.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Batch.cpp">
@@ -252,8 +253,6 @@
 		<ClCompile Include="src\Input.cpp">
 		</ClCompile>
 		<ClCompile Include="src\EulerNode.cpp">
-		</ClCompile>
-		<ClCompile Include="src\extra\KinematicCharacterController.cpp">
 		</ClCompile>
 		<ClCompile Include="src\game\GameState.cpp">
 		</ClCompile>

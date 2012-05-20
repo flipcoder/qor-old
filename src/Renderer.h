@@ -19,6 +19,11 @@ struct VideoResolution_t{
     int w, h, bpp;
 };
 
+#define DIST_NEAR_PLANE 0.1f
+#define DIST_FAR_PLANE 100.0f
+//#define DIST_FAR_PLANE -1.0f
+
+#define DEFAULT_FOV 60.0f //70
 
 class Renderer : public IStaticInstance<Renderer>
 {
@@ -96,7 +101,10 @@ class Renderer : public IStaticInstance<Renderer>
         
         bool setDisplayMode();
 
-        std::unique_ptr<Program> m_spProgram;
+        std::unique_ptr<Program> m_spBaseProgram; // base pass (ambient)
+        std::unique_ptr<Program> m_spDefaultProgram; // default light pass
+        Program* m_pProgram; //weak
+
         std::vector<Texture*> m_TextureSlots;
         std::vector<Program::UniformID> m_TextureUniform;
         Program::UniformID m_ViewMatrixUniform;
@@ -119,6 +127,23 @@ class Renderer : public IStaticInstance<Renderer>
         glm::mat4 m_ViewMatrix;
 
         unsigned int m_Flags;
+
+        void nullify() {
+            m_fFOV = DEFAULT_FOV;
+            m_bError = false;
+            m_bWireframe = false;
+            m_bTextures = true;
+            m_bShaders = false;
+            m_bLighting = false;
+            m_bLightingState = false;
+            m_bShaders = false;
+            m_bShaderState = false;
+            m_ViewMatrixUniform = 0;
+            m_Flags = 0;
+            m_pProgram = NULL;
+        }
+
+        static bool loadShaderPair(std::unique_ptr<Program>& program, const std::string& shader_name);
         
     public:
         
@@ -129,7 +154,6 @@ class Renderer : public IStaticInstance<Renderer>
         //static Renderer* newVideo(int w, int h, int b, bool fs, std::string caption);
         
         virtual ~Renderer();
-        void nullify();
         
         bool error() const { return m_bError; }
         
@@ -247,17 +271,16 @@ class Renderer : public IStaticInstance<Renderer>
             shaders(BIND_SHADERS);
         }
 
-
         bool shaders() const { return m_bShaders; }
         bool shadersBound() const { return m_bShaderState; }
         void shaders(unsigned int flags) {
             
             if(flags & ENABLE_SHADERS)
             {
-                if(m_spProgram)
+                if(m_pProgram)
                 {
                     m_bShaders = true;
-                    m_spProgram->use();
+                    m_pProgram->use();
                 }
             }
             else if(flags & DISABLE_SHADERS)
@@ -266,11 +289,11 @@ class Renderer : public IStaticInstance<Renderer>
                 m_bShaders = false;
             }
             
-            if(m_bShaders && m_spProgram)
+            if(m_bShaders && m_pProgram)
             {
                 if(flags & BIND_SHADERS)
                 {
-                    m_spProgram->use();
+                    m_pProgram->use();
                     m_bShaderState = true;
                 }
                 else if(flags & UNBIND_SHADERS)
@@ -280,12 +303,25 @@ class Renderer : public IStaticInstance<Renderer>
                 }
             }
         }
-                
+
+        void bindBaseShader() {
+            bindShader(m_spBaseProgram.get());
+        }
+        void bindDefaultShader() {
+            bindShader(m_spDefaultProgram.get());
+        }
+        void bindShader(Program* program) {
+            if (m_pProgram == program)
+                return;
+            m_pProgram = program;
+            m_pProgram->use();
+        }
+        
         void setViewUniform() {
-            if(m_spProgram)
+            if(m_pProgram)
             {
                 glGetFloatv(GL_MODELVIEW_MATRIX, glm::value_ptr(m_ViewMatrix));
-                m_spProgram->uniform(m_ViewMatrixUniform, m_ViewMatrix);
+                m_pProgram->uniform(m_ViewMatrixUniform, m_ViewMatrix);
             }
         }
         

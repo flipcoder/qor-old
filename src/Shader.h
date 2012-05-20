@@ -60,7 +60,7 @@ class Program
 
         Program();
         virtual    ~Program();
-        bool attach(std::shared_ptr<Shader>& shader);
+        bool attach(std::unique_ptr<Shader>&& shader);
         bool link();
         bool use();
         void unload();

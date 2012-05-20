@@ -11,12 +11,6 @@
 #include <iostream>
 using namespace std;
 
-#define DIST_NEAR_PLANE 0.1f
-#define DIST_FAR_PLANE 100.0f
-//#define DIST_FAR_PLANE -1.0f
-
-#define DEFAULT_FOV 60.0f //70
-
 const unsigned int MAX_TEXTURE_SLOTS = 8;
 const unsigned int MAX_LIGHT_PER_PASS = 1;
 
@@ -39,20 +33,6 @@ Renderer :: ~Renderer()
 {
     endGL();
     SDL_Quit();
-}
-
-void Renderer :: nullify()
-{
-    m_fFOV = DEFAULT_FOV;
-    m_bError = false;
-    m_bWireframe = false;
-    m_bTextures = true;
-    m_bShaders = false;
-    m_bLighting = false;
-    m_bLightingState = false;
-    m_bShaders = false;
-    m_bShaderState = false;
-    m_ViewMatrixUniform = 0;
 }
 
 bool Renderer :: setDisplayMode()
@@ -113,22 +93,23 @@ bool Renderer :: startGL()
     if(glewInit()!=GLEW_OK)
         return false;
 
-    //glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_SMOOTH);
     //glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_TEXTURE_2D);
     glEnable(GL_CULL_FACE);
-    //glEnable(GL_POINT_SMOOTH);
-    //glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glEnable(GL_POINT_SMOOTH);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glEnable(GL_POINT_SPRITE);
-    //glEnable(GL_LINE_SMOOTH);
-    //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     //glEnable(GL_POLYGON_SMOOTH); //!
-    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     glCullFace(GL_BACK);
     glDepthFunc(GL_LEQUAL);
     //glEnable(GL_MULTISAMPLE);
+    glLineWidth(8.0f);
     
     // point sprite settings
     glm::vec4 quadratic(0.0f, 0.0f, 0.01f, 0.0f);
@@ -142,47 +123,25 @@ bool Renderer :: startGL()
     m_TextureSlots.resize(MAX_TEXTURE_SLOTS, 0); // fill blank
     m_TextureUniform.resize(MAX_TEXTURE_SLOTS, 0); // fill blank
     m_LightUniform.resize(MAX_LIGHT_PER_PASS);
-
-    // Load Shader Pair
-    std::shared_ptr<Shader> vertShader(new Shader());
-    if(!vertShader->load("data/base/shaders/bump.vp", Shader::VERTEX)){
-        Log::get().error("Failed to load vertex shader.");
-        return false;
-    }
-    std::shared_ptr<Shader> fragShader(new Shader());
-    if(!fragShader->load("data/base/shaders/bump.fp", Shader::FRAGMENT)){
-        Log::get().error("Failed to load fragment shader.");
-        return false;
-    }
-    m_spProgram.reset(new Program());
-    m_spProgram->attach(vertShader);
-    m_spProgram->attach(fragShader);
-
-    m_spProgram->attribute(1, "tangent");
-    m_spProgram->attribute(6, "bitangent");
     
-    if(!m_spProgram->link())
-    {
-        Log::get().error("Failed to link shader program.");
+    // Load Shader Pairs
+    if(!loadShaderPair(m_spDefaultProgram, "bump"))
         return false;
-    }
-    if(!m_spProgram->use())
-    {
-        Log::get().error("Failed to bind shader program.");
+    if(!loadShaderPair(m_spBaseProgram, "depth"))
         return false;
-    }
+    m_pProgram = m_spDefaultProgram.get();
+        
+    m_TextureUniform[0] = m_pProgram->uniform("tex");
+    m_TextureUniform[1] = m_pProgram->uniform("nmap");
+    m_TextureUniform[2] = m_pProgram->uniform("disp");
+    m_TextureUniform[3] = m_pProgram->uniform("spec");
+    //m_TextureUniform[4] = m_pProgram->uniform("occ");
     
-    m_TextureUniform[0] = m_spProgram->uniform("tex");
-    m_TextureUniform[1] = m_spProgram->uniform("nmap");
-    m_TextureUniform[2] = m_spProgram->uniform("disp");
-    m_TextureUniform[3] = m_spProgram->uniform("spec");
-    //m_TextureUniform[4] = m_spProgram->uniform("occ");
-    
-    m_ViewMatrixUniform = m_spProgram->uniform("ViewMatrix");
+    m_ViewMatrixUniform = m_pProgram->uniform("ViewMatrix");
 
-    m_LightUniform[0].vec = m_spProgram->uniform("Light");
-    m_LightUniform[0].atten = m_spProgram->uniform("LightAtten");
-    m_LightUniform[0].color = m_spProgram->uniform("LightColor");
+    m_LightUniform[0].vec = m_pProgram->uniform("Light");
+    m_LightUniform[0].atten = m_pProgram->uniform("LightAtten");
+    m_LightUniform[0].color = m_pProgram->uniform("LightColor");
 
     shaders(ENABLE_SHADERS | BIND_SHADERS);
     
@@ -191,9 +150,42 @@ bool Renderer :: startGL()
     return true;
 }
 
+bool Renderer :: loadShaderPair(std::unique_ptr<Program>& program, const std::string& shader_name) {
+    std::unique_ptr<Shader> vertShader(new Shader());
+    if(!vertShader->load("data/base/shaders/"+shader_name+".vp", Shader::VERTEX)){
+        Log::get().error("Failed to load vertex shader.");
+        return false;
+    }
+    std::unique_ptr<Shader> fragShader(new Shader());
+    if(!fragShader->load("data/base/shaders/"+shader_name+".fp", Shader::FRAGMENT)){
+        Log::get().error("Failed to load fragment shader.");
+        return false;
+    }
+    program.reset(new Program());
+    program->attach(std::move(vertShader));
+    program->attach(std::move(fragShader));
+    
+    program->attribute(1, "tangent");
+    program->attribute(6, "bitangent");
+    
+    if(!program->link())
+    {
+        Log::get().error("Failed to link shader program.");
+        return false;
+    }
+    if(!program->use())
+    {
+        Log::get().error("Failed to bind shader program.");
+        return false;
+    }
+    return true;
+}
+
 void Renderer :: endGL()
 {
-    m_spProgram.reset();
+    m_spDefaultProgram.reset();
+    m_spBaseProgram.reset();
+    m_pProgram = NULL;
 }
 
 void Renderer :: viewport(eView vm, float x, float y, float w, float h)
@@ -299,15 +291,15 @@ void Renderer :: toggleTextures()
 
 void Renderer :: bindLight(glm::vec4& vec, glm::vec3& atten, Color& c, unsigned int layer)
 {
-    if(!m_spProgram)
+    if(!m_pProgram)
         return;
     ASSERT(layer < MAX_LIGHT_PER_PASS);
 
     glm::vec3 color_vec(c.r, c.g, c.b);
 
-    m_spProgram->uniform(m_LightUniform[layer].vec, vec);
-    m_spProgram->uniform(m_LightUniform[layer].atten, atten);
-    m_spProgram->uniform(m_LightUniform[layer].color, color_vec);
+    m_pProgram->uniform(m_LightUniform[layer].vec, vec);
+    m_pProgram->uniform(m_LightUniform[layer].atten, atten);
+    m_pProgram->uniform(m_LightUniform[layer].color, color_vec);
 }
 
 void Renderer :: unbindLights()
@@ -325,9 +317,9 @@ void Renderer :: bindTexture(Texture* t, unsigned int layer)
         glActiveTexture(GL_TEXTURE0 + layer);
         m_TextureSlots[layer] = t;
         glBindTexture(GL_TEXTURE_2D, t->id);
-        if(m_spProgram)
+        if(m_pProgram)
             if((int)m_TextureUniform[layer] >= 0)
-                m_spProgram->uniform(m_TextureUniform[layer], (int)layer);
+                m_pProgram->uniform(m_TextureUniform[layer], (int)layer);
         glEnable(GL_TEXTURE_2D);
     }
 }
@@ -342,8 +334,8 @@ void Renderer :: unbindTextures()
                 glActiveTexture(GL_TEXTURE0 + i);
                 m_TextureSlots[i] = NULL;
                 glBindTexture(GL_TEXTURE_2D, 0);
-                if(m_spProgram)
-                    m_spProgram->uniform(m_TextureUniform[i], 0);
+                if(m_pProgram)
+                    m_pProgram->uniform(m_TextureUniform[i], 0);
                 glDisable(GL_TEXTURE_2D);
             }
         }

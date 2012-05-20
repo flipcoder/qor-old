@@ -4,6 +4,9 @@ using namespace std;
 
 IPhysicsObject :: ~IPhysicsObject()
 {
+    if(m_pWorld && m_pBody)
+        NewtonDestroyBody(m_pWorld, m_pBody);
+
     //shared_ptr<Physics> physics = m_wpPhysicsSystem.lock();
 
     //delete m_pMotionState;

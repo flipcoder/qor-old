@@ -179,12 +179,12 @@ void Node :: render(IPartitioner* partitioner, unsigned int flags) const
     //
     //}
     //glMultMatrixf(glm::value_ptr(*matrix_c()));
-    if(flags & RENDER_USE_STACK)
+    if(flags & RENDER_USE_FIXED)
         glMultMatrixf(glm::value_ptr(*matrix_c()));
 
     // render self
     if(visible() && (!hasAttribute(NodeAttributes::SIZE) || inView(partitioner))) {
-        if(!(flags & RENDER_USE_STACK)) {
+        if(!(flags & RENDER_USE_FIXED)) {
             glm::mat4 modelview = *Renderer::get().getViewMatrix() * *matrix_c(Space::WORLD);
             glLoadMatrixf(glm::value_ptr(modelview));
         }

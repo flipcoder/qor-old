@@ -18,10 +18,11 @@ solution("qor")
             "ILU",
             "openal",
             "alut",
-            --"Newton",
-            "BulletSoftBody",
-            "BulletDynamics",
-            "BulletCollision",
+            "Newton",
+            "dJointLibrary",
+            --"BulletSoftBody",
+            --"BulletDynamics",
+            --"BulletCollision",
             "LinearMath",
             "ogg",
             "vorbis",
@@ -42,8 +43,8 @@ solution("qor")
 
         configuration { "linux" }
             includedirs {
-                "/usr/include/freetype2/",
-                "/usr/include/bullet/"
+                "/usr/include/freetype2",
+                "/usr/include/newton"
             }
         configuration {}
 
