@@ -98,6 +98,7 @@ OBJECTS := \
 	$(OBJDIR)/Audio.o \
 	$(OBJDIR)/IPhysicsObject.o \
 	$(OBJDIR)/GUI.o \
+	$(OBJDIR)/Indicator.o \
 	$(OBJDIR)/Input.o \
 	$(OBJDIR)/EulerNode.o \
 	$(OBJDIR)/GameState.o \
@@ -268,6 +269,9 @@ $(OBJDIR)/IPhysicsObject.o: src/IPhysicsObject.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/GUI.o: src/GUI.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Indicator.o: src/Indicator.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Input.o: src/Input.cpp

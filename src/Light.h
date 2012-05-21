@@ -5,8 +5,9 @@
 #include "Node.h"
 #include "math/common.h"
 #include "Renderer.h"
+#include "Indicator.h"
 
-class Light : public Node
+class Light : public Indicator
 {
     public:
 

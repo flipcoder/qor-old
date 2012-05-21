@@ -20,7 +20,7 @@
 #include "Input.h"
 #include "Shader.h"
 #include "EnvironmentNode.h"
-#include "ResourceMap.h"
+#include "ResourceCache.h"
 #include "IFallible.h"
 
 class Entity;
@@ -58,9 +58,9 @@ private:
     //std::map<std::string, Texture*> m_Textures;
     //std::map<std::string, Mesh*> m_MeshPool;
 
-    ResourceMap<Mesh> m_Meshes;
-    //ResourceMap<Material> m_Materials;
-    ResourceMap<Texture> m_Textures;
+    ResourceCache<Mesh> m_Meshes;
+    //ResourceCache<Material> m_Materials;
+    ResourceCache<Texture> m_Textures;
     
     //Camera* m_pCamera;
     std::unique_ptr<Physics> m_spPhysics;
@@ -104,18 +104,19 @@ public:
     bool loadAINode(EnvironmentNode* node, const aiNode* ainode, TempData* tempdata);
     bool loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiScene* aiscene_lmap, TempData* tempdata);
 
-    //std::shared_ptr<Material> allocMaterial(std::string fn, ResourceMap<Texture>& rmap);
+    //std::shared_ptr<Material> allocMaterial(std::string fn, ResourceCache<Texture>& rmap);
 
     bool add(Node* node, /*glm::vec3 pos = glm::vec3(0.0f), */Node* parent = NULL);
+    bool add(std::shared_ptr<Node> node, Node* parent = NULL);
 
     //Camera* camera() { return m_pCamera; }
 
     //bool error() const { return (m_sError!=""); }
     //std::string getError() const { return m_sError; }
 
-    ResourceMap<Mesh>* getMeshResources() { return &m_Meshes; }
-    //ResourceMap<Material>* getMaterialResources() { return &m_Materials; }
-    ResourceMap<Texture>* getTextureResources() { return &m_Textures; }
+    ResourceCache<Mesh>* getMeshResources() { return &m_Meshes; }
+    //ResourceCache<Material>* getMaterialResources() { return &m_Materials; }
+    ResourceCache<Texture>* getTextureResources() { return &m_Textures; }
 
     std::string name() const { return m_sName; }
     std::string filename() const { return m_sFilename; }

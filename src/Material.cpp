@@ -10,7 +10,7 @@ Material::~Material()
 
 }
 
-shared_ptr<Texture> Material :: allocateTex(string filename, string ext, ResourceMap<Texture>& rmap)
+shared_ptr<Texture> Material :: allocateTex(string filename, string ext, ResourceCache<Texture>& rmap)
 {
     shared_ptr<Texture> tex;
     
@@ -19,8 +19,10 @@ shared_ptr<Texture> Material :: allocateTex(string filename, string ext, Resourc
     if((split_point = filename.find_last_of(".")) != string::npos)
         fn = filename.substr(0,split_point) + "_" + ext + filename.substr(split_point);
     
-    if(!fn.empty())
-        tex = rmap.ensure_shared(fn);
+    if(!fn.empty()) {
+        tex = rmap.cache(fn);
+        assert(tex.get());
+    }
     if(!tex->good())
         if(! tex->loadTex(fn, Texture::MIPMAPPED))
         {
@@ -35,7 +37,8 @@ shared_ptr<Texture> Material :: allocateTex(string filename, string ext, Resourc
             
             //Log::get().write("(2) Attempting to load " + fn);
             
-            tex = rmap.ensure_shared(fn);
+            tex = rmap.cache(fn);
+            assert(tex.get());
             if(!tex->good())
             {
                 if(! tex->loadTex(fn, Texture::MIPMAPPED))
@@ -48,11 +51,11 @@ shared_ptr<Texture> Material :: allocateTex(string filename, string ext, Resourc
     return tex;
 }
 
-shared_ptr<Material> Material :: allocate(string fn, ResourceMap<Texture>& rmap)
+shared_ptr<Material> Material :: allocate(string fn, ResourceCache<Texture>& rmap)
 {
     // is the texture 'fn' already loaded?  (Don't load textures twice)
     
-    shared_ptr<Texture> tex = rmap.ensure_shared(fn);
+    shared_ptr<Texture> tex = rmap.cache(fn);
     if(!tex->good())
         if(! tex->loadTex(fn, Texture::MIPMAPPED))
         {
@@ -61,7 +64,7 @@ shared_ptr<Material> Material :: allocate(string fn, ResourceMap<Texture>& rmap)
             
             // change to default texture path
             fn = string("data/ne/materials/") + FS::getFileName(fn);
-            tex = rmap.ensure_shared(fn);
+            tex = rmap.cache(fn);
             if(!tex->good())
             {
                 if(! tex->loadTex(fn, Texture::MIPMAPPED))

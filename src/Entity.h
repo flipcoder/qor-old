@@ -3,7 +3,7 @@
 
 #include "Node.h"
 #include "IMeshContainer.h"
-#include "ResourceMap.h"
+#include "ResourceCache.h"
 #include "IPhysicsObject.h"
 
 class Entity : public Node, public IPhysicsObject, public IMeshContainer
@@ -26,7 +26,7 @@ public:
     Entity(unsigned int entflags = 0);
     Entity(const std::shared_ptr<Mesh>& m, unsigned int entflags = 0);
     Entity(const std::shared_ptr<Mesh>& m, glm::vec3 pos, unsigned int entflags = 0);
-    Entity(std::string fn, ResourceMap<Mesh>& mesh_map, ResourceMap<Texture>& tex_map, glm::vec3 pos = glm::vec3(), unsigned int flags = 0/*, std::string override_name = "", float minlod = 0.1f*/);
+    Entity(std::string fn, ResourceCache<Mesh>& mesh_map, ResourceCache<Texture>& tex_map, glm::vec3 pos = glm::vec3(), unsigned int flags = 0/*, std::string override_name = "", float minlod = 0.1f*/);
     virtual ~Entity();
 
     virtual bool hasAttribute(unsigned int attr) {

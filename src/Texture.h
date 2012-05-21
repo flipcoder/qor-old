@@ -35,7 +35,7 @@ class Texture : public IFallible
             id(_id) {}
 
         Texture(std::string fn,
-            MipmapOptions mip = SINGLE_IMAGE,
+            MipmapOptions mip = MIPMAPPED,
             WrapOptions wrap = REPEAT,
             FlipOptions flip = NO_FLIP)
         {
@@ -44,7 +44,7 @@ class Texture : public IFallible
         virtual ~Texture() { unload(); }
 
         unsigned int loadTex(std::string fn,
-            MipmapOptions mip = SINGLE_IMAGE,
+            MipmapOptions mip = MIPMAPPED,
             WrapOptions wrap = REPEAT,
             FlipOptions flip = NO_FLIP);
 

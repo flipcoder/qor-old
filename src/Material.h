@@ -4,7 +4,7 @@
 #include "Texture.h"
 #include "Graphics.h"
 #include "Renderer.h"
-#include "ResourceMap.h"
+#include "ResourceCache.h"
 #include "IFallible.h"
 
 #include <string>
@@ -29,7 +29,7 @@ private:
     Color m_Shininess;
     Color m_Color;
 
-    static std::shared_ptr<Texture> allocateTex(std::string filename, std::string ext, ResourceMap<Texture>& rmap);
+    static std::shared_ptr<Texture> allocateTex(std::string filename, std::string ext, ResourceCache<Texture>& rmap);
     
 public:
     Material(
@@ -81,7 +81,7 @@ public:
         }
         return offset;
     }
-    static std::shared_ptr<Material> allocate(std::string fn, ResourceMap<Texture>& rmap);
+    static std::shared_ptr<Material> allocate(std::string fn, ResourceCache<Texture>& rmap);
 };
 
 #endif

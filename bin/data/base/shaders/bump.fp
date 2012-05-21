@@ -5,7 +5,7 @@ uniform sampler2D disp;
 /*uniform sampler2D occ;*/
 uniform sampler2D spec;
 uniform vec3 LightAtten;
-uniform vec3 LightColor;
+uniform vec4 LightColor;
 /*varying vec3 vLightAtten;*/
 /*varying vec3 vLightColor;*/
 varying vec3 vTangent;
@@ -31,7 +31,7 @@ void main(void)
 	vec2 uvp = vUV + (eye.xy * height);
 	
     vec4 texel = texture2D(tex, uvp);
-    /*vec4 texel = vec4(0.0f, 0.0f, 0.0f, 1.0f);*/ // this line + white light for pencil sketch shader
+    /*vec4 texel = vec4(0.0f, 0.0f, 0.0f, 1.0f); // this line + white light for pencil sketch shader*/
 	if(texel.a < 0.5)
 		discard;
     vec3 bump = normalize(texture2D(nmap, uvp).rgb * 2.0 - 1.0);
@@ -50,8 +50,6 @@ void main(void)
 	}
 	else
 		specular = 0.0f;
-	
-	vec4 lightcolor = vec4(LightColor, 1.0);
 	
 	vec4 color_frag =
 		/*texel * (ambient + diffuse)*/
@@ -84,7 +82,7 @@ void main(void)
     /*vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);*/
     /*float fog_factor = eye_dist / 20.0f;*/
     
-    vec4 lit = color_frag * /*occ **/ atten_frag * lightcolor;
+    vec4 lit = color_frag * /*occ **/ atten_frag * LightColor;
 	
     gl_FragColor = lit;
     /*gl_FragColor = mix(lit, fog_color, clamp(fog_factor,0.0,1.0));*/

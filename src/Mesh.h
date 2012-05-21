@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include "math/common.h"
 #include "Material.h"
-#include "ResourceMap.h"
+#include "ResourceCache.h"
 #include <assimp/assimp.hpp>
 #include <assimp/aiScene.h>
 #include <assimp/aiPostProcess.h>
@@ -57,14 +57,14 @@ public:
     //unsigned int refs; // currently unused
 
     Mesh(std::string n = "", float minlod = 0.1f);
-    Mesh(std::string fn, ResourceMap<Texture>& tex_map, std::string override_name = "", float minlod = 0.1f);
+    Mesh(std::string fn, ResourceCache<Texture>& tex_map, std::string override_name = "", float minlod = 0.1f);
     virtual ~Mesh();
 
     //Shadow generateShadow();
     
     Mesh* getLOD(float quality = 1.0f) const;
 
-    virtual bool load(std::string fn, ResourceMap<Texture>& tex_map);
+    virtual bool load(std::string fn, ResourceCache<Texture>& tex_map);
 
     enum {
         RENDER_LOD = BIT(0)
@@ -79,7 +79,7 @@ public:
     
     bool good() const { return !vertices.empty(); } // this could be improved, but it works for now
     
-    // TODO: add Mesh::allocate like Material::allocate for usage with ResourceMaps
+    // TODO: add Mesh::allocate like Material::allocate for usage with ResourceCaches
 };
 
 #endif

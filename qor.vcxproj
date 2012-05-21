@@ -107,6 +107,7 @@
 	</ItemDefinitionGroup>
 	<ItemGroup>
 		<ClInclude Include="src\Audio.h" />
+		<ClInclude Include="src\Indicator.h" />
 		<ClInclude Include="src\Freq.h" />
 		<ClInclude Include="src\Spectator.h" />
 		<ClInclude Include="src\PropertyList.h" />
@@ -249,6 +250,8 @@
 		<ClCompile Include="src\IPhysicsObject.cpp">
 		</ClCompile>
 		<ClCompile Include="src\GUI.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Indicator.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Input.cpp">
 		</ClCompile>

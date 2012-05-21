@@ -44,6 +44,16 @@ Scene::Scene(string fn, unsigned int flags)
     m_Flags = flags;
     
     initInternals();
+    
+    m_Textures.addExtension("png");
+    //m_Textures.addExtension("ini");
+    m_Textures.addPath(boost::filesystem::basename(boost::filesystem::path(fn)));
+    //m_Textures.addPath("data/ne/materials");
+    m_Meshes.addExtension("obj");
+    //m_Meshes.addExtension("ini");
+    m_Meshes.addPath(boost::filesystem::basename(boost::filesystem::path(fn)));
+    //m_Meshes.addPath("data/ne/entities");
+    //m_Meshes.addPath("data/ne/assets");
 
     if(load(fn)) {
         if(flags & F_PHYSICS)
@@ -66,6 +76,8 @@ Scene::Scene(string fn, unsigned int flags)
 void Scene :: initInternals()
 {
     m_spPartitioner.reset(new DummyPartitioner());
+
+    
 }
 
 bool Scene :: load(string fn)
@@ -593,7 +605,7 @@ bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiSc
 
         //Mesh* mesh = new Mesh(aimesh->mName.data);
         Log::get().write("Loading mesh: " + scene_fn + ":" + mesh_name);
-        std::shared_ptr<Mesh> mesh = m_Meshes.ensure_shared(scene_fn + ":" + mesh_name);
+        std::shared_ptr<Mesh> mesh = m_Meshes.cache(scene_fn + ":" + mesh_name);
         tempdata->meshes[i] = mesh;
         if(!mesh->name.empty()){ // if name is empty, mesh was just created
             Log::get().write("Instanced mesh: " + scene_fn + ":" + mesh_name);
@@ -702,14 +714,22 @@ bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiSc
 
 bool Scene :: add(Node* node, Node* parent)
 {
-    if(!node)
-        return false;
+    assert(node);
     if(!parent)
         parent = m_spRoot.get();
 
     parent->add(node);
     //if(m_Flags & F_PHYSICS)
     //    m_spPhysics->generate(node, Physics::GEN_RECURSIVE);
+    return true;
+}
+
+bool Scene :: add(std::shared_ptr<Node> node, Node* parent)
+{
+    assert(node);
+    if(!parent)
+        parent = m_spRoot.get();
+    parent->add(node);
     return true;
 }
 

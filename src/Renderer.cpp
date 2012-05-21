@@ -295,7 +295,7 @@ void Renderer :: bindLight(glm::vec4& vec, glm::vec3& atten, Color& c, unsigned 
         return;
     ASSERT(layer < MAX_LIGHT_PER_PASS);
 
-    glm::vec3 color_vec(c.r, c.g, c.b);
+    glm::vec4 color_vec(c.r, c.g, c.b, 1.0f);
 
     m_pProgram->uniform(m_LightUniform[layer].vec, vec);
     m_pProgram->uniform(m_LightUniform[layer].atten, atten);

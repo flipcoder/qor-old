@@ -91,6 +91,7 @@ public:
     Input* input() const { return m_spInput.get(); }
     //Freq* timer() const { return m_pTimer; }
     Audio* audio() const { return m_spAudio.get(); }
+    Developer* developer() const { return m_spDeveloper.get(); }
 
 // IStateManager
     virtual IState* newState(const std::string id);

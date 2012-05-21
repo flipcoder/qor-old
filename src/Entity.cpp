@@ -24,9 +24,9 @@ Entity::Entity(const shared_ptr<Mesh>& m, glm::vec3 pos, unsigned int entflags)
     m_Flags = entflags;
 }
 
-Entity::Entity(std::string fn, ResourceMap<Mesh>& mesh_map, ResourceMap<Texture>& tex_map, glm::vec3 pos, unsigned int entflags/*, std::string override_name, float minlod*/)
+Entity::Entity(std::string fn, ResourceCache<Mesh>& mesh_map, ResourceCache<Texture>& tex_map, glm::vec3 pos, unsigned int entflags/*, std::string override_name, float minlod*/)
 {
-    shared_ptr<Mesh> mesh_ptr = mesh_map.ensure_shared(fn);
+    shared_ptr<Mesh> mesh_ptr = mesh_map.cache(fn);
     if(!mesh_ptr->good())
         mesh_ptr->load(fn, tex_map);
     

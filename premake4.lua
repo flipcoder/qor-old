@@ -48,6 +48,10 @@ solution("qor")
             }
         configuration {}
 
+        configuration {"windows"}
+            defines { "FS_IGNORE_CASE" }
+        configuration {}
+
         includedirs {"third_party/include/"}
         libdirs {"third_party/lib/"}
 

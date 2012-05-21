@@ -23,7 +23,7 @@ Mesh :: Mesh(std::string n, float minlod)
     //bMaterialAlloc = false;
 }
 
-Mesh :: Mesh(std::string fn, ResourceMap<Texture>& tex_map, std::string override_name, float minlod)
+Mesh :: Mesh(std::string fn, ResourceCache<Texture>& tex_map, std::string override_name, float minlod)
 {
     minimum_lod = minlod;
     flags = 0;
@@ -48,7 +48,7 @@ Mesh :: ~Mesh()
 }
 
 
-bool Mesh :: load(std::string fn, ResourceMap<Texture>& rmap)
+bool Mesh :: load(std::string fn, ResourceCache<Texture>& rmap)
 {
     //bMaterialAlloc = true;
 
