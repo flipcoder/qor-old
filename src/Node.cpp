@@ -426,12 +426,12 @@ Node* Node ::add(Node* n)
 Node* Node ::add(shared_ptr<Node> n)
 {
     ASSERT(n);
-    ASSERT(this != n.get());
-    //ASSERT(n->getParent() == NULL); // node we're trying to add has no existing parent
+    ASSERT(this != n.get()); // can't add to self
+    ASSERT(n->getParent() == NULL); // node we're trying to add has no existing parent
 
     // do similar checks in case assertions are disabled
-    if(this == n.get())
-        return NULL; // can't add node to self
+    //if(this == n.get())
+    //    return NULL; // can't add node to self
     //if(find(n))
     //    return false; // node already connected
     //if(m_pParent != NULL)

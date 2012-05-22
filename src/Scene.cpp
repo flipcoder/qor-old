@@ -84,7 +84,7 @@ bool Scene :: load(string fn)
 {
     clear();
 
-    if(stringEndsWith<string>(boost::to_upper_copy(fn), ".FML"))
+    if(stringEndsWith<string>(boost::to_lower_copy(fn), ".fml"))
         return loadFML(fn);
     return loadAI(fn);
 

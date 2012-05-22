@@ -38,8 +38,8 @@ void Indicator :: renderSelf(IPartitioner* partitioner, unsigned int flags) cons
     glEnd();
 
     //glDisable(GL_POINT_SPRITE);
+    
     glDisable(GL_BLEND);
-
     glDepthMask(GL_TRUE);
 
     Renderer::get().lighting(Renderer::BIND_LIGHTING);
