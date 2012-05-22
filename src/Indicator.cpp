@@ -34,7 +34,7 @@ void Indicator :: renderSelf(IPartitioner* partitioner, unsigned int flags) cons
     //glEnable(GL_POINT_SPRITE);
     glPointSize(24.0f);
     glBegin(GL_POINTS);
-        glVertex3fv(glm::value_ptr(position(Space::WORLD)));
+        glVertex3f(0.0f, 0.0f, 0.0f);
     glEnd();
 
     //glDisable(GL_POINT_SPRITE);
