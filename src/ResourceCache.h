@@ -7,6 +7,7 @@
 #include <boost/filesystem.hpp>
 #include <algorithm>
 #include "Filesystem.h"
+#include "Log.h"
 
 template<class T>
 class ResourceCache
@@ -84,10 +85,13 @@ public:
     //
     boost::filesystem::path resolvePath(std::string name) {
         boost::filesystem::path path;
-        for(auto search_path : m_Paths) {
+        foreach(auto& search_path, m_Paths) {
+            Log::get().write(search_path.string());
             path = search_path / name;
+            Log::get().write(path.string());
+
             if(path.extension().empty()) {
-                for(auto ext : m_Extensions) { // each extenion
+                foreach(auto& ext, m_Extensions) { // each extenion
                     boost::filesystem::path temp_path = path;
                     temp_path.replace_extension("."+ext);
                     if(boost::filesystem::exists(temp_path))
@@ -97,7 +101,6 @@ public:
             else if(boost::filesystem::exists(path))
                 return path;
         }
-        assert(false);
         return boost::filesystem::path(); // empty
     }
 
@@ -114,7 +117,8 @@ public:
             )
         {
             boost::filesystem::path path = resolvePath(name);
-            assert(!path.empty());
+            if(path.empty())
+                return std::shared_ptr<T>();
             name = path.string();
         }
 

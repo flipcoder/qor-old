@@ -68,6 +68,7 @@ OBJECTS := \
 	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/NodeFactory.o \
 	$(OBJDIR)/Scene.o \
+	$(OBJDIR)/Navigation.o \
 	$(OBJDIR)/EnvironmentNode.o \
 	$(OBJDIR)/Console.o \
 	$(OBJDIR)/Mesh.o \
@@ -179,6 +180,9 @@ $(OBJDIR)/NodeFactory.o: src/NodeFactory.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Scene.o: src/Scene.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Navigation.o: src/Navigation.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EnvironmentNode.o: src/EnvironmentNode.cpp

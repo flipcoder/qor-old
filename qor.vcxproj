@@ -52,7 +52,7 @@
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
 			<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -62,7 +62,7 @@
 			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
@@ -80,7 +80,7 @@
 		<ClCompile>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>false</MinimalRebuild>
 			<StringPooling>true</StringPooling>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -90,7 +90,7 @@
 			<DebugInformationFormat></DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
@@ -110,6 +110,7 @@
 		<ClInclude Include="src\Indicator.h" />
 		<ClInclude Include="src\Freq.h" />
 		<ClInclude Include="src\Spectator.h" />
+		<ClInclude Include="src\ResourceCache.h" />
 		<ClInclude Include="src\PropertyList.h" />
 		<ClInclude Include="src\IListenable.h" />
 		<ClInclude Include="src\Version.h" />
@@ -122,7 +123,6 @@
 		<ClInclude Include="src\Scene.h" />
 		<ClInclude Include="src\EnvironmentNode.h" />
 		<ClInclude Include="src\NodeFactory.h" />
-		<ClInclude Include="src\ResourceMap.h" />
 		<ClInclude Include="src\Sound.h" />
 		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\Path.h" />
@@ -158,11 +158,11 @@
 		<ClInclude Include="src\ParticleSystem.h" />
 		<ClInclude Include="src\TrackerNode.h" />
 		<ClInclude Include="src\Graphics.h" />
+		<ClInclude Include="src\Navigation.h" />
 		<ClInclude Include="src\Material.h" />
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\RenderBuffer.h" />
 		<ClInclude Include="src\ISuperParent.h" />
-		<ClInclude Include="src\ResourcePath.h" />
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
@@ -190,6 +190,8 @@
 		<ClCompile Include="src\NodeFactory.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Scene.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Navigation.cpp">
 		</ClCompile>
 		<ClCompile Include="src\EnvironmentNode.cpp">
 		</ClCompile>

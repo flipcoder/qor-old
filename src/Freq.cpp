@@ -22,6 +22,11 @@ unsigned long Freq :: getElapsedTime() const
     return (SDL_GetTicks() - m_ulStartTime);
 }
 
+unsigned long Freq :: getAccumulatedTime() const
+{
+    return m_globalAccumulator.getElapsedTime(); // already subtracts out start time
+}
+
 double Freq :: getElapsedSeconds() const
 {
     return (((double)getElapsedTime()) / 1000.00);
@@ -29,7 +34,7 @@ double Freq :: getElapsedSeconds() const
 
 bool Freq :: tick()
 {
-    if ( getElapsedTime() / m_dTimeBetweenTicks > m_ulTicks )
+    if (getElapsedTime() / m_dTimeBetweenTicks > m_ulTicks)
     {
         ++m_ulTicks;
         return true;

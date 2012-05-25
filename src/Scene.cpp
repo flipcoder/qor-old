@@ -44,45 +44,35 @@ Scene::Scene(string fn, unsigned int flags)
     m_Flags = flags;
     
     initInternals();
-    
-    m_Textures.addExtension("png");
-    //m_Textures.addExtension("ini");
-    m_Textures.addPath(boost::filesystem::basename(boost::filesystem::path(fn)));
-    //m_Textures.addPath("data/ne/materials");
-    m_Meshes.addExtension("obj");
-    //m_Meshes.addExtension("ini");
-    m_Meshes.addPath(boost::filesystem::basename(boost::filesystem::path(fn)));
-    //m_Meshes.addPath("data/ne/entities");
-    //m_Meshes.addPath("data/ne/assets");
+    updatePaths(fn);
 
     if(load(fn)) {
         if(flags & F_PHYSICS)
             m_spPhysics.reset(new Physics());
     }
-    
-    //ps = new ParticleSystem();
-    //ps->setTextureOwnership(true);
-    //particle.size = 60.0f;
-    //particle.life = 2.0f;
-    //particle.color.white();
-    //particle.color *= 0.5f;
-    ////particle.color.a = 0.1f;
-    //particle.vel.set(0.0f,1.0f,0.0f);
-    //ps->init(new Texture("data/particles/particle.png", Texture::MIPMAPPED), particle, ParticleSystem::BLEND_COLOR, 0.5f, 25.0f);
-    //ps->matrix()->translate(glm::vec3(0.0f, 1.0f, 0.0f));
-    //m_pRoot->add(ps);
 }
 
 void Scene :: initInternals()
 {
     m_spPartitioner.reset(new DummyPartitioner());
+    m_Textures.addExtension("png");
+    m_Meshes.addExtension("obj");
+    //m_Textures.addExtension("ini");
+    //m_Meshes.addExtension("ini");
+}
 
-    
+void Scene :: updatePaths(std::string fn)
+{
+    m_Textures.addPath(boost::filesystem::path(fn).parent_path().string());
+    m_Meshes.addPath(boost::filesystem::path(fn).parent_path().string());
+    //m_Meshes.addPath("data/ne/entities");
+    //m_Meshes.addPath("data/ne/assets");
 }
 
 bool Scene :: load(string fn)
 {
     clear();
+    updatePaths(fn);
 
     if(stringEndsWith<string>(boost::to_lower_copy(fn), ".fml"))
         return loadFML(fn);

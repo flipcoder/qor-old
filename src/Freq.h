@@ -4,10 +4,27 @@
 #include <iostream>
 #include "IStaticInstance.h"
 #include "math/common.h"
+#include "IRealtime.h"
 
-class Freq : public IStaticInstance<Freq>
+class Freq : public IStaticInstance<Freq>, public IRealtime
 {
 public:
+
+    class Accumulator: public IRealtime {
+        private:
+            unsigned long m_ulAccumulatedTime;
+        public:
+            Accumulator():
+                m_ulAccumulatedTime(0L)
+            {}
+            virtual unsigned long getElapsedTime() const {
+                return m_ulAccumulatedTime;
+            }
+
+            virtual void logic(unsigned int a) {
+                m_ulAccumulatedTime += a;
+            }
+    };
 
     class Time
     {
@@ -35,7 +52,8 @@ public:
     {
     protected:
     
-        Freq* m_pTimer;
+        //Freq* m_pTimer;
+        Accumulator* m_pTimer;
         unsigned long m_ulAlarmTime;
         unsigned long m_ulStartTime;
 
@@ -46,31 +64,38 @@ public:
         Alarm():
             m_ulAlarmTime(0L),
             m_ulStartTime(0L),
-            m_pTimer(Freq::ptr())
+            m_pTimer(Freq::get().accumulator())
         {
         }
-        Alarm(Freq* timer):
+
+        Alarm(Accumulator* timer):
             m_ulAlarmTime(0L),
             m_ulStartTime(0L),
             m_pTimer(timer)
         {
         }
+
         virtual ~Alarm() {}
         
         bool hasTimer() const { return (m_pTimer!=NULL); }
         
-        void assignToTimer(Freq* timerRef)
+        void assignToTimer(Accumulator* timerRef)
         {
             m_pTimer = timerRef;
         }
         
         void set(Time t)
         {
-            if(m_pTimer)
-            {
-                m_ulStartTime = m_pTimer->getElapsedTime();
-                m_ulAlarmTime = m_ulStartTime+((unsigned long)t.get());
-            }
+            if(!m_pTimer)
+                return;
+            m_ulStartTime = m_pTimer->getElapsedTime();
+            m_ulAlarmTime = m_ulStartTime+((unsigned long)t.get());
+        }
+
+        void delay(Time t) {
+            if(!m_pTimer)
+                return;
+            m_ulAlarmTime += ((unsigned long)t.get());
         }
 
         void setMinutes(unsigned int m)
@@ -154,7 +179,7 @@ public:
             m_Length = Time(t);
             set(t, start, end);
         }
-        explicit Timed(Freq* timer) {
+        explicit Timed(Accumulator* timer) {
             m_Length = Time(0);
             assignToTimer(timer);
         }
@@ -221,6 +246,7 @@ private:
     int m_iLogicTickSpeed;
     
     bool m_bPaused;
+    Accumulator m_globalAccumulator;
     
 public:
 
@@ -235,6 +261,7 @@ public:
     void set(int logicTickSpeed);
     
     unsigned long getElapsedTime() const;
+    unsigned long getAccumulatedTime() const;
     double getElapsedSeconds() const;
     
     unsigned long getElapsedTicks() const;
@@ -244,6 +271,12 @@ public:
     //void unpause();
     
     bool tick();
+
+    virtual void logic(unsigned int a) {
+        m_globalAccumulator.logic(a);
+    }
+
+    Accumulator* accumulator() { return &m_globalAccumulator; }
 
     // varies from 0 to 1 based on interval between frames
     float interp() const;

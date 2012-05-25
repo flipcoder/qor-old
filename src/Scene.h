@@ -81,6 +81,7 @@ public:
 
     // 
     bool load(std::string fn);
+    void updatePaths(std:: string fn);
 
     // Assimp format to get bash Scene meshes
     Node* loadAI(std::string fn, glm::vec3 pos = glm::vec3(0.0f), unsigned int flags = Node::defaultFlags(), Node* parent = NULL);

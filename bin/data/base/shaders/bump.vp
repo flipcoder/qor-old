@@ -12,8 +12,7 @@ varying vec3 vLightDir;
 varying vec3 vLight;
 varying vec3 vViewDir;
 /*varying vec3 vNormal;*/
-varying vec3 vVertex;
-
+/*varying vec3 vVertex;*/
 
 
 void main(void)
@@ -22,19 +21,22 @@ void main(void)
 	vUV = gl_MultiTexCoord0;
 	
 	vec3 vTangent = normalize(gl_NormalMatrix * tangent);
-	vec3 vBitangent = normalize(gl_NormalMatrix * bitangent);
+    vec3 vBitangent = normalize(gl_NormalMatrix * bitangent);
 	vec3 vNormal = normalize(gl_NormalMatrix * gl_Normal);
-	/*vBitangent = cross(vTangent, vNormal);*/
+    /*vBitangent = cross(vTangent, vNormal);*/
 	
-	vVertex = gl_ModelViewMatrix * gl_Vertex;
-	vLight = ViewMatrix * Light;
-	/*vec3 world_light = vec4(0.0, 0.0, 0.0, 1.0);*/
-	/*vLight = vec4(gl_ModelViewMatrix * vec4(0.0, 0.0, 0.0 , 1.0)).xyz;*/
-	/*vec3 lightvertex = vec3(gl_ModelViewMatrix * vec4(vLight, 1.0));*/
-	
-	mat3 tspace = mat3(vTangent,vBitangent,vNormal);
+	vec3 vVertex = gl_ModelViewMatrix * gl_Vertex;
+
+    mat3 tspace = mat3(vTangent,vBitangent,vNormal);
+    /*mat3 tspace = mat3(*/
+    /*    vTangent.x, vBitangent.x, vNormal.x,*/
+    /*    vTangent.y, vBitangent.y, vNormal.y,*/
+    /*    vTangent.z, vBitangent.z, vNormal.z*/
+    /*);*/
 	vViewDir = -vVertex;
 	vViewDir *= tspace;
+
+	vLight = ViewMatrix * Light;
 	vLightDir = vLight - vVertex;
 	vLightDir *= tspace;
 }

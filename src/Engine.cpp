@@ -148,6 +148,7 @@ void Engine::logic(unsigned int t)
     unsigned long now, a;
     now = Freq::get().getElapsedTime();
     a = now - m_uiLastAdv;
+    Freq::get().logic(a);
     
     m_spInput->logic(a);
     if(m_spInput->quit())
