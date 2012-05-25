@@ -1,4 +1,3 @@
-
 uniform sampler2D tex;
 uniform sampler2D nmap;
 uniform sampler2D disp;
@@ -26,11 +25,11 @@ void main(void)
 	float light_dist = length(vLightDir);
 	vec3 light = normalize(vLightDir);
 
-    if(light_dist > 1.0)
-    {
-        gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);
-        discard;
-    }
+    /*if(light_dist > 1.0)*/
+    /*{*/
+    /*    gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);*/
+    /*    discard;*/
+    /*}*/
 
     /*float atten_frag;*/
     /*float atten_denom = Atten.x + Atten.y*light_dist + Atten.z*light_dist*light_dist;*/
@@ -70,7 +69,7 @@ void main(void)
     /*vec4 fog_color = vec4(0.0, 0.0, 0.0, 1.0);*/
     /*float fog_factor = eye_dist / 20.0f;*/
     
-    vec4 lit = color_frag * /*occ **/ LightColor * atten_frag;
+    vec4 lit = color_frag * /*occ **/ LightColor;
 	
     gl_FragColor = lit;
     /*gl_FragColor = mix(lit, fog_color, clamp(fog_factor,0.0,1.0));*/
