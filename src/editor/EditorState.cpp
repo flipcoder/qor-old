@@ -50,10 +50,14 @@ EditorState::EditorState()
         if(filename.empty())
            filename = "data/ne/maps/Apartment/apartment_scene.obj";
 
-        if(filename.empty())
-            m_spScene.reset(new Scene());
-        else
-            m_spScene.reset(new Scene(filename));
+        m_spScene.reset(new Scene());
+        m_spScene->getTextureResources()->addPath("data/ne/materials");
+        m_spScene->getMeshResources()->addPath("data/ne/assets");
+
+        m_spScene->load("data/ne/maps/gothicTower/gothicTower.obj"); //temp
+
+        if(!filename.empty())
+            m_spScene->load(filename);
         if(!m_spScene || m_spScene->hasError())
         {
             Log::get().error(m_spScene->getError());
@@ -584,6 +588,10 @@ void EditorState::logic(unsigned int advance)
     }
     if(input->key(SDLK_x) || input->key(SDLK_DELETE))
         m_Selection.destroy();
+    if(input->key(SDLK_a)) // instance
+    {
+        //m_Selection
+    }
 
     // Mouse Wheel Zooming
     if(input->mouseWheelDownd())

@@ -9,44 +9,30 @@ class Texture : public IFallible
 {
     public:
 
-        enum TransOptions{
-            NO_TRANS=0,
-            TRANS
+        enum Flags {
+            TRANSPARENT = BIT(0),
+            MIPMAP  = BIT(1),
+            CLAMP = BIT(2)
+            //FLIP = BIT(3)
         };
 
-        enum MipmapOptions{
-            SINGLE_IMAGE=0,
-            MIPMAPPED
-        };
-
-        enum WrapOptions {
-            REPEAT = 0,
-            CLAMP
-        };
-
-        enum FlipOptions {
-            NO_FLIP = 0,
-            FLIPPED
-        };
+        const static unsigned int DEFAULT_FLAGS = TRANSPARENT | MIPMAP;
 
         GLuint id;
 
         Texture(unsigned int _id = 0):
             id(_id) {}
 
-        Texture(std::string fn,
-            MipmapOptions mip = MIPMAPPED,
-            WrapOptions wrap = REPEAT,
-            FlipOptions flip = NO_FLIP)
+        Texture(std::string fn, unsigned int flags = DEFAULT_FLAGS)
+            //MipmapOptions mip = MIPMAPPED,
+            //WrapOptions wrap = REPEAT,
+            //FlipOptions flip = NO_FLIP)
         {
-            loadTex(fn,mip,wrap,flip);
+            loadTex(fn, flags);
         }
         virtual ~Texture() { unload(); }
 
-        unsigned int loadTex(std::string fn,
-            MipmapOptions mip = MIPMAPPED,
-            WrapOptions wrap = REPEAT,
-            FlipOptions flip = NO_FLIP);
+        unsigned int loadTex(std::string fn, unsigned int flags = DEFAULT_FLAGS);
 
         void unload();
 

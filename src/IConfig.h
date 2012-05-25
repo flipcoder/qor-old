@@ -2,7 +2,8 @@
 #define _ICONFIG_H
 
 #include "PropertyList.h"
-#include "FileSystem.h"
+#include "Filesystem.h"
+#include "IFallible.h"
 
 class IConfig
 {
@@ -16,8 +17,8 @@ class IConfig
         virtual ~IConfig() {}
 
         bool open(const std::string& fn) {
-            if(FileSystem::hasExtension(fn,"ini"))
-                m_Properties.open(fn.c_str());
+            if(FS::hasExtension(fn,"ini"))
+                return m_Properties.open(fn.c_str());
         }
 
         const PropertyList& properties() const { return m_Properties; }

@@ -120,6 +120,7 @@
 		<ClInclude Include="src\Settings.h" />
 		<ClInclude Include="src\NodeAttributes.h" />
 		<ClInclude Include="src\IMeshContainer.h" />
+		<ClInclude Include="src\Item.h" />
 		<ClInclude Include="src\Scene.h" />
 		<ClInclude Include="src\EnvironmentNode.h" />
 		<ClInclude Include="src\NodeFactory.h" />
@@ -145,6 +146,7 @@
 		<ClInclude Include="src\IPhysicsObject.h" />
 		<ClInclude Include="src\Shader.h" />
 		<ClInclude Include="src\IRenderable.h" />
+		<ClInclude Include="src\Inventory.h" />
 		<ClInclude Include="src\Shadow.h" />
 		<ClInclude Include="src\Node.h" />
 		<ClInclude Include="src\DummyPartitioner.h" />
@@ -163,6 +165,7 @@
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\RenderBuffer.h" />
 		<ClInclude Include="src\ISuperParent.h" />
+		<ClInclude Include="src\Rules.h" />
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />

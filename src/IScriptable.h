@@ -1,14 +1,23 @@
 #ifndef _SCRIPTABLE_H
 #define _SCRIPTABLE_H
 
-class IScriptable
+#include <string>
+
+class IScriptable: public IConfig
 {
     private:
         
     public:
-        IScriptable() {
+        IScriptable(const std::string& fn):
+            IConfig(fn)
+        {
+            open(fn);
+        }
+        bool open(const std::string& fn) {
+            
         }
         virtual ~IScriptable() {}
 };
 
 #endif
+

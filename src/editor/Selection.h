@@ -223,7 +223,7 @@ class Selection
         }
     
     private:
-        std::list<std::weak_ptr<Node>> m_SelectedNodes;
+        std::vector<std::weak_ptr<Node>> m_SelectedNodes;
 };
 
 #endif

@@ -7,6 +7,9 @@ void Indicator :: renderSelf(IPartitioner* partitioner, unsigned int flags) cons
     if(!(flags & RENDER_AMBIENT_PASS))
         return;
 
+    if(!m_spTexture)
+        return;
+
     Renderer::get().shaders(Renderer::UNBIND_SHADERS);
     Renderer::get().lighting(Renderer::UNBIND_LIGHTING);
     

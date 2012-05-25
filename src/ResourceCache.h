@@ -125,6 +125,7 @@ public:
         typename std::map<std::string, std::shared_ptr<T>>::iterator itr;
         if((itr = m_Resources.find(name)) == m_Resources.end()) {
             T* r = (flags & F_PASS_NAME) ? new T(name) : new T(); // might throw
+            //T* r = new T(name);
             m_Resources[name].reset(r);
             return m_Resources[name];
         }

@@ -55,12 +55,10 @@ private:
         std::vector<std::shared_ptr<Mesh>> meshes;
     };
 
-    //std::map<std::string, Texture*> m_Textures;
-    //std::map<std::string, Mesh*> m_MeshPool;
-
     ResourceCache<Mesh> m_Meshes;
-    //ResourceCache<Material> m_Materials;
     ResourceCache<Texture> m_Textures;
+    //ResourceCache<Buffer> m_Sounds;
+    //ResourceCache<Stream> m_Streams;
     
     //Camera* m_pCamera;
     std::unique_ptr<Physics> m_spPhysics;

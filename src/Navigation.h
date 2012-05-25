@@ -4,18 +4,15 @@
 #include <memory>
 #include <functional>
 #include <vector>
+#include <cmath>
 #include "Freq.h"
+#include "math/common.h"
 template<class T> class Navigation;
 
 struct LinearInterpolation
 {
     template<class T>
-    T operator()(const T& a, const T& b, float t) const // where t ranges from 0..1
-    {
-        if(t <= 0.0f)
-            return a;
-        if(t >= 1.0f)
-            return b;
+    T operator()(const T& a, const T& b, float t) const {
         return a * (1.0f - t) + b * t;
     }
 };
@@ -23,9 +20,25 @@ struct LinearInterpolation
 struct CosineInterpolation
 {
     template<class T>
-    T operator()(const T& a, const T& b, float t) const // where t ranges from 0..1
-    {
-        return T(); // TODO
+    T operator()(const T& a, const T& b, float t) const {
+        float ft = (1.0f - cos(M_PI * t)) * 0.5f;
+        return a + (b - a) * ft;
+    }
+};
+
+struct SquareRootInterpolation
+{
+    template<class T>
+    T operator()(const T& a, const T& b, float t) const {
+        return a + (b - a) * std::sqrt(t);
+    }
+};
+
+struct NoInterpolation
+{
+    template<class T>
+    T operator()(const T& a, const T& b, float t) const {
+        return a;
     }
 };
 
@@ -58,12 +71,13 @@ class Waypoint
             m_ulStartTime = Freq::get().getElapsedTime(); //ms
             m_ulAlarmTime = m_ulStartTime + time.get();
         }
+        virtual ~Waypoint() {}
         
-        void poll() {
+        virtual void poll() {
             // TODO: not necessary, but trigger callbacks if possible
         }
 
-        bool elapsed() {
+        virtual bool elapsed() {
             poll();
             return Freq::get().getElapsedTime() >= m_ulAlarmTime;
         }

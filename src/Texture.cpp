@@ -5,11 +5,7 @@
 #include <string>
 #include "Renderer.h"
 
-unsigned int Texture :: loadTex(std::string fn,
-    //TransOptions trans,
-    MipmapOptions mip,
-    WrapOptions wrap,
-    FlipOptions flip)
+unsigned int Texture :: loadTex(std::string fn, unsigned int flags)
 {
     //return 1; // bypass textures
 
@@ -58,18 +54,18 @@ unsigned int Texture :: loadTex(std::string fn,
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, filter);
     
 
-    if(wrap==REPEAT)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    }
-    else
+    if(flags & CLAMP)
     {
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP_TO_EDGE);
     }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
 
-    if(mip){
+    if(flags & MIPMAP){
 
         // GLU version:
         // gluBuild2DMipmaps(GL_TEXTURE_2D,ilGetInteger(IL_IMAGE_BPP),ilGetInteger(IL_IMAGE_WIDTH),
