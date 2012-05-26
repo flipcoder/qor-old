@@ -44,7 +44,6 @@ public:
     std::vector<std::vector<glm::vec3>> UVs;
 
     std::vector<std::shared_ptr<Mesh>> LOD;
-    std::map<std::pair<std::weak_ptr<Node>, std::weak_ptr<Light>>, Shadow> shadows;
 
     float minimum_lod;
     bool error;

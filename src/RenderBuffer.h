@@ -15,7 +15,7 @@ private:
     unsigned int height;
 
 public:
-    RenderBuffer(int _width, int _height){
+    RenderBuffer(int _width, int _height) {
         m_FrameBufferID = 0;
         m_DepthBufferID = 0;
         m_Status = 0;
@@ -38,7 +38,7 @@ public:
         status();
         ASSERT(m_Status == GL_FRAMEBUFFER_COMPLETE);
     }
-    virtual ~RenderBuffer(){
+    virtual ~RenderBuffer() {
         if(m_FrameBufferID)
             glDeleteFramebuffers(1, &m_FrameBufferID);
         if(m_DepthBufferID)

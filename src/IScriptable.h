@@ -2,6 +2,7 @@
 #define _SCRIPTABLE_H
 
 #include <string>
+#include "IConfig.h"
 
 class IScriptable: public IConfig
 {

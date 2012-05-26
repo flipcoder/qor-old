@@ -150,6 +150,7 @@
 		<ClInclude Include="src\Shadow.h" />
 		<ClInclude Include="src\Node.h" />
 		<ClInclude Include="src\DummyPartitioner.h" />
+		<ClInclude Include="src\DynamicTyping.h" />
 		<ClInclude Include="src\IStateManager.h" />
 		<ClInclude Include="src\IRealtime.h" />
 		<ClInclude Include="src\GUI.h" />
@@ -165,7 +166,6 @@
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\RenderBuffer.h" />
 		<ClInclude Include="src\ISuperParent.h" />
-		<ClInclude Include="src\Rules.h" />
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
@@ -205,6 +205,8 @@
 		<ClCompile Include="src\Material.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Main.cpp">
+		</ClCompile>
+		<ClCompile Include="src\DynamicTyping.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Engine.cpp">
 		</ClCompile>

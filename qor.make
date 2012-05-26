@@ -74,6 +74,7 @@ OBJECTS := \
 	$(OBJDIR)/Mesh.o \
 	$(OBJDIR)/Material.o \
 	$(OBJDIR)/Main.o \
+	$(OBJDIR)/DynamicTyping.o \
 	$(OBJDIR)/Engine.o \
 	$(OBJDIR)/DummyPartitioner.o \
 	$(OBJDIR)/TrackerNode.o \
@@ -198,6 +199,9 @@ $(OBJDIR)/Material.o: src/Material.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Main.o: src/Main.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/DynamicTyping.o: src/DynamicTyping.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Engine.o: src/Engine.cpp
