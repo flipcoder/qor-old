@@ -135,7 +135,7 @@ bool Renderer :: startGL()
     m_TextureUniform[1] = m_pProgram->uniform("nmap");
     m_TextureUniform[2] = m_pProgram->uniform("disp");
     m_TextureUniform[3] = m_pProgram->uniform("spec");
-    //m_TextureUniform[4] = m_pProgram->uniform("occ");
+    m_TextureUniform[4] = m_pProgram->uniform("occ");
     
     m_ViewMatrixUniform = m_pProgram->uniform("ViewMatrix");
 

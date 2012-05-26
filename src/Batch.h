@@ -2,7 +2,7 @@
 #define BATCH_H
 
 // Graphics polygon batch
-// Used for emulation of immediate mode
+// Used for alternative to immediate mode
 
 #include <vector>
 #include "math/common.h"

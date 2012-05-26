@@ -12,10 +12,8 @@
 #include <assimp/assimp.hpp>
 #include <assimp/aiScene.h>
 #include <assimp/aiPostProcess.h>
-#include "Shadow.h"
 #include "Light.h"
 #include "IRealtime.h"
-class Shadow;
 class Light;
 
 class Mesh : public IRealtime
@@ -58,8 +56,6 @@ public:
     Mesh(std::string n = "", float minlod = 0.1f);
     Mesh(std::string fn, ResourceCache<Texture>& tex_map, std::string override_name = "", float minlod = 0.1f);
     virtual ~Mesh();
-
-    //Shadow generateShadow();
     
     Mesh* getLOD(float quality = 1.0f) const;
 
@@ -70,11 +66,7 @@ public:
     };
     virtual void logic(unsigned int advance);
     void render(unsigned int flags = 0, float quality = 1.0f) const;
-    Shadow* getShadow(Node* node, Light* light){
-        
-    }
-
-    bool loadAIMesh(const aiMesh* aimesh);
+    bool loadModel(const aiMesh* aimesh);
     
     bool good() const { return !vertices.empty(); } // this could be improved, but it works for now
     

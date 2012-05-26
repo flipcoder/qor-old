@@ -64,7 +64,6 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/Shadow.o \
 	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/NodeFactory.o \
 	$(OBJDIR)/Scene.o \
@@ -88,6 +87,7 @@ OBJECTS := \
 	$(OBJDIR)/Physics.o \
 	$(OBJDIR)/Node.o \
 	$(OBJDIR)/Settings.o \
+	$(OBJDIR)/ShadowBuffer.o \
 	$(OBJDIR)/Developer.o \
 	$(OBJDIR)/Graphics.o \
 	$(OBJDIR)/Light.o \
@@ -171,9 +171,6 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/Shadow.o: src/Shadow.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Filesystem.o: src/Filesystem.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -241,6 +238,9 @@ $(OBJDIR)/Node.o: src/Node.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Settings.o: src/Settings.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/ShadowBuffer.o: src/ShadowBuffer.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Developer.o: src/Developer.cpp

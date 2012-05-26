@@ -71,6 +71,7 @@ class Waypoint
             m_ulStartTime = Freq::get().getElapsedTime(); //ms
             m_ulAlarmTime = m_ulStartTime + time.get();
         }
+
         virtual ~Waypoint() {}
         
         virtual void poll() {
@@ -93,6 +94,10 @@ class Waypoint
 
         T& position() {
             return m_Position;
+        }
+
+        void interp(std::function<T (const T&, const T&, float)> func) {
+            m_Interpolation = func;
         }
 };
 

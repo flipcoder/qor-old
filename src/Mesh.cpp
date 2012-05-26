@@ -4,7 +4,7 @@
 #include <assimp/assimp.hpp>
 #include <assimp/aiScene.h>
 #include <assimp/aiPostProcess.h>
-#include "AITypeParser.h"
+#include "MeshTypeParser.h"
 #include "Util.h"
 
 #include <iostream>
@@ -118,7 +118,7 @@ bool Mesh :: load(std::string fn, ResourceCache<Texture>& rmap)
     }
 
     for(unsigned int i = 0; i < aiscene->mNumMeshes; i++)
-        loadAIMesh(aiscene->mMeshes[i]);
+        loadModel(aiscene->mMeshes[i]);
 
     return true;
 }
@@ -221,7 +221,7 @@ void Mesh :: render(unsigned int flags, float quality) const
     }*/
 }
 
-bool Mesh :: loadAIMesh(const aiMesh* aimesh)
+bool Mesh :: loadModel(const aiMesh* aimesh)
 {
     name = aimesh->mName.data;
 
@@ -231,18 +231,18 @@ bool Mesh :: loadAIMesh(const aiMesh* aimesh)
         {
             bitangents.resize(aimesh->mNumVertices);
             for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                AITypeParser::parseVector(bitangents[j], aimesh->mBitangents[j]);
+                MeshTypeParser::parseVector(bitangents[j], aimesh->mBitangents[j]);
         
             tangents.resize(aimesh->mNumVertices);
             for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                AITypeParser::parseVector(tangents[j], aimesh->mTangents[j]);
+                MeshTypeParser::parseVector(tangents[j], aimesh->mTangents[j]);
         }
 
         if(aimesh->mNormals)
         {
             normals.resize(aimesh->mNumVertices);
             for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                AITypeParser::parseVector(normals[j], aimesh->mNormals[j]);
+                MeshTypeParser::parseVector(normals[j], aimesh->mNormals[j]);
         }
 
         if(aimesh->HasTextureCoords(0))
@@ -251,14 +251,14 @@ bool Mesh :: loadAIMesh(const aiMesh* aimesh)
             UVs[0].resize(aimesh->mNumVertices);
             for(unsigned int j=0; j<aimesh->mNumVertices; j++)
             {
-                AITypeParser::parseVector(UVs[0][j], aimesh->mTextureCoords[0][j]);
-                //AITypeParser::parseVector(UVs[1][j], aimesh_lmap->mTextureCoords[0][j]);
+                MeshTypeParser::parseVector(UVs[0][j], aimesh->mTextureCoords[0][j]);
+                //MeshTypeParser::parseVector(UVs[1][j], aimesh_lmap->mTextureCoords[0][j]);
             }
         }
     
         vertices.resize(aimesh->mNumVertices);
         for(unsigned int j=0; j<aimesh->mNumVertices; j++){
-            AITypeParser::parseVector(vertices[j], aimesh->mVertices[j]);
+            MeshTypeParser::parseVector(vertices[j], aimesh->mVertices[j]);
             //vertices[j] *= MESH_SCALE;
         }
     }

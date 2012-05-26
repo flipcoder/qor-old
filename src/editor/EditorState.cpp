@@ -359,7 +359,7 @@ void EditorState :: xAddByFilename(GUI::Menu* menu, GUI::Menu::Option* op, std::
 {
     Log::get().write(op->caption() + " clicked: " + filename);
     //m_spGUI->remove(menu);
-    Node* n = m_spScene->loadAI(filename);
+    Node* n = m_spScene->loadModel(filename);
     m_Selection.clear();
     m_Selection.add(n);
     menu->flags(menu->flags() | GUI::F_REMOVE);

@@ -18,7 +18,7 @@ using namespace rapidxml;
 #include "Util.h"
 #include "EnvironmentNode.h"
 #include <boost/algorithm/string.hpp>
-#include "AITypeParser.h"
+#include "MeshTypeParser.h"
 #include "Entity.h"
 #include "ParticleSystem.h"
 #include "Graphics.h"
@@ -26,7 +26,7 @@ using namespace rapidxml;
 #include "Entity.h"
 #include "DummyPartitioner.h"
 
-//#define AI_SCALE 1.0f
+//#define MODEL_SCALE 1.0f
 //0.05f
 
 Scene::Scene(unsigned int flags)
@@ -76,7 +76,7 @@ bool Scene :: load(string fn)
 
     if(stringEndsWith<string>(boost::to_lower_copy(fn), ".fml"))
         return loadFML(fn);
-    return loadAI(fn);
+    return loadModel(fn);
 
     //setError("Unrecognized scene file type.");
     //return false;
@@ -148,7 +148,7 @@ bool Scene :: saveFML(string fn) const
     return true;
 }
 
-Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* parent)
+Node* Scene :: loadModel(std::string fn, glm::vec3 pos, unsigned int flags, Node* parent)
 {
     TempData tempdata;
     size_t num_materials = 0;
@@ -332,7 +332,7 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
             }
         }
 
-        if(!loadAIMeshData(fn, aiscene, aiscene_lmap, &tempdata)) { // aiscene_lmap might be null
+        if(!loadModelMeshData(fn, aiscene, aiscene_lmap, &tempdata)) { // aiscene_lmap might be null
             //throw exception();
             return NULL;
         }
@@ -349,7 +349,7 @@ Node* Scene :: loadAI(std::string fn, glm::vec3 pos, unsigned int flags, Node* p
         //    clearEnvironment();
         EnvironmentNode* scene_map = new EnvironmentNode(flags, fn);
         parent->add(scene_map);
-        if(!loadAINode(scene_map, aiscene->mRootNode, &tempdata)) {
+        if(!loadModelNode(scene_map, aiscene->mRootNode, &tempdata)) {
             return NULL;
             //throw exception();
         }
@@ -487,7 +487,6 @@ void Scene::render(Node* from) const
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     
     // initial pass
-    // TODO: bind an ambient shader here!
     glDisable(GL_BLEND);
     if(Renderer::get().lighting()) {
         Renderer::get().bindBaseShader();
@@ -496,10 +495,6 @@ void Scene::render(Node* from) const
     else
         m_spRoot->render(m_spPartitioner.get(), Node::RENDER_AMBIENT_PASS);
     
-    // eventually we can move this call into each objects' renderSelf method
-    // so it can be replaced with custom shaders
-    // TODO: Possibly wrap the basic shader/program system to allow for variable quality
-    //  adjustments and variable light batching
     if(Renderer::get().lighting()) { // do multi-pass only if lighting is enabled
         Renderer::get().bindDefaultShader();
         glEnable(GL_BLEND);
@@ -538,7 +533,7 @@ void Scene::renderOverview(const glm::vec3& pos, float scale) const
     m_spRoot->render();
 }
 
-bool Scene :: loadAINode(EnvironmentNode* node, const aiNode* ainode, TempData* tempdata)
+bool Scene :: loadModelNode(EnvironmentNode* node, const aiNode* ainode, TempData* tempdata)
 {
     assert(node && ainode);
 
@@ -559,7 +554,7 @@ bool Scene :: loadAINode(EnvironmentNode* node, const aiNode* ainode, TempData* 
 
         if(node->add(child))
         {
-            if(!loadAINode(child, ainode->mChildren[i], tempdata))
+            if(!loadModelNode(child, ainode->mChildren[i], tempdata))
             {
                 //delete child;
                 Log::get().error("Failed to load EnvironmentNode into memory.");
@@ -576,7 +571,7 @@ bool Scene :: loadAINode(EnvironmentNode* node, const aiNode* ainode, TempData* 
     return true;
 }
 
-bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiScene* aiscene_lmap, TempData* tempdata)
+bool Scene :: loadModelMeshData(const std::string& scene_fn, aiScene* aiscene, aiScene* aiscene_lmap, TempData* tempdata)
 {
     // this loading code loads meshes only, not embedded node transformations
 
@@ -628,18 +623,18 @@ bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiSc
             {
                 mesh->bitangents.resize(aimesh->mNumVertices);
                 for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                    AITypeParser::parseVector(mesh->bitangents[j], aimesh->mBitangents[j]);
+                    MeshTypeParser::parseVector(mesh->bitangents[j], aimesh->mBitangents[j]);
 
                 mesh->tangents.resize(aimesh->mNumVertices);
                 for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                    AITypeParser::parseVector(mesh->tangents[j], aimesh->mTangents[j]);
+                    MeshTypeParser::parseVector(mesh->tangents[j], aimesh->mTangents[j]);
             }
 
             if(aimesh->mNormals)
             {
                 mesh->normals.resize(aimesh->mNumVertices);
                 for(unsigned int j=0; j<aimesh->mNumVertices; j++)
-                    AITypeParser::parseVector(mesh->normals[j], aimesh->mNormals[j]);
+                    MeshTypeParser::parseVector(mesh->normals[j], aimesh->mNormals[j]);
             }
 
             if(aimesh->HasTextureCoords(0))
@@ -664,16 +659,16 @@ bool Scene :: loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiSc
                     mesh->UVs[1].resize(aimesh_lmap->mNumVertices); // should be the same #verts
                 for(unsigned int j=0; j<aimesh->mNumVertices; j++)
                 {
-                    AITypeParser::parseVector(mesh->UVs[0][j], aimesh->mTextureCoords[0][j]);
+                    MeshTypeParser::parseVector(mesh->UVs[0][j], aimesh->mTextureCoords[0][j]);
                     if(aimesh_lmap)
-                        AITypeParser::parseVector(mesh->UVs[1][j], aimesh_lmap->mTextureCoords[0][j]);
+                        MeshTypeParser::parseVector(mesh->UVs[1][j], aimesh_lmap->mTextureCoords[0][j]);
                 }
             }
         
             mesh->vertices.resize(aimesh->mNumVertices);
             for(unsigned int j=0; j<aimesh->mNumVertices; j++){
-                AITypeParser::parseVector(mesh->vertices[j], aimesh->mVertices[j]);
-                //mesh->vertices[j] *= AI_SCALE;
+                MeshTypeParser::parseVector(mesh->vertices[j], aimesh->mVertices[j]);
+                //mesh->vertices[j] *= MODEL_SCALE;
             }
         }
         

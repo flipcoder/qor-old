@@ -116,6 +116,7 @@
 		<ClInclude Include="src\Version.h" />
 		<ClInclude Include="src\Physics.h" />
 		<ClInclude Include="src\Filesystem.h" />
+		<ClInclude Include="src\MeshTypeParser.h" />
 		<ClInclude Include="src\IPartitioner.h" />
 		<ClInclude Include="src\Settings.h" />
 		<ClInclude Include="src\NodeAttributes.h" />
@@ -145,9 +146,10 @@
 		<ClInclude Include="src\Batch.h" />
 		<ClInclude Include="src\IPhysicsObject.h" />
 		<ClInclude Include="src\Shader.h" />
+		<ClInclude Include="src\ShadowBuffer.h" />
 		<ClInclude Include="src\IRenderable.h" />
 		<ClInclude Include="src\Inventory.h" />
-		<ClInclude Include="src\Shadow.h" />
+		<ClInclude Include="src\Zone.h" />
 		<ClInclude Include="src\Node.h" />
 		<ClInclude Include="src\DummyPartitioner.h" />
 		<ClInclude Include="src\DynamicTyping.h" />
@@ -157,6 +159,8 @@
 		<ClInclude Include="src\Actor.h" />
 		<ClInclude Include="src\Input.h" />
 		<ClInclude Include="src\Viewmodel.h" />
+		<ClInclude Include="src\Sky.h" />
+		<ClInclude Include="src\Terrain.h" />
 		<ClInclude Include="src\Mesh.h" />
 		<ClInclude Include="src\ParticleSystem.h" />
 		<ClInclude Include="src\TrackerNode.h" />
@@ -169,7 +173,6 @@
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
-		<ClInclude Include="src\AITypeParser.h" />
 		<ClInclude Include="src\LuaScript\LuaState.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
@@ -186,8 +189,6 @@
 		<ClInclude Include="src\math\matrixstack.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="src\Shadow.cpp">
-		</ClCompile>
 		<ClCompile Include="src\Filesystem.cpp">
 		</ClCompile>
 		<ClCompile Include="src\NodeFactory.cpp">
@@ -233,6 +234,8 @@
 		<ClCompile Include="src\Node.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Settings.cpp">
+		</ClCompile>
+		<ClCompile Include="src\ShadowBuffer.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Developer.cpp">
 		</ClCompile>

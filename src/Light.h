@@ -21,7 +21,8 @@ class Light : public Indicator
         
         Light():
             m_Type(POINT),
-            m_Atten(glm::vec3(1.0f, 0.0f, 0.0f))
+            m_Atten(glm::vec3(1.0f, 0.0f, 0.0f)),
+            m_LightFlags(0)
         {
             // TODO: Use light cutoffs for AABB, instead of temp:
             m_Box.min = glm::vec3(-0.5f);
@@ -88,6 +89,13 @@ class Light : public Indicator
 
         virtual const AABB* box(unsigned int flags = 0) const { return &m_Box; }
         virtual AABB* box(unsigned int flags = 0) { return &m_Box; }
+
+        void lightFlags(unsigned int flags) {
+            m_LightFlags = flags;
+        }
+        unsigned int lightFlags() const {
+            return m_LightFlags;
+        }
     
     private:
         
@@ -96,6 +104,10 @@ class Light : public Indicator
         Color m_Specular;
         glm::vec3 m_Atten; // c, l, q
         Type m_Type;
+        enum eLightFlags {
+            F_CAST_SHADOWS = BIT(0)
+        };
+        unsigned int m_LightFlags;
 
         AABB m_Box;
 };

@@ -23,31 +23,40 @@ namespace NodeFactory{
         if(nodeTypeID < 0)
             return NULL;
 
-        if(nodeTypeID == (int)NodeType::ENVIRONMENT)
-        {
-            Node* node = NULL;
-            if(fn.empty())
-                return NULL;
-            
-            // TODO: add path testing to loadAI() code instead of the messy stuff here:
-            node = scene->loadAI(fn, glm::vec3(), 0, parent);//new EnvironmentNode(Node::defaultFlags(), fn);
-            if(!node)
-                node = scene->loadAI("data/ne/environment/" + fn, glm::vec3(), 0, parent);
-            if(!node)
-                node = scene->loadAI("data/ne/assets/" + fn, glm::vec3(), 0, parent);
-            if(node)
-                scene->clearError();
-            else
-                return NULL;
-            return node;
-            //else return new EnvironmentNode(Node::defaultFlags());
+        switch(nodeTypeID) {
+            case (int)NodeType::ENVIRONMENT:
+            {
+                Node* node = NULL;
+                if(fn.empty())
+                    return NULL;
+                
+                // TODO: add path testing to loadModel() code instead of the messy stuff here:
+                node = scene->loadModel(fn, glm::vec3(), 0, parent);//new EnvironmentNode(Node::defaultFlags(), fn);
+                if(!node)
+                    node = scene->loadModel("data/ne/environment/" + fn, glm::vec3(), 0, parent);
+                if(!node)
+                    node = scene->loadModel("data/ne/assets/" + fn, glm::vec3(), 0, parent);
+                if(node)
+                    scene->clearError();
+                else
+                    return NULL;
+                return node;
+                //else return new EnvironmentNode(Node::defaultFlags());
+                break;
+            }
+            case (int)NodeType::ENTITY:
+                return new Entity();
+                break;
+            case (int)NodeType::LIGHT:
+                return new Light();
+                break;
+            case (int)NodeType::NODE:
+                return new Node();
+                break;
+            //case (int)NodeType::ZONE:
+            //case (int)NodeType::SKY:
         }
-        else if(nodeTypeID == (int)NodeType::ENTITY)
-            return new Entity();
-        else if (nodeTypeID == (int)NodeType::LIGHT)
-            return new Light();
-        else if(nodeTypeID == (int)NodeType::NODE)
-            return new Node();
+        
             //return new Entity(Node::defaultFlags(), fn);
         //else if(nodeTypeName == "zone")
         //    return new Zone();

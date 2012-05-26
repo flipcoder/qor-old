@@ -69,7 +69,7 @@ private:
 
     bool loadFMLInfo(rapidxml::xml_node<>* info_node);
 
-    //void parseAIVector(Vector3& v, const aiVector3D& aiv);
+    //void parseModelVector(Vector3& v, const aiVector3D& aiv);
 
 public:
 
@@ -82,7 +82,7 @@ public:
     void updatePaths(std:: string fn);
 
     // Assimp format to get bash Scene meshes
-    Node* loadAI(std::string fn, glm::vec3 pos = glm::vec3(0.0f), unsigned int flags = Node::defaultFlags(), Node* parent = NULL);
+    Node* loadModel(std::string fn, glm::vec3 pos = glm::vec3(0.0f), unsigned int flags = Node::defaultFlags(), Node* parent = NULL);
     Entity* loadEntity(std::string fn, glm::vec3 pos = glm::vec3(0.0f), unsigned int ent_flags = 0, unsigned int node_flags = Node::defaultFlags(), Node* parent = NULL);
 
     bool loadFML(std::string fn);
@@ -100,8 +100,8 @@ public:
     void printDetails(const aiScene* ais);
     void compile();
 
-    bool loadAINode(EnvironmentNode* node, const aiNode* ainode, TempData* tempdata);
-    bool loadAIMeshData(const std::string& scene_fn, aiScene* aiscene, aiScene* aiscene_lmap, TempData* tempdata);
+    bool loadModelNode(EnvironmentNode* node, const aiNode* ainode, TempData* tempdata);
+    bool loadModelMeshData(const std::string& scene_fn, aiScene* aiscene, aiScene* aiscene_lmap, TempData* tempdata);
 
     //std::shared_ptr<Material> allocMaterial(std::string fn, ResourceCache<Texture>& rmap);
 
