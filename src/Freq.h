@@ -13,16 +13,34 @@ public:
     class Accumulator: public IRealtime {
         private:
             unsigned long m_ulAccumulatedTime;
+            float m_fSpeed;
         public:
             Accumulator():
-                m_ulAccumulatedTime(0L)
+                m_ulAccumulatedTime(0L),
+                m_fSpeed(1.0f)
             {}
+            virtual ~Accumulator() {}
             virtual unsigned long getElapsedTime() const {
                 return m_ulAccumulatedTime;
             }
 
             virtual void logic(unsigned int a) {
-                m_ulAccumulatedTime += a;
+                m_ulAccumulatedTime += (a*m_fSpeed);
+            }
+            void speed(float s) {
+                m_fSpeed = s;
+            }
+            float speed() const {
+                return m_fSpeed;
+            }
+            unsigned long mark() const {
+                return m_ulAccumulatedTime;
+            }
+            void pause() {
+                m_fSpeed = 0.0f;
+            }
+            void resume(float speed = 1.0f) {
+                m_fSpeed = speed;
             }
     };
 

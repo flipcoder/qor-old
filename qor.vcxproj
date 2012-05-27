@@ -66,7 +66,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;dJointLibrary.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;PhysX3Common.lib;PhysX3.lib;PhysX3Cooking.lib;PhysX3CharacterKinematic.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -94,7 +94,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;Newton.lib;dJointLibrary.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;luabind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;PhysX3Common.lib;PhysX3.lib;PhysX3Cooking.lib;PhysX3CharacterKinematic.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -165,7 +165,7 @@
 		<ClInclude Include="src\ParticleSystem.h" />
 		<ClInclude Include="src\TrackerNode.h" />
 		<ClInclude Include="src\Graphics.h" />
-		<ClInclude Include="src\Navigation.h" />
+		<ClInclude Include="src\Animation.h" />
 		<ClInclude Include="src\Material.h" />
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\RenderBuffer.h" />
@@ -173,7 +173,6 @@
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\IFallible.h" />
-		<ClInclude Include="src\LuaScript\LuaState.h" />
 		<ClInclude Include="src\transition\TransitionState.h" />
 		<ClInclude Include="src\transition\TransitionInfo.h" />
 		<ClInclude Include="src\game\GameState.h" />
@@ -194,8 +193,6 @@
 		<ClCompile Include="src\NodeFactory.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Scene.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Navigation.cpp">
 		</ClCompile>
 		<ClCompile Include="src\EnvironmentNode.cpp">
 		</ClCompile>
@@ -232,6 +229,8 @@
 		<ClCompile Include="src\Physics.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Node.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Animation.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Settings.cpp">
 		</ClCompile>

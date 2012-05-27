@@ -26,10 +26,10 @@ ifeq ($(config),debug)
   DEFINES   += -DDEBUG
   INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -fno-strict-aliasing -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   +=  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -ldJointLibrary -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lPhysX3Common -lPhysX3 -lPhysX3Cooking -lPhysX3CharacterKinematic -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -48,10 +48,10 @@ ifeq ($(config),release)
   DEFINES   += -DNDEBUG
   INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -fno-strict-aliasing -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lNewton -ldJointLibrary -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -llua5.1 -lluabind
+  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lPhysX3Common -lPhysX3 -lPhysX3Cooking -lPhysX3CharacterKinematic -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -67,7 +67,6 @@ OBJECTS := \
 	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/NodeFactory.o \
 	$(OBJDIR)/Scene.o \
-	$(OBJDIR)/Navigation.o \
 	$(OBJDIR)/EnvironmentNode.o \
 	$(OBJDIR)/Console.o \
 	$(OBJDIR)/Mesh.o \
@@ -86,6 +85,7 @@ OBJECTS := \
 	$(OBJDIR)/PropertyList.o \
 	$(OBJDIR)/Physics.o \
 	$(OBJDIR)/Node.o \
+	$(OBJDIR)/Animation.o \
 	$(OBJDIR)/Settings.o \
 	$(OBJDIR)/ShadowBuffer.o \
 	$(OBJDIR)/Developer.o \
@@ -180,9 +180,6 @@ $(OBJDIR)/NodeFactory.o: src/NodeFactory.cpp
 $(OBJDIR)/Scene.o: src/Scene.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Navigation.o: src/Navigation.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/EnvironmentNode.o: src/EnvironmentNode.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -235,6 +232,9 @@ $(OBJDIR)/Physics.o: src/Physics.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Node.o: src/Node.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Animation.o: src/Animation.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Settings.o: src/Settings.cpp

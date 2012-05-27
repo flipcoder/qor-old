@@ -1,5 +1,5 @@
-#ifndef _NAVIGATION_H
-#define _NAVIGATION_H
+#ifndef _ANIMATION_H
+#define _ANIMATION_H
 
 #include <memory>
 #include <functional>
@@ -7,7 +7,7 @@
 #include <cmath>
 #include "Freq.h"
 #include "math/common.h"
-template<class T> class Navigation;
+template<class T> class Animation;
 
 struct LinearInterpolation
 {
@@ -51,22 +51,22 @@ class Waypoint
         // TODO: execution callback?
         // TODO: expiry callback?
         // TODO: interpolative callback?
-        T m_Position; 
+        T m_Position;
 
         unsigned long m_ulStartTime; // transition start time
         unsigned long m_ulAlarmTime; // transition end time
 
         std::function<T (const T&, const T&, float)> m_Interpolation;
 
-        Navigation<T>* m_Navigation;
+        Animation<T>* m_Animation;
 
     public:
         
-        Waypoint(T position, Freq::Time time, Navigation<T>* nav):
+        Waypoint(T position, Freq::Time time, Animation<T>* nav):
             m_Position(position),
             m_ulStartTime(0L),
             m_ulAlarmTime(0L),
-            m_Navigation(nav)
+            m_Animation(nav)
         {
             m_ulStartTime = Freq::get().getElapsedTime(); //ms
             m_ulAlarmTime = m_ulStartTime + time.get();
@@ -102,26 +102,28 @@ class Waypoint
 };
 
 template<class T>
-class Navigation
+class Animation
 {
     private:
 
         std::vector<Waypoint<T>> m_Waypoints;
         T m_default;
+        float m_fSpeed;
         
     public:
 
-        Navigation(
+        Animation(
             Waypoint<T> initial,
             T default_value=T(),
             Freq::Accumulator* accum = Freq::get().accumulator()
         ):
-            m_default(default_value)
+            m_default(default_value),
+            m_fSpeed(1.0f)
         {
             m_Waypoints.push_back(std::move(initial));
         }
 
-        virtual ~Navigation() {}
+        virtual ~Animation() {}
 
         void addWaypoint(T position, Freq::Time time) {
             m_Waypoints.push_back(Waypoint<T>(std::move(position), time, this));
@@ -147,6 +149,13 @@ class Navigation
 
         bool empty() {
             return m_Waypoints.size() <= 1;
+        }
+
+        void speed(float s) {
+            m_fSpeed = s;
+        }
+        float speed() const {
+            return m_fSpeed;
         }
 };
 

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <newton/Newton.h>
+//#include <newton/Newton.h>
 #include "Physics.h"
 class Physics;
 #include "math/common.h"
@@ -20,9 +20,9 @@ protected:
     //std::vector<std::unique_ptr<btCollisionShape>> m_CollisionShapes;
     //btMotionState* m_pMotionState;
     
-    NewtonWorld* m_pWorld; // weak
+    //NewtonWorld* m_pWorld; // weak
     //std::unique_ptr<NewtonBody> m_pBody;
-    NewtonBody* m_pBody;
+    //NewtonBody* m_pBody;
     Physics* m_pPhysics; // weak
 
 public:
@@ -35,28 +35,29 @@ public:
     };
 
     IPhysicsObject():
-        m_pWorld(NULL),
-        m_pBody(NULL),
+        //m_pWorld(NULL),
+        //m_pBody(NULL),
         m_pPhysics(NULL) {}
     virtual ~IPhysicsObject();
     
     Physics* getPhysics() { return m_pPhysics; }
     //btMotionState* getMotionState() { return this; }
-    NewtonBody* getPhysicsBody() { return m_pBody; }
+    //NewtonBody* getPhysicsBody() { return m_pBody; }
+    void* getPhysicsBody() { return NULL; } //placeholder
     void setPhysics(Physics* sys) {
         m_pPhysics = sys;
     }
-    void setBody(NewtonBody* obj) {
-        m_pBody = obj;
-    }
-    NewtonBody* getBody() { return m_pBody; }
+    //void setBody(NewtonBody* obj) {
+    //    m_pBody = obj;
+    //}
+    //NewtonBody* getBody() { return m_pBody; }
     
     virtual float radius() { return 0.0f; }
     virtual float height() { return 0.0f; }
 
     virtual void sync(glm::mat4* m) {}
     virtual Type getPhysicsType() { return NONE; }
-    virtual unsigned int physicsLogic(float timestep, float mass, glm::vec3& force, glm::vec3& omega, glm::vec3& torque, glm::vec3& velocity);
+    //virtual unsigned int physicsLogic(float timestep, float mass, glm::vec3& force, glm::vec3& omega, glm::vec3& torque, glm::vec3& velocity);
     virtual float mass() { return 0.0f; }
     
     //virtual void setWorldTransform(const btTransform& worldTrans) {

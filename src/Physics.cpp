@@ -14,39 +14,7 @@ Physics::Physics()
 {
     nullify();
 
-    //m_spCollisionConfig.reset(new btDefaultCollisionConfiguration());
-    //m_spDispatcher.reset(new btCollisionDispatcher(m_spCollisionConfig.get()));
-    //btVector3 worldMin(-100,-100,-100);
-	//btVector3 worldMax(100,100,100);
-    //m_spBroadphase.reset(new btDbvtBroadphase());
-    ////m_spBroadphase.reset(new btAxisSweep3(worldMin, worldMax));
-    //m_spSolver.reset(new btSequentialImpulseConstraintSolver());
-    //m_pWorld.reset(new btDiscreteDynamicsWorld(
-    //    m_spDispatcher.get(),
-    //    m_spBroadphase.get(),
-    //    m_spSolver.get(),
-    //    m_spCollisionConfig.get()
-    //));
-    //m_pWorld->setGravity(btVector3(0.0, -9.8, 0.0));
-    //m_pWorld->getDispatchInfo().m_allowedCcdPenetration=0.0001f;
-
-    m_pWorld = NewtonCreate();
-    NewtonSetPlatformArchitecture(m_pWorld, 1);
     
-    glm::vec3 min(-250.0), max(250.0); //temp world sizes
-    NewtonSetWorldSize(m_pWorld, &min.x, &max.x);
-
-    // If using debugger, debugger would be initilized here
-#ifdef _NEWTON_VISUAL_DEBUGGER
-    m_pDebugger = NewtonDebuggerCreateServer();
-#endif
-    
-    NewtonSetSolverModel(m_pWorld, 0);
-
-    int default_mat_id = NewtonMaterialGetDefaultGroupID(m_pWorld);
-    NewtonMaterialSetDefaultElasticity(m_pWorld, default_mat_id, default_mat_id, 0.0f);
-    NewtonMaterialSetDefaultSoftness(m_pWorld, default_mat_id, default_mat_id, 0.0f);
-    NewtonMaterialSetDefaultFriction(m_pWorld, default_mat_id, default_mat_id, 0.0f, 0.0f);
 }
 
 Physics::~Physics()
@@ -56,39 +24,31 @@ Physics::~Physics()
 
 void Physics :: nullify()
 {
-    m_pWorld = NULL;
-    m_pDebugger = NULL;
+    
 }
 
 void Physics :: cleanup()
 {
-#ifdef _NEWTON_VISUAL_DEBUGGER
-    if(m_pDebugger)
-        NewtonDebuggerDestroyServer(m_pDebugger);
-#endif
-    if(m_pWorld) {
-        //NewtonDestroyAllBodies(m_pWorld);
-        NewtonDestroy(m_pWorld);
-    }
-
+    
     nullify();
 }
 
 void Physics :: logic(unsigned int advance)
 {
     static float accum = 0.0f;
+    const float fixed_step = 1/60.0f;
     float timestep = advance*0.001f; // msec to sec
 
     accum+=timestep;
-    if(accum >= 1.0f/60.0f)
+    if(accum >= fixed_step)
     {
-        //m_pWorld->stepSimulation(accum, NUM_SUBSTEPS);
-        NewtonUpdate(m_pWorld, accum + timestep);
+        //m_pWorld->stepSimulation(fixed_step, NUM_SUBSTEPS);
+        //NewtonUpdate(m_pWorld, fixed_step);
 //        //syncBody(root, SYNC_RECURSIVE);
-#ifdef _NEWTON_VISUAL_DEBUGGER
-        NewtonDebuggerServe(m_pDebugger, m_pWorld);
-#endif
-        accum = 0.0f;
+//#ifdef _NEWTON_VISUAL_DEBUGGER
+        //NewtonDebuggerServe(m_pDebugger, m_pWorld);
+//#endif
+        accum -= fixed_step;
     }
 }
 
@@ -158,7 +118,7 @@ void Physics :: generateActor(Node* node, unsigned int flags, glm::mat4* transfo
     IPhysicsObject* physics_object = dynamic_cast<IPhysicsObject*>(node);
     //Actor* actor = dynamic_cast<Actor*>(node);
     
-    // TODO: generate code    
+    // TODO: generate code
 }
 
 void Physics :: generateTree(Node* node, unsigned int flags, glm::mat4* transform) {
@@ -262,41 +222,41 @@ void Physics :: generateDynamic(Node* node, unsigned int flags, glm::mat4* trans
 //    return true;
 //}
 
-void Physics :: cbForceTorque(const NewtonBody* body, float timestep, int threadIndex)
-{
-    float mass, ix, iy, iz;
-    NewtonBodyGetMassMatrix(body, &mass, &ix, &iy, &iz);
-    glm::vec3 force(0.0f, mass * -9.8f, 0.0f);
-    glm::vec3 omega(0.0f);
-    glm::vec3 velocity(0.0f);
-    glm::vec3 torque(0.0f);
-    NewtonBodyGetVelocity(body, glm::value_ptr(velocity));
+//void Physics :: cbForceTorque(const NewtonBody* body, float timestep, int threadIndex)
+//{
+//    float mass, ix, iy, iz;
+//    NewtonBodyGetMassMatrix(body, &mass, &ix, &iy, &iz);
+//    glm::vec3 force(0.0f, mass * -9.8f, 0.0f);
+//    glm::vec3 omega(0.0f);
+//    glm::vec3 velocity(0.0f);
+//    glm::vec3 torque(0.0f);
+//    NewtonBodyGetVelocity(body, glm::value_ptr(velocity));
 
-    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
-    unsigned int userflags = pobj->physicsLogic(timestep, mass, force, omega, torque, velocity);
+//    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
+//    unsigned int userflags = pobj->physicsLogic(timestep, mass, force, omega, torque, velocity);
 
-    if(userflags & USER_FORCE)
-        NewtonBodyAddForce(body, glm::value_ptr(force));
-    if(userflags & USER_OMEGA)
-        NewtonBodySetOmega(body, glm::value_ptr(omega));
-    if(userflags & USER_TORQUE)
-        NewtonBodySetTorque(body, glm::value_ptr(torque));
-    if(userflags & USER_VELOCITY)
-        NewtonBodySetVelocity(body, glm::value_ptr(velocity));
-}
+//    if(userflags & USER_FORCE)
+//        NewtonBodyAddForce(body, glm::value_ptr(force));
+//    if(userflags & USER_OMEGA)
+//        NewtonBodySetOmega(body, glm::value_ptr(omega));
+//    if(userflags & USER_TORQUE)
+//        NewtonBodySetTorque(body, glm::value_ptr(torque));
+//    if(userflags & USER_VELOCITY)
+//        NewtonBodySetVelocity(body, glm::value_ptr(velocity));
+//}
 
-void Physics :: cbTransform(const NewtonBody* body)
-{
-    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
+//void Physics :: cbTransform(const NewtonBody* body)
+//{
+//    IPhysicsObject* pobj = (IPhysicsObject*)NewtonBodyGetUserData(body);
     
-    float marray[16];
-    NewtonBodyGetMatrix(body, &marray[0]);
+//    float marray[16];
+//    NewtonBodyGetMatrix(body, &marray[0]);
     
-    // Note: All physics nodes should be collapsed (node transform should have identity matrix),
-    //  so leaving this in world space is fine for now, unless in the future a better constraint system
-    //  is integrated
-    glm::mat4 m = Matrix::fromArray(marray);
-    //m.clear(glm::mat4::TRANSPOSE, m);
-    //node->sync(&m);
-    pobj->sync(&m);
-}
+//    // Note: All physics nodes should be collapsed (node transform == world transform)
+//    //  so leaving this in world space is fine for now, unless in the future a better constraint system
+//    //  is integrated
+//    glm::mat4 m = Matrix::fromArray(marray);
+//    //m.clear(glm::mat4::TRANSPOSE, m);
+//    //node->sync(&m);
+//    pobj->sync(&m);
+//}

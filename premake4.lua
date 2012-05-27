@@ -18,8 +18,12 @@ solution("qor")
             "ILU",
             "openal",
             "alut",
-            "Newton",
-            "dJointLibrary",
+            "PhysX3Common",
+            "PhysX3",
+            "PhysX3Cooking",
+            "PhysX3CharacterKinematic",
+            --"Newton",
+            --"dJointLibrary",
             --"BulletSoftBody",
             --"BulletDynamics",
             --"BulletCollision",
@@ -30,8 +34,9 @@ solution("qor")
             "ftgl",
             "boost_system",
             "boost_filesystem",
-            "lua5.1",
-            "luabind"
+            --"lua5.1",
+            --"luabind"
+            "angelscript"
         }
         files {
             "src/**.h",
@@ -56,7 +61,7 @@ solution("qor")
         libdirs {"third_party/lib/"}
 
         configuration { "gmake" }
-            buildoptions { "-std=c++0x" }
+            buildoptions { "-fno-strict-aliasing -std=c++0x" }
             linkoptions { "" }
         configuration {}
 

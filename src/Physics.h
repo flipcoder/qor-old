@@ -2,7 +2,7 @@
 #define _PHYSICS_H
 
 #include <memory>
-#include <newton/Newton.h>
+//#include <newton/Newton.h>
 //#include <PxPhysicsAPI.h>
 #include "math/common.h"
 //#include <btBulletCollisionCommon.h>
@@ -24,7 +24,7 @@ private:
 
     static const int NUM_SUBSTEPS = 7;
 
-    NewtonWorld* m_pWorld;
+    //NewtonWorld* m_pWorld;
     //std::unique_ptr<NewtonWorld> m_pWorld;
     //std::unique_ptr<btDefaultCollisionConfiguration> m_spCollisionConfig;
     //std::unique_ptr<btCollisionDispatcher> m_spDispatcher;
@@ -32,9 +32,9 @@ private:
     //std::unique_ptr<btSequentialImpulseConstraintSolver> m_spSolver;
     //std::unique_ptr<btDiscreteDynamicsWorld> m_pWorld;
 
-#ifndef _NEWTON_VISUAL_DEBUGGER
-    void* m_pDebugger;
-#endif
+//#ifndef _NEWTON_VISUAL_DEBUGGER
+//    void* m_pDebugger;
+//#endif
 
     void generateActor(Node* node, unsigned int flags, glm::mat4* transform);
     void generateTree(Node* node, unsigned int flags, glm::mat4* transform);
@@ -90,7 +90,7 @@ public:
      *  \param flags Syncronization options (use SyncFlags)
      *  \param matrix Current transformation matrix
      */
-    //void syncBody(Node* node, unsigned int flags = 0);
+    void syncBody(Node* node, unsigned int flags = 0);
 
     // IPhysicsObject param is required to also be of type Node*
     //btRigidBody* addBody(btCollisionObject* obj, IPhysicsObject* pud, glm::mat4* transform);
@@ -102,10 +102,10 @@ public:
         USER_TORQUE = BIT(2),
         USER_VELOCITY = BIT(3)
     };
-    static void cbForceTorque(const NewtonBody* body, float timestep, int threadIndex);
-    static void cbTransform(const NewtonBody* body);
+    //static void cbForceTorque(const NewtonBody* body, float timestep, int threadIndex);
+    //static void cbTransform(const NewtonBody* body);
     //btCollisionWorld* getWorld() { return m_pWorld.get(); }
-    NewtonWorld* getWorld() { return m_pWorld; }
+    //NewtonWorld* getWorld() { return m_pWorld; }
 };
 
 #endif
