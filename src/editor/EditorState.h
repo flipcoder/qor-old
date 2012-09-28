@@ -75,7 +75,13 @@ private:
     unsigned int m_ZoomTime;
     float m_fZoomRatio;
     Freq::Time m_FadeTime;
-        
+
+    enum ViewMode {
+        VM_FLAT=0,
+        VM_RTS,
+        VM_FPS
+    };
+    ViewMode m_ViewMode;
 
     void nullify();
     //void setError(std::string err) {

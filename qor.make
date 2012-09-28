@@ -23,13 +23,13 @@ ifeq ($(config),debug)
   OBJDIR     = obj/Debug
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
-  DEFINES   += -DDEBUG
-  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
+  DEFINES   += -DDEBUG -D_DEBUG
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/local/include/physx -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -fno-strict-aliasing -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   +=  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lPhysX3Common -lPhysX3 -lPhysX3Cooking -lPhysX3CharacterKinematic -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript
+  LIBS      += -lpthread -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lSimulationController -lSceneQuery -lLowLevel -lLowLevelCloth -lPhysX3 -lPhysX3Vehicle -lPhysX3Cooking -lPhysX3Extensions -lPhysX3CharacterKinematic -lRepX3 -lRepXUpgrader3 -lPhysXProfileSDK -lPhysXVisualDebuggerSDK -lPxTask -lPhysX3Common -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript -lrt
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -46,12 +46,12 @@ ifeq ($(config),release)
   TARGETDIR  = bin
   TARGET     = $(TARGETDIR)/qor
   DEFINES   += -DNDEBUG
-  INCLUDES  += -I/usr/include/freetype2 -I/usr/include/newton -Ithird_party/include
+  INCLUDES  += -I/usr/include/freetype2 -I/usr/local/include/physx -Ithird_party/include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -fno-strict-aliasing -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s  -Lthird_party/lib
-  LIBS      += -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lPhysX3Common -lPhysX3 -lPhysX3Cooking -lPhysX3CharacterKinematic -lLinearMath -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript
+  LIBS      += -lpthread -lGL -lGLU -lSDL -lSDLmain -lGLEW -lassimp -lIL -lILU -lopenal -lalut -lSimulationController -lSceneQuery -lLowLevel -lLowLevelCloth -lPhysX3 -lPhysX3Vehicle -lPhysX3Cooking -lPhysX3Extensions -lPhysX3CharacterKinematic -lRepX3 -lRepXUpgrader3 -lPhysXProfileSDK -lPhysXVisualDebuggerSDK -lPxTask -lPhysX3Common -logg -lvorbis -lvorbisfile -lftgl -lboost_system -lboost_filesystem -langelscript -lrt
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -78,7 +78,6 @@ OBJECTS := \
 	$(OBJDIR)/TrackerNode.o \
 	$(OBJDIR)/Entity.o \
 	$(OBJDIR)/Renderer.o \
-	$(OBJDIR)/Path.o \
 	$(OBJDIR)/Frustum.o \
 	$(OBJDIR)/Spectator.o \
 	$(OBJDIR)/Freq.o \
@@ -211,9 +210,6 @@ $(OBJDIR)/Entity.o: src/Entity.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Renderer.o: src/Renderer.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Path.o: src/Path.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Frustum.o: src/Frustum.cpp

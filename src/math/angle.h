@@ -20,12 +20,9 @@ class Angle
         {
         }
 
-        explicit Angle(float deg, Type t = DEGREES):
-            m_fDeg(deg)
+        explicit Angle(float a, Type t = DEGREES)
         {
-            if(t == RADIANS)
-                deg = RAD2DEGf(deg);
-
+            m_fDeg = t==DEGREES ? a : RAD2DEGf(a);
             wrap();
         }
         
@@ -42,6 +39,21 @@ class Angle
                 m_fDeg -= 360.0f;
             while(m_fDeg < -180.0f)
                 m_fDeg += 360.0f;
+        }
+
+        glm::vec2 vector(float mag = 1.0f) {
+            float rad = DEG2RADf(m_fDeg);
+            return glm::vec2(
+                mag * std::cos(rad),
+                mag * std::sin(rad)
+            );
+        }
+
+        float cos() const {
+            return std::cos(DEG2RADf(m_fDeg));
+        }
+        float sin() const {
+            return std::sin(DEG2RADf(m_fDeg));
         }
 
         float degrees() const { return m_fDeg; }
@@ -63,7 +75,7 @@ class Angle
         }
         Angle operator -(const Angle& a) const{
             return Angle(m_fDeg - a.degrees());
-          }
+        }
         Angle operator -() const {
             return Angle(-m_fDeg);
         }

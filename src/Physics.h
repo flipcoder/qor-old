@@ -9,6 +9,7 @@
 //#include <btBulletDynamicsCommon.h>
 //#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 //#include "extra/KinematicCharacterController.h"
+//#include <PxPhysicsAPI.h>
 #include "Log.h"
 #include "Util.h"
 #include "IFallible.h"
@@ -20,9 +21,18 @@ class Node;
 
 class Physics: public IFallible, public IRealtime// : public std::enable_shared_from_this<Physics>
 {
+protected:
+    virtual void failsafe();
 private:
 
     static const int NUM_SUBSTEPS = 7;
+
+    //physx::PxFoundation* m_pFoundation;
+    //physx::PxPhysics* m_pPhysics;
+    //physx::PxProfileZoneManager* m_pProfileZoneManager;
+    //physx::PxCooking* m_pCooking;
+    //physx::PxDefaultAllocator* m_DefaultAllocatorCallback;
+    //physx::PxDefaultErrorCallback* m_DefaultErrorCallback;
 
     //NewtonWorld* m_pWorld;
     //std::unique_ptr<NewtonWorld> m_pWorld;
@@ -63,7 +73,6 @@ public:
     virtual ~Physics();
 
     void nullify();
-    void cleanup();
 
     /*! Physics Logic
      * \param advance Ticks (in ms) to advanced simulation.

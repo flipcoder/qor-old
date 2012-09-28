@@ -33,7 +33,6 @@ class Scene;
 
 class Node : public IRealtime, public std::enable_shared_from_this<Node>
 {
-
 protected:
 
     // mutable?: Derived classes may do matrix computation on-the-fly, during an accessor call.
@@ -44,6 +43,7 @@ protected:
     unsigned int m_Layer; // "Node Layer" refers to scene node categories
     int m_SortBias; // Sort order (normal objects default to 0), bigger numbers occur later
     
+    // flags for each pendable cache
     enum {
         PC_WORLD_MATRIX = BIT(0),
         PC_MASK = MASK(1)
@@ -57,6 +57,10 @@ protected:
     //Freq::Time m_tLastChange; // unused
 
 public:
+
+    static bool depthCompare(const Node* a, const Node* b) {
+        return a->sortBias() < b->sortBias();
+    }
 
     //class ScopedMatrixMod
     //{
@@ -96,7 +100,6 @@ public:
         unsigned int flags = Node::defaultFlags(),
         unsigned int layer = 0);
     virtual ~Node();
-    //Node(const Node& n);
 
     // Callbacks for parent when child nodes are added/removed
     virtual void _onAdd(Node* n) {}

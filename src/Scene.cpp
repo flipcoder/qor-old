@@ -503,6 +503,7 @@ void Scene::render(Node* from) const
         std::vector<Light*> lights(std::move(m_spPartitioner->getViewableLights(m_spRoot.get())));
         std::vector<Node*> nodes; // TODO: reserve some space here?
         std::vector<Node*> visible_nodes = std::move(m_spPartitioner->getViewableNodes(m_spRoot.get()));
+        std::sort(nodes.begin(), nodes.end(), Node::depthCompare);
         foreach(Light* light, lights)
         {
             nodes = std::move(m_spPartitioner->getLitObjects(light, visible_nodes));

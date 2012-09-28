@@ -1,4 +1,4 @@
 #!/bin/bash
 pushd bin > /dev/null
-kdbg qor
+nemiver qor
 popd > /dev/null

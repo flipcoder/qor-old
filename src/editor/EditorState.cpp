@@ -378,7 +378,7 @@ void EditorState::nullify()
     m_ZoomTime = 100;
     m_fZoomRatio = 1.5f;
     m_vButtonSize = glm::vec2(96.0f, 24.0f);
-
+    m_ViewMode = VM_FLAT;
 }
 
 void EditorState::logic(unsigned int advance)
@@ -508,7 +508,8 @@ void EditorState::logic(unsigned int advance)
                 }
                 //selected->add(new SelectorNode());
             }
-            else {
+            else
+            {
                 // clear
                 if(!input->key(SDLK_LSHIFT) && !input->key(SDLK_RSHIFT))
                     m_Selection.clear();

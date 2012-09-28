@@ -8,6 +8,7 @@ solution("qor")
         kind("WindowedApp")
         language("C++")
         links {
+            "pthread",
             "GL",
             "GLU",
             "SDL",
@@ -18,16 +19,45 @@ solution("qor")
             "ILU",
             "openal",
             "alut",
-            "PhysX3Common",
+            
+            "SimulationController",
+            "SceneQuery",
+            "LowLevel",
+            "LowLevelCloth",
             "PhysX3",
+            "PhysX3Vehicle",
             "PhysX3Cooking",
+            "PhysX3Extensions",
             "PhysX3CharacterKinematic",
+            "RepX3",
+            "RepXUpgrader3",
+            "PhysXProfileSDK",
+            "PhysXVisualDebuggerSDK","PxTask",
+            "PxTask",
+            "PhysX3Common",
+
+            --"SimulationControllerCHECKED",
+            --"SceneQueryCHECKED",
+            --"LowLevelCHECKED",
+            --"LowLevelClothCHECKED",
+            --"PhysX3CHECKED",
+            --"PhysX3VehicleCHECKED",
+            --"PhysX3CookingCHECKED",
+            --"PhysX3ExtensionsCHECKED",
+            --"PhysX3CharacterKinematicCHECKED",
+            --"RepX3CHECKED",
+            --"RepXUpgrader3CHECKED",
+            --"PhysXProfileSDKCHECKED",
+            --"PhysXVisualDebuggerSDKCHECKED","PxTaskCHECKED",
+            --"PxTask",
+            --"PhysX3CommonCHECKED",
+
             --"Newton",
             --"dJointLibrary",
             --"BulletSoftBody",
             --"BulletDynamics",
             --"BulletCollision",
-            "LinearMath",
+            --"LinearMath",
             "ogg",
             "vorbis",
             "vorbisfile",
@@ -49,7 +79,10 @@ solution("qor")
         configuration { "linux" }
             includedirs {
                 "/usr/include/freetype2",
-                "/usr/include/newton"
+                "/usr/local/include/physx"
+            }
+            links {
+                "rt"
             }
         configuration {}
 
@@ -66,7 +99,7 @@ solution("qor")
         configuration {}
 
         configuration { "Debug" }
-            defines { "DEBUG" }
+            defines { "DEBUG", "_DEBUG" }
             flags { "Symbols" }
         configuration { "Release" }
             defines { "NDEBUG" }

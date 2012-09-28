@@ -71,8 +71,9 @@ int Input :: keyRepeat(int delay, int interval)
 
 void Input :: clearKeys()
 {
-    for(int i=0;i<MAX_KEYS;i++)
-        m_key[i] = false;
+    //for(int i=0;i<MAX_KEYS;i++)
+    //    m_key[i] = false;
+    m_key.fill(false);
 }
 
 bool Input :: key(int key) const

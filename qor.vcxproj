@@ -52,7 +52,7 @@
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
 			<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -62,11 +62,11 @@
 			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<PreprocessorDefinitions>FS_IGNORE_CASE;DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;PhysX3Common.lib;PhysX3.lib;PhysX3Cooking.lib;PhysX3CharacterKinematic.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>pthread.lib;GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;SimulationControllerCHECKED.lib;SceneQueryCHECKED.lib;LowLevelCHECKED.lib;LowLevelClothCHECKED.lib;PhysX3CHECKED.lib;PhysX3VehicleCHECKED.lib;PhysX3CookingCHECKED.lib;PhysX3ExtensionsCHECKED.lib;PhysX3CharacterKinematicCHECKED.lib;RepX3CHECKED.lib;RepXUpgrader3CHECKED.lib;PhysXProfileSDKCHECKED.lib;PhysXVisualDebuggerSDKCHECKED.lib;PxTaskCHECKED.lib;PxTask.lib;PhysX3CommonCHECKED.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -94,7 +94,7 @@
 			<AdditionalIncludeDirectories>third_party\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;PhysX3Common.lib;PhysX3.lib;PhysX3Cooking.lib;PhysX3CharacterKinematic.lib;LinearMath.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>pthread.lib;GL.lib;GLU.lib;SDL.lib;SDLmain.lib;GLEW.lib;assimp.lib;IL.lib;ILU.lib;openal.lib;alut.lib;SimulationControllerCHECKED.lib;SceneQueryCHECKED.lib;LowLevelCHECKED.lib;LowLevelClothCHECKED.lib;PhysX3CHECKED.lib;PhysX3VehicleCHECKED.lib;PhysX3CookingCHECKED.lib;PhysX3ExtensionsCHECKED.lib;PhysX3CharacterKinematicCHECKED.lib;RepX3CHECKED.lib;RepXUpgrader3CHECKED.lib;PhysXProfileSDKCHECKED.lib;PhysXVisualDebuggerSDKCHECKED.lib;PxTaskCHECKED.lib;PxTask.lib;PhysX3CommonCHECKED.lib;ogg.lib;vorbis.lib;vorbisfile.lib;ftgl.lib;boost_system.lib;boost_filesystem.lib;angelscript.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)qor.exe</OutputFile>
 			<AdditionalLibraryDirectories>third_party\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -127,7 +127,6 @@
 		<ClInclude Include="src\NodeFactory.h" />
 		<ClInclude Include="src\Sound.h" />
 		<ClInclude Include="src\IConfig.h" />
-		<ClInclude Include="src\Path.h" />
 		<ClInclude Include="src\Renderer.h" />
 		<ClInclude Include="src\IScriptable.h" />
 		<ClInclude Include="src\IState.h" />
@@ -215,8 +214,6 @@
 		<ClCompile Include="src\Entity.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Renderer.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Path.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Frustum.cpp">
 		</ClCompile>

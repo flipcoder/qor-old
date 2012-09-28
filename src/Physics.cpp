@@ -9,27 +9,51 @@
 #include <iostream>
 #include <memory>
 using namespace std;
+//using namespace physx;
 
 Physics::Physics()
 {
     nullify();
 
-    
+    //if(!(m_pFoundation = PxCreateFoundation(
+    //    PX_PHYSICS_VERSION,
+    //    *m_DefaultAllocatorCallback,
+    //    *m_DefaultErrorCallback
+    //)))
+    //    fail();
+    //bool recordMemoryAllocations = true;
+    //if(!(m_pProfileZoneManager = &PxProfileZoneManager::createProfileZoneManager(m_pFoundation)))
+    //    fail();
+    //if(!(m_pPhysics = PxCreatePhysics(PX_PHYSICS_VERSION,
+    //    *m_pFoundation,
+    //    PxTolerancesScale(),
+    //    recordMemoryAllocations,
+    //    m_pProfileZoneManager
+    //)))
+    //    fail();
+    //if(!(m_pCooking = PxCreateCooking(PX_PHYSICS_VERSION, *m_pFoundation, PxCookingParams())))
+    //    fail();
+    //if(!PxInitExtensions(*m_pPhysics))
+    //    fail();
 }
 
 Physics::~Physics()
 {
-    cleanup();
+    failsafe();
 }
 
 void Physics :: nullify()
 {
-    
+    //m_pFoundation = NULL;
+    //m_pProfileZoneManager = NULL;
+    //m_pPhysics = NULL;
+    //m_pCooking = NULL;
 }
 
-void Physics :: cleanup()
+void Physics :: failsafe()
 {
-    
+    //m_pPhysics->release();
+    //m_pFoundation->release();
     nullify();
 }
 

@@ -7,9 +7,9 @@ class IFallible
 {
     protected:
 
-        virtual void setError(const std::string& err){
-            m_sError = err;
-            //std::cout << "Error: " << err << std::endl;
+        void fail() {
+            failsafe();
+            throw Failure();
         }
 
     public:
@@ -27,6 +27,11 @@ class IFallible
         virtual std::string getError() const { return m_sError; }
         virtual std::string moveError() { return std::move(m_sError); }
         virtual void clearError() { m_sError = ""; }
+
+        virtual void setError(const std::string& err){
+            m_sError = err;
+            //std::cout << "Error: " << err << std::endl;
+        }
 
     private:
 

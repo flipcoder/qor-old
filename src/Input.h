@@ -6,6 +6,7 @@
 
 #include <string>
 #include <memory>
+#include <array>
 #include "GfxAPI.h"
 #include "Settings.h"
 #include "IRealtime.h"
@@ -45,12 +46,12 @@ class Input : public IRealtime
                 for(unsigned int i=0;i<MAX_BUTTONS;i++)
                     btn[i] = 0;
             }
-            unsigned int btn[MAX_BUTTONS];
+            std::array<unsigned int, MAX_BUTTONS> btn;
         };
         InputController inputController[MAX_INPUT_CONTROLLERS];
     
         static const unsigned int MAX_KEYS = 512;
-        bool m_key[MAX_KEYS];
+        std::array<bool, MAX_KEYS> m_key;
 
         std::string m_tempString;
         //std::string *m_destString;
